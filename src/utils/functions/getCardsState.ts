@@ -1,6 +1,6 @@
 import TechnologyNames from '../constants';
 
-const getCardsStateArray = () => {
+const getCardsState = () => {
   const [keys, values] = [
     Object.keys(TechnologyNames),
     Object.values(TechnologyNames),
@@ -28,4 +28,4 @@ const getCardsStateArray = () => {
   return cards;
 };
 
-export default getCardsStateArray;
+export default getCardsState;

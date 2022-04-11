@@ -1,0 +1,13 @@
+@use './utils/scss/colors';
+@use './utils/scss/timings';
+
+:global {
+  body {
+    background-color: colors.$background-light;
+    transition: background-color timings.$dark-mode-toggle;
+  }
+
+  .dark-mode {
+    background-color: colors.$background-dark;
+  }
+}

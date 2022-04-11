@@ -1,6 +1,7 @@
-@use '../../../utils/scss/breakpoints.scss';
-@use '../../../utils/scss/colors.scss';
-@use '../grid.scss';
+@use '../../../utils/scss/breakpoints';
+@use '../../../utils/scss/colors';
+@use '../../../utils/scss/timings';
+@use '../grid';
 
 .card {
   @include grid.responsive-grid-item-width;
@@ -12,7 +13,7 @@
   background-color: colors.$gray;
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: transform 0.6s;
+  transition: transform timings.$card-rotate;
   cursor: pointer;
 
   &--rotated {

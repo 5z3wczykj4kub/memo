@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import getCardsStateArray from '../utils/functions/getCardsStateArray';
+import getCardsState from '../utils/functions/getCardsState';
 import { RootState } from './store';
 
 const initialState = {
-  cards: getCardsStateArray(),
+  cards: getCardsState(),
 };
 
 export const memoSlice = createSlice({
