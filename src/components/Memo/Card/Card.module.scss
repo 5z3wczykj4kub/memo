@@ -1,0 +1,34 @@
+@use '../../../utils/scss/breakpoints.scss';
+@use '../../../utils/scss/colors.scss';
+@use '../grid.scss';
+
+.card {
+  @include grid.responsive-grid-item-width;
+
+  position: relative;
+  height: 20%;
+  border: 1px solid colors.$gray-muted;
+  border-radius: 0.25rem;
+  background-color: colors.$gray;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.6s;
+  cursor: pointer;
+
+  &--rotated {
+    transform: rotateY(180deg);
+  }
+
+  &__image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(1rem, 30%, 2rem);
+    backface-visibility: hidden;
+
+    &--rotated {
+      transform: translate(-50%, -50%) rotateY(180deg);
+    }
+  }
+}

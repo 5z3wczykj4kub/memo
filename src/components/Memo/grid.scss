@@ -1,0 +1,21 @@
+@use '../../utils/scss/breakpoints.scss';
+
+$columns: 6;
+$grid-gap: 0.5rem;
+$grid-gap-double: 0.5rem * 2;
+
+@mixin responsive-grid-gap {
+  gap: $grid-gap;
+
+  @media (min-width: breakpoints.$sm) {
+    gap: $grid-gap-double;
+  }
+}
+
+@mixin responsive-grid-item-width {
+  width: calc(100% / $columns - $grid-gap);
+
+  @media (min-width: breakpoints.$sm) {
+    width: calc(100% / $columns - $grid-gap-double);
+  }
+}
