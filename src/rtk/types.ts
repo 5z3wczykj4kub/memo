@@ -6,5 +6,6 @@ export interface ICard {
   fileName: TechnologyName;
   src: string;
   isFlipped: boolean;
+  isFlipping: boolean;
   isChecked: boolean;
 }

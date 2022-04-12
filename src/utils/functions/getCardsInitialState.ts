@@ -1,6 +1,6 @@
 import TechnologyName from '../constants';
 
-const getCardsState = () => {
+const getCardsInitialState = () => {
   const [keys, values] = [
     Object.keys(TechnologyName),
     Object.values(TechnologyName),
@@ -15,6 +15,7 @@ const getCardsState = () => {
     const fileName = values[index];
     const src = `./images/${fileName}.png`;
     const isFlipped = false;
+    const isFlipping = false;
     const isChecked = false;
 
     cards.push({
@@ -23,6 +24,7 @@ const getCardsState = () => {
       fileName,
       src,
       isFlipped,
+      isFlipping,
       isChecked,
     });
   }
@@ -30,4 +32,4 @@ const getCardsState = () => {
   return cards;
 };
 
-export default getCardsState;
+export default getCardsInitialState;

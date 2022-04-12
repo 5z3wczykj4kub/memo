@@ -7,6 +7,8 @@ import {
   selectCurrentlyComparedCards,
   check,
   unflip,
+  setIsFlipping,
+  selectIsSomeCardFlipping,
 } from '../../../rtk/memoSlice';
 import styles from './Card.module.scss';
 
@@ -15,20 +17,25 @@ type CardProps = {
   src: string;
 };
 
-const Card = ({ id, src }: CardProps) => {
-  const { isFlipped, isChecked } = useAppSelector(selectFlippedCard(id))!;
+const Card = ({ src, id: cardId }: CardProps) => {
+  const { isFlipped, isChecked } = useAppSelector(selectFlippedCard(cardId))!;
   const currentlyComparedCards = useAppSelector(selectCurrentlyComparedCards);
+  const isSomeCardFlipping = useAppSelector(selectIsSomeCardFlipping);
   const isComparingCards = currentlyComparedCards.length === 2;
-  const isCardDisabled = isFlipped || isComparingCards;
+  const isCardDisabled = isFlipped || isSomeCardFlipping || isComparingCards;
 
   const dispatch = useAppDispatch();
 
   const onCardClickHandler = () => {
     if (isCardDisabled) return;
-    dispatch(flip(id));
+
+    dispatch(setIsFlipping({ cardId, isFlipping: true }));
+    dispatch(flip(cardId));
   };
 
   const onCardFlipTransitionEndHandler = () => {
+    dispatch(setIsFlipping({ cardId, isFlipping: false }));
+
     if (!isComparingCards) return;
 
     const [firstCard, secondCard] = currentlyComparedCards;
