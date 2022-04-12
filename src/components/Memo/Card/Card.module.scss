@@ -2,6 +2,7 @@
 @use '../../../utils/scss/colors';
 @use '../../../utils/scss/timings';
 @use '../grid';
+@use './card';
 
 .card {
   @include grid.responsive-grid-item-width;
@@ -13,11 +14,16 @@
   background-color: colors.$gray;
   transform-style: preserve-3d;
   perspective: 1000px;
-  transition: transform timings.$card-rotate;
+  transition: transform timings.$card-flip;
   cursor: pointer;
 
-  &--rotated {
+  &--flipped {
     transform: rotateY(180deg);
+    background-color: colors.$gray-brightened;
+  }
+
+  &--disabled {
+    cursor: default;
   }
 
   &__image {
@@ -27,8 +33,10 @@
     transform: translate(-50%, -50%);
     width: clamp(1rem, 30%, 2rem);
     backface-visibility: hidden;
+    @include card.disable-drag;
+    @include card.disable-select;
 
-    &--rotated {
+    &--flipped {
       transform: translate(-50%, -50%) rotateY(180deg);
     }
   }

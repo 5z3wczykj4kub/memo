@@ -8,7 +8,7 @@ const Game = () => {
   return (
     <Memo.Grid>
       {cards.map((card) => (
-        <Memo.Card {...card} />
+        <Memo.Card key={card.id} {...card} />
       ))}
     </Memo.Grid>
   );

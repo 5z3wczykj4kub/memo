@@ -1,4 +1,4 @@
-enum TechnologyNames {
+enum TechnologyName {
   Angular = 'angular',
   CSS3 = 'css3',
   'Express.js' = 'express',
@@ -16,4 +16,4 @@ enum TechnologyNames {
   Webpack = 'webpack',
 }
 
-export default TechnologyNames;
+export default TechnologyName;
