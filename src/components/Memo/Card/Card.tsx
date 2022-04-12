@@ -1,14 +1,15 @@
 import classNames from 'classnames';
+import { useEffect } from 'react';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import {
-  flip,
-  selectFlippedCard,
-  selectCurrentlyComparedCards,
   check,
+  flip,
+  selectCurrentlyComparedFlippedCards,
+  selectCurrentlyComparedTouchedCards,
+  selectTouchedCard,
+  touch,
   unflip,
-  setIsFlipping,
-  selectIsSomeCardFlipping,
 } from '../../../rtk/memoSlice';
 import styles from './Card.module.scss';
 
@@ -18,40 +19,47 @@ type CardProps = {
 };
 
 const Card = ({ src, id: cardId }: CardProps) => {
-  const { isFlipped, isChecked } = useAppSelector(selectFlippedCard(cardId))!;
-  const currentlyComparedCards = useAppSelector(selectCurrentlyComparedCards);
-  const isSomeCardFlipping = useAppSelector(selectIsSomeCardFlipping);
-  const isComparingCards = currentlyComparedCards.length === 2;
-  const isCardDisabled = isFlipped || isSomeCardFlipping || isComparingCards;
+  const { isTouched, isChecked } = useAppSelector(selectTouchedCard(cardId))!;
+  const currentlyComparedTouchedCards = useAppSelector(
+    selectCurrentlyComparedTouchedCards
+  );
+  const currentlyComparedFlippedCards = useAppSelector(
+    selectCurrentlyComparedFlippedCards
+  );
+
+  const isComparingTouchedCards = currentlyComparedTouchedCards.length === 2;
+  const isComparingFlippedCards = currentlyComparedFlippedCards.length === 2;
+
+  const isCardDisabled = isTouched || isComparingTouchedCards;
 
   const dispatch = useAppDispatch();
 
   const onCardClickHandler = () => {
     if (isCardDisabled) return;
-
-    dispatch(setIsFlipping({ cardId, isFlipping: true }));
-    dispatch(flip(cardId));
+    dispatch(touch(cardId));
   };
 
   const onCardFlipTransitionEndHandler = () => {
-    dispatch(setIsFlipping({ cardId, isFlipping: false }));
-
-    if (!isComparingCards) return;
-
-    const [firstCard, secondCard] = currentlyComparedCards;
-
-    if (firstCard.name === secondCard.name) {
-      dispatch(check());
-      return;
-    }
-
-    dispatch(unflip());
+    dispatch(flip(cardId));
   };
+
+  /**
+   * FIXME:
+   * Action dispatched way to many times.
+   */
+  useEffect(() => {
+    (() => {
+      if (!isComparingFlippedCards) return;
+      const [firstCard, secondCard] = currentlyComparedFlippedCards;
+      if (firstCard.name === secondCard.name) return dispatch(check());
+      return dispatch(unflip());
+    })();
+  }, [dispatch, isComparingFlippedCards, currentlyComparedFlippedCards]);
 
   const className = [
     classNames({
       [styles.card]: true,
-      [styles['card--flipped']]: isFlipped || isChecked,
+      [styles['card--flipped']]: isTouched || isChecked,
       [styles['card--disabled']]: isCardDisabled,
     }),
     styles['card__image'],
