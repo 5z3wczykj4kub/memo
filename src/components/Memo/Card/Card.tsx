@@ -1,15 +1,12 @@
 import classNames from 'classnames';
-import { useEffect } from 'react';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import {
-  check,
   flip,
   selectCurrentlyComparedFlippedCards,
   selectCurrentlyComparedTouchedCards,
   selectTouchedCard,
   touch,
-  unflip,
 } from '../../../rtk/memoSlice';
 import styles from './Card.module.scss';
 
@@ -27,10 +24,9 @@ const Card = ({ src, id: cardId }: CardProps) => {
     selectCurrentlyComparedFlippedCards
   );
 
-  const isComparingTouchedCards = currentlyComparedTouchedCards.length === 2;
-  const isComparingFlippedCards = currentlyComparedFlippedCards.length === 2;
-
-  const isCardDisabled = isTouched || isComparingTouchedCards;
+  const isOneCardTouched = currentlyComparedTouchedCards.length === 1;
+  const areTwoCardsTouched = currentlyComparedTouchedCards.length === 2;
+  const isCardDisabled = isTouched || areTwoCardsTouched;
 
   const dispatch = useAppDispatch();
 
@@ -40,21 +36,17 @@ const Card = ({ src, id: cardId }: CardProps) => {
   };
 
   const onCardFlipTransitionEndHandler = () => {
+    /**
+     * TODO:
+     * This guard clause gets bypassed.
+     * Because this is not the first time
+     * we need to distinguish the actual animation state
+     * (transitioning, transitioned, transitioning back, transitioned back),
+     * change CSS transition to either keyframes or use React Transition Group.
+     */
+    if (currentlyComparedTouchedCards.length === 0) return;
     dispatch(flip(cardId));
   };
-
-  /**
-   * FIXME:
-   * Action dispatched way to many times.
-   */
-  useEffect(() => {
-    (() => {
-      if (!isComparingFlippedCards) return;
-      const [firstCard, secondCard] = currentlyComparedFlippedCards;
-      if (firstCard.name === secondCard.name) return dispatch(check());
-      return dispatch(unflip());
-    })();
-  }, [dispatch, isComparingFlippedCards, currentlyComparedFlippedCards]);
 
   const className = [
     classNames({
