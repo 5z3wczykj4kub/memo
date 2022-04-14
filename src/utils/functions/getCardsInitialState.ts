@@ -14,13 +14,7 @@ const getCardsInitialState = () => {
     const id = `${name}${i}`;
     const fileName = values[index];
     const src = `./images/${fileName}.png`;
-    /**
-     * Flag set instantly after the card is clicked.
-     */
     const isTouched = false;
-    /**
-     * Flag set after the card is finishes the flip transition.
-     */
     const isFlipped = false;
     const isChecked = false;
 

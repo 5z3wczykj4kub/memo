@@ -6,7 +6,6 @@
 
 .card {
   @include grid.responsive-grid-item-width;
-
   position: relative;
   height: 20%;
   border: 1px solid colors.$gray-muted;
@@ -18,7 +17,6 @@
   cursor: pointer;
 
   &--flipped {
-    transform: rotateY(180deg);
     background-color: colors.$gray-brightened;
   }
 
@@ -27,17 +25,49 @@
   }
 
   &__image {
+    @include card.disable-drag;
+    @include card.disable-select;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: clamp(1rem, 30%, 2rem);
     backface-visibility: hidden;
-    @include card.disable-drag;
-    @include card.disable-select;
 
     &--flipped {
       transform: translate(-50%, -50%) rotateY(180deg);
     }
   }
+}
+
+.appear {
+  transform: rotateY(0deg);
+}
+
+.appearActive {
+  transform: rotateY(0deg);
+}
+
+.enter {
+  transform: rotateY(0deg);
+}
+
+.enterActive {
+  transform: rotateY(180deg);
+}
+
+.enterDone {
+  transform: rotateY(180deg);
+}
+
+.exit {
+  transform: rotateY(180deg);
+}
+
+.exitActive {
+  transform: rotateY(0deg);
+}
+
+.exitDone {
+  transform: rotateY(0deg);
 }

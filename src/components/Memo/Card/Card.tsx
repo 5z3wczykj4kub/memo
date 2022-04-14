@@ -1,12 +1,16 @@
 import classNames from 'classnames';
+import { useState } from 'react';
+import { CSSTransition } from 'react-transition-group';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import {
+  check,
   flip,
   selectCurrentlyComparedFlippedCards,
   selectCurrentlyComparedTouchedCards,
   selectTouchedCard,
   touch,
+  unflip,
 } from '../../../rtk/memoSlice';
 import styles from './Card.module.scss';
 
@@ -16,7 +20,7 @@ type CardProps = {
 };
 
 const Card = ({ src, id: cardId }: CardProps) => {
-  const { isTouched, isChecked } = useAppSelector(selectTouchedCard(cardId))!;
+  const { isTouched } = useAppSelector(selectTouchedCard(cardId))!;
   const currentlyComparedTouchedCards = useAppSelector(
     selectCurrentlyComparedTouchedCards
   );
@@ -24,9 +28,11 @@ const Card = ({ src, id: cardId }: CardProps) => {
     selectCurrentlyComparedFlippedCards
   );
 
-  const isOneCardTouched = currentlyComparedTouchedCards.length === 1;
   const areTwoCardsTouched = currentlyComparedTouchedCards.length === 2;
+  const areTwoCardsFlipped = currentlyComparedFlippedCards.length === 2;
   const isCardDisabled = isTouched || areTwoCardsTouched;
+
+  const [canCompare, setCanCompare] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -35,23 +41,22 @@ const Card = ({ src, id: cardId }: CardProps) => {
     dispatch(touch(cardId));
   };
 
-  const onCardFlipTransitionEndHandler = () => {
-    /**
-     * TODO:
-     * This guard clause gets bypassed.
-     * Because this is not the first time
-     * we need to distinguish the actual animation state
-     * (transitioning, transitioned, transitioning back, transitioned back),
-     * change CSS transition to either keyframes or use React Transition Group.
-     */
-    if (currentlyComparedTouchedCards.length === 0) return;
-    dispatch(flip(cardId));
+  const onCardTransitionEnterHanlder = () => dispatch(flip(cardId));
+
+  const onCardTransitionEnteringHandler = () =>
+    areTwoCardsFlipped ? setCanCompare(true) : setCanCompare(false);
+
+  const onCardTransitionEnteredHanlder = () => {
+    if (!canCompare) return;
+    const [firstCard, secondCard] = currentlyComparedFlippedCards;
+    if (firstCard.name === secondCard.name) return dispatch(check());
+    return dispatch(unflip());
   };
 
   const className = [
     classNames({
       [styles.card]: true,
-      [styles['card--flipped']]: isTouched || isChecked,
+      [styles['card--flipped']]: isTouched,
       [styles['card--disabled']]: isCardDisabled,
     }),
     styles['card__image'],
@@ -62,14 +67,19 @@ const Card = ({ src, id: cardId }: CardProps) => {
   ];
 
   return (
-    <article
-      className={className[0]}
-      onClick={onCardClickHandler}
-      onTransitionEnd={onCardFlipTransitionEndHandler}
+    <CSSTransition
+      in={isTouched}
+      timeout={400}
+      classNames={{ ...styles }}
+      onEnter={onCardTransitionEnterHanlder}
+      onEntering={onCardTransitionEnteringHandler}
+      onEntered={onCardTransitionEnteredHanlder}
     >
-      <img className={className[1]} src='./images/code.png' alt='code' />
-      <img className={className[2]} src={src} alt={src} />
-    </article>
+      <article className={className[0]} onClick={onCardClickHandler}>
+        <img className={className[1]} src='./images/code.png' alt='code' />
+        <img className={className[2]} src={src} alt={src} />
+      </article>
+    </CSSTransition>
   );
 };
 
