@@ -12,14 +12,10 @@ import {
   touch,
   unflip,
 } from '../../../rtk/memoSlice';
+import { ICard } from '../../../rtk/types';
 import styles from './Card.module.scss';
 
-type CardProps = {
-  id: string;
-  src: string;
-};
-
-const Card = ({ src, id: cardId }: CardProps) => {
+const Card = ({ id: cardId, src, name }: ICard) => {
   const { isTouched } = useAppSelector(selectTouchedCard(cardId))!;
   const currentlyComparedTouchedCards = useAppSelector(
     selectCurrentlyComparedTouchedCards
@@ -77,7 +73,7 @@ const Card = ({ src, id: cardId }: CardProps) => {
     >
       <article className={className[0]} onClick={onCardClickHandler}>
         <img className={className[1]} src='./images/code.png' alt='code' />
-        <img className={className[2]} src={src} alt={src} />
+        <img className={className[2]} src={src} alt={name} />
       </article>
     </CSSTransition>
   );
