@@ -16,8 +16,30 @@ const initialCardState = {
 
 const findCard = (card: ICard) => card.fileName === TechnologyName['React.js'];
 
-const cardStoreData = store.getState().memo.cards.find(findCard)!;
+const getCardStoreData = () => store.getState().memo.cards.find(findCard)!;
 
-const renderCard = () => render(<Memo.Card {...cardStoreData} />);
+const getAllCardsStoreData = () => store.getState().memo.cards;
 
-export { initialCardState, findCard, cardStoreData, renderCard };
+const getMatchingCardsStoreData = () =>
+  getAllCardsStoreData().filter(({ name }) => name === 'React.js');
+
+const renderCard = () => render(<Memo.Card {...getCardStoreData()} />);
+
+const renderCards = () =>
+  render(
+    <Memo.Grid>
+      {getAllCardsStoreData().map((card) => (
+        <Memo.Card key={card.id} {...card} />
+      ))}
+    </Memo.Grid>
+  );
+
+export {
+  initialCardState,
+  findCard,
+  getCardStoreData,
+  getAllCardsStoreData,
+  getMatchingCardsStoreData,
+  renderCard,
+  renderCards,
+};

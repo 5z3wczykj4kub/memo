@@ -9,7 +9,7 @@ test('checks if there are any numbers within the range of [0, 30] divisible by {
     if (divisors.every((divisor) => i % divisor === 0)) divisibles.add(i);
   }
 
-  console.log('divisibles', divisibles);
+  // console.log('divisibles', divisibles);
 
   expect(divisibles.size).toBeGreaterThan(0);
 });

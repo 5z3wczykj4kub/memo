@@ -1,18 +1,18 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
 import { fireEvent, screen } from '@testing-library/react';
-import reducer from '../../../rtk/memoSlice';
-import expectCardElementToHaveAClass from '../../../utils/tests/expectCardElementToHaveAClass';
+import reducer, { flip, touch } from '../../../rtk/memoSlice';
+import { ICard } from '../../../rtk/types';
 import {
-  cardStoreData,
   findCard,
+  getCardStoreData,
   initialCardState,
   renderCard,
 } from '../../../utils/tests/testCard';
 
 describe('card', () => {
-  test('renders', () => {
-    const { name } = cardStoreData;
+  test('card renders', () => {
+    const { name } = getCardStoreData();
 
     renderCard();
 
@@ -28,24 +28,76 @@ describe('card', () => {
       expect(cardElement).toContainElement(element)
     );
 
+    expect(cardElement).toHaveClass('card');
+
     expect(reducer(undefined, {} as AnyAction).cards.find(findCard)).toEqual(
       initialCardState
     );
   });
 
-  // test('gets touched', () => {
-  //   const { name } = cardStoreData;
+  test('card gets touched', () => {
+    const { id, name } = getCardStoreData();
 
-  //   renderCard();
+    renderCard();
 
-  //   const cardElement = screen.getByAltText(name).parentElement;
+    const cardElement = screen.getByAltText(name).parentElement;
 
-  //   fireEvent.click(cardElement as Element);
-  // });
+    fireEvent.click(cardElement as Element);
 
-  // test('gets disabled after touch', () =>
-  //   expectCardElementToHaveAClass('card--disabled'));
+    expect(cardElement).toHaveClass('card card--flipped card--disabled');
 
-  // test('gets highlighted after touch', () =>
-  //   expectCardElementToHaveAClass('card--flipped'));
+    const { isTouched } = getCardStoreData();
+
+    expect(isTouched).toBe(true);
+
+    const cardsStateAfterTouch = reducer(
+      { cards: [initialCardState as ICard] },
+      touch(id)
+    );
+
+    const cardElementTouched = cardsStateAfterTouch.cards.find(findCard);
+
+    expect(cardElementTouched).toEqual({
+      ...initialCardState,
+      isTouched: true,
+    });
+  });
+
+  test('card gets flipped', () => {
+    const { id, name } = getCardStoreData();
+
+    renderCard();
+
+    const cardElement = screen.getByAltText(name).parentElement;
+
+    fireEvent.click(cardElement as Element);
+
+    expect(cardElement).toHaveClass('card card--flipped card--disabled');
+
+    const { isFlipped } = getCardStoreData();
+
+    expect(isFlipped).toBe(true);
+
+    const cardsStateAfterTouch = reducer(
+      { cards: [initialCardState as ICard] },
+      touch(id)
+    );
+
+    const cardElementTouched = cardsStateAfterTouch.cards.find(findCard);
+
+    expect(cardElementTouched).toEqual({
+      ...initialCardState,
+      isTouched: true,
+    });
+
+    const cardsStateAfterFlip = reducer(cardsStateAfterTouch, flip(id));
+
+    const cardElementFlipped = cardsStateAfterFlip.cards.find(findCard);
+
+    expect(cardElementFlipped).toEqual({
+      ...initialCardState,
+      isTouched: true,
+      isFlipped: true,
+    });
+  });
 });
