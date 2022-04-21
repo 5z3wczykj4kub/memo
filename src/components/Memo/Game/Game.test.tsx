@@ -1,10 +1,11 @@
 import { AnyAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
-import reducer, { check, flip, touch } from '../../../rtk/memoSlice';
+import reducer, { check, flip, touch, unflip } from '../../../rtk/memoSlice';
 import { ICard } from '../../../rtk/types';
 import getCardsInitialState from '../../../utils/functions/getCardsInitialState';
 import {
+  getAllCardsStoreData,
   getMatchingCardsStoreData,
   renderCards,
 } from '../../../utils/tests/testCard';
@@ -34,6 +35,7 @@ describe('game', () => {
 
   test('cards get checked', () => {
     const initialMatchingCardsStoreData = getMatchingCardsStoreData();
+
     renderCards();
 
     const [firstMatchingCardElement, secondMatchingCardElement] =
@@ -90,5 +92,63 @@ describe('game', () => {
   });
 
   // TODO
-  test('cards get unflipped', () => {});
+  test('cards get unflipped', () => {
+    renderCards();
+
+    const reactCardElement =
+      screen.getAllByAltText('React.js')[0].parentElement!;
+    const angularCardElement =
+      screen.getAllByAltText('Angular.js')[0].parentElement!;
+
+    fireEvent.click(reactCardElement);
+    fireEvent.click(angularCardElement);
+
+    const allCardsStoreData = getAllCardsStoreData();
+    const reactCardStoreData = allCardsStoreData.find(
+      ({ name }) => name === 'React.js'
+    )!;
+    const angularCardStoreData = allCardsStoreData.find(
+      ({ name }) => name === 'Angular.js'
+    )!;
+
+    [reactCardStoreData, angularCardStoreData].forEach((card) => {
+      expect(card?.isTouched).toBe(true);
+      expect(card?.isFlipped).toBe(true);
+      waitFor(() => expect(card?.isChecked).toBe(true));
+    });
+
+    const cardsStateAfterReactCardTouch = reducer(
+      { cards: allCardsStoreData as ICard[] },
+      touch(reactCardStoreData.id)
+    );
+
+    const cardsStateAfterAngularCardTouch = reducer(
+      cardsStateAfterReactCardTouch,
+      touch(angularCardStoreData.id)
+    );
+
+    const cardsStateAfterReactCardFlip = reducer(
+      cardsStateAfterAngularCardTouch,
+      flip(reactCardStoreData.id)
+    );
+
+    const cardsStateAfterAngularCardFlip = reducer(
+      cardsStateAfterReactCardFlip,
+      flip(angularCardStoreData.id)
+    );
+
+    const { cards: cardsStateAfterUnflip } = reducer(
+      cardsStateAfterAngularCardFlip,
+      unflip()
+    );
+
+    cardsStateAfterUnflip.forEach((cardStateAfterUnflip) =>
+      expect(cardStateAfterUnflip).toEqual({
+        ...cardStateAfterUnflip,
+        isTouched: false,
+        isFlipped: false,
+        isChecked: false,
+      })
+    );
+  });
 });

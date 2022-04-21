@@ -1,5 +1,5 @@
 enum TechnologyName {
-  Angular = 'angular',
+  'Angular.js' = 'angular',
   CSS3 = 'css3',
   'Express.js' = 'express',
   GIT = 'git',

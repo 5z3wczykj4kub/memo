@@ -1,8 +1,7 @@
 import Memo from '../../components/Memo/Memo';
-import { store } from '../../rtk/store';
 import { ICard } from '../../rtk/types';
 import TechnologyName from '../constants';
-import { render } from './customRender';
+import { render, store } from './customRender';
 
 const initialCardState = {
   id: 'React.js8',
