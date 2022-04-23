@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import reducer, { check, flip, touch, unflip } from '../../../rtk/memoSlice';
 import { ICard } from '../../../rtk/types';
-import getCardsInitialState from '../../../utils/functions/getCardsInitialState';
+import getInitialCardsState from '../../../utils/functions/getInitialCardsState';
 import {
   getAllCardsStoreData,
   getMatchingCardsStoreData,
@@ -29,7 +29,7 @@ describe('game', () => {
     expect(cardElements).toHaveLength(30);
 
     expect(reducer(undefined, {} as AnyAction).cards).toEqual(
-      getCardsInitialState()
+      getInitialCardsState()
     );
   });
 
@@ -91,7 +91,6 @@ describe('game', () => {
     );
   });
 
-  // TODO
   test('cards get unflipped', () => {
     renderCards();
 

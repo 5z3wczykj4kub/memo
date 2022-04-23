@@ -1,11 +1,11 @@
 import Memo from '../../components/Memo/Memo';
+import ThemeToggler from '../../components/ThemeToggler/ThemeToggler';
+import styles from './Main.module.scss';
 
 const Main = () => (
   <>
     <Memo.Game />
-    <p onClick={() => document.body.classList.toggle('dark-mode')}>
-      Toggle mode
-    </p>
+    <ThemeToggler className={styles['theme-toggler']} reverse />
   </>
 );
 

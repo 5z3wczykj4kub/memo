@@ -14,19 +14,25 @@ const store = configureStore({
 export default {
   title: 'Memo/Card',
   component: Memo.Card,
-  decorators: [(story) => <Provider store={store}>{story()}</Provider>],
+  decorators: [
+    (Story) => (
+      <Provider store={store}>
+        <Memo.Grid
+          style={{
+            display: 'block',
+            margin: 0,
+            padding: 0,
+          }}
+        >
+          <Story />
+        </Memo.Grid>
+      </Provider>
+    ),
+  ],
 } as ComponentMeta<typeof Memo.Card>;
 
 const Template: ComponentStory<typeof Memo.Card> = (args) => (
-  <Memo.Grid
-    style={{
-      display: 'block',
-      margin: 0,
-      padding: 0,
-    }}
-  >
-    <Memo.Card {...args} />
-  </Memo.Grid>
+  <Memo.Card {...args} />
 );
 
 export const Default = Template.bind({});

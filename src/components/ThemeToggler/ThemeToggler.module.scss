@@ -1,0 +1,69 @@
+@use '../../utils/scss/colors';
+@use '../../utils/scss/timings';
+
+.theme-toggler {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border: 1px solid colors.$background-dark;
+  border-radius: 2rem;
+  background-color: colors.$gray;
+  transition: background-color timings.$dark-theme-toggle,
+    border-color timings.$dark-theme-toggle;
+  cursor: pointer;
+
+  &--toggled {
+    .theme-toggler__icon-container__switch {
+      transform: translate(calc(100% + 2.3px), -50%);
+    }
+  }
+
+  &--dark {
+    background-color: colors.$background-dark;
+    border-color: colors.$gray;
+
+    .theme-toggler__icon-container__icon {
+      fill: colors.$gray;
+    }
+
+    .theme-toggler__icon-container__switch {
+      background-color: colors.$gray;
+    }
+  }
+
+  &__icon-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 85%;
+    height: 100%;
+
+    &__icon {
+      height: 82.5%;
+      fill: colors.$background-dark;
+      transition: fill timings.$dark-theme-toggle;
+
+      &--moon {
+        transform: scale(0.85);
+      }
+    }
+
+    &__switch {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      background-color: colors.$background-dark;
+      transition: transform timings.$dark-theme-toggle,
+        background-color timings.$dark-theme-toggle;
+    }
+  }
+}

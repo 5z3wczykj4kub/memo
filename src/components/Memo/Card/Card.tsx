@@ -71,10 +71,10 @@ const Card = ({ id: cardId, src, name }: ICard) => {
       onEntering={onCardTransitionEnteringHandler}
       onEntered={onCardTransitionEnteredHanlder}
     >
-      <article className={className[0]} onClick={onCardClickHandler}>
+      <button className={className[0]} onClick={onCardClickHandler}>
         <img className={className[1]} src='./images/code.png' alt='code' />
         <img className={className[2]} src={src} alt={name} />
-      </article>
+      </button>
     </CSSTransition>
   );
 };

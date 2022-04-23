@@ -4,10 +4,10 @@
 :global {
   body {
     background-color: colors.$background-light;
-    transition: background-color timings.$dark-mode-toggle;
+    transition: background-color timings.$dark-theme-toggle;
   }
 
-  .dark-mode {
+  .dark-theme {
     background-color: colors.$background-dark;
   }
 }

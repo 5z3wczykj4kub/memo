@@ -1,11 +1,14 @@
 import React from 'react';
 import styles from './Grid.module.scss';
 
-type GridProps = { children: React.ReactNode; style?: React.CSSProperties };
+interface IGridProps {
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
 
-const Grid = ({ children, style }: GridProps) => (
-  <section className={styles.grid} style={style}>
+const Grid = ({ children, style }: IGridProps) => (
+  <div className={styles.grid} style={style}>
     {children}
-  </section>
+  </div>
 );
 export default Grid;

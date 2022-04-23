@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import getCardsInitialState from '../utils/functions/getCardsInitialState';
+import getInitialCardsState from '../utils/functions/getInitialCardsState';
 import getCurrentlyComparedFlippedCardsState from '../utils/functions/getCurrentlyComparedFlippedCardsState';
 import getCurrentlyComparedTouchedCardsState from '../utils/functions/getCurrentlyComparedTouchedCardsState';
 import getSpecificCardState from '../utils/functions/getSpecificCardState';
@@ -7,7 +7,7 @@ import { RootState } from './store';
 import { ICard } from './types';
 
 const initialState = {
-  cards: getCardsInitialState(),
+  cards: getInitialCardsState(),
 };
 
 export const memoSlice = createSlice({
