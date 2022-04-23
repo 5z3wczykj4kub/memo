@@ -1,21 +1,19 @@
 import classNames from 'classnames';
 import { useState } from 'react';
-import { ReactComponent as MoonIcon } from '../../assets/icons/moon.svg';
-import { ReactComponent as SunIcon } from '../../assets/icons/sun.svg';
+import { ReactComponent as MoonIcon } from '../../../assets/icons/moon.svg';
+import { ReactComponent as SunIcon } from '../../../assets/icons/sun.svg';
 import styles from './ThemeToggler.module.scss';
 
 interface IThemeToggler {
   style?: React.CSSProperties;
   className?: string;
-  color?: 'light' | 'dark';
-  reverse?: boolean;
+  variant?: 'light' | 'dark' | 'inverse';
 }
 
 const ThemeToggler = ({
   className,
   style,
-  color = 'light',
-  reverse = false,
+  variant = 'light',
 }: IThemeToggler) => {
   const [isToggled, setIsToggled] = useState(false);
 
@@ -27,11 +25,8 @@ const ThemeToggler = ({
   const buttonClassName = classNames({
     [styles['theme-toggler']]: true,
     [styles['theme-toggler--toggled']]: isToggled,
-    [styles['theme-toggler--dark']]: reverse
-      ? isToggled
-        ? true
-        : false
-      : color === 'dark',
+    [styles['theme-toggler--dark']]:
+      variant === 'inverse' ? (isToggled ? true : false) : variant === 'dark',
     [className!]: true,
   });
 

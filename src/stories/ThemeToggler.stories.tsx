@@ -1,11 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import ThemeToggler from '../components/ThemeToggler/ThemeToggler';
+import ThemeToggler from '../components/General/ThemeToggler/ThemeToggler';
 
-/**
- * TODO:
- * Disable `color` control
- * when `reverse` is true.
- */
 export default {
   title: 'General/ThemeToggler',
   component: ThemeToggler,
@@ -18,17 +13,17 @@ const Template: ComponentStory<typeof ThemeToggler> = (args) => (
 export const Light = Template.bind({});
 
 Light.args = {
-  color: 'light',
+  variant: 'light',
 };
 
 export const Dark = Template.bind({});
 
 Dark.args = {
-  color: 'dark',
+  variant: 'dark',
 };
 
-export const Reversible = Template.bind({});
+export const Inverse = Template.bind({});
 
-Reversible.args = {
-  reverse: true,
+Inverse.args = {
+  variant: 'inverse',
 };
