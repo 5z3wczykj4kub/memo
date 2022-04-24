@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Provider } from 'react-redux';
-import Memo from '../components/Memo/Memo';
-import memoSlice from '../rtk/memoSlice';
-import TechnologyName from '../utils/constants';
+import Memo from '../Memo';
+import memoSlice from '../../../rtk/memoSlice';
+import TechnologyName from '../../../utils/constants';
 
 const store = configureStore({
   reducer: {

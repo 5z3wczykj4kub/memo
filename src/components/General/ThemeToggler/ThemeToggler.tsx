@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { useState } from 'react';
 import { ReactComponent as MoonIcon } from '../../../assets/icons/moon.svg';
 import { ReactComponent as SunIcon } from '../../../assets/icons/sun.svg';
+import useTheme from '../../../hooks/useTheme';
 import styles from './ThemeToggler.module.scss';
 
 interface IThemeToggler {
@@ -15,18 +15,17 @@ const ThemeToggler = ({
   style,
   variant = 'light',
 }: IThemeToggler) => {
-  const [isToggled, setIsToggled] = useState(false);
-
-  const onClickHandler = () => {
-    document.body.classList.toggle('dark-theme');
-    setIsToggled((prevIsToggled) => !prevIsToggled);
-  };
+  const { isDarkThemeUsed, toggleDarkTheme } = useTheme();
 
   const buttonClassName = classNames({
     [styles['theme-toggler']]: true,
-    [styles['theme-toggler--toggled']]: isToggled,
+    [styles['theme-toggler--toggled']]: isDarkThemeUsed,
     [styles['theme-toggler--dark']]:
-      variant === 'inverse' ? (isToggled ? true : false) : variant === 'dark',
+      variant === 'inverse'
+        ? isDarkThemeUsed
+          ? true
+          : false
+        : variant === 'dark',
     [className!]: true,
   });
 
@@ -41,7 +40,11 @@ const ThemeToggler = ({
   });
 
   return (
-    <button className={buttonClassName} style={style} onClick={onClickHandler}>
+    <button
+      className={buttonClassName}
+      style={style}
+      onClick={() => toggleDarkTheme()}
+    >
       <span className={styles['theme-toggler__icon-container']}>
         <SunIcon className={sunIconClassName} />
         <MoonIcon className={moonIconClassName} />

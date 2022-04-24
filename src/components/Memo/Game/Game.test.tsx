@@ -57,7 +57,12 @@ describe('game', () => {
     );
 
     const cardsStateAfterFirstMatchingCardTouch = reducer(
-      { cards: initialMatchingCardsStoreData as ICard[] },
+      {
+        cards: initialMatchingCardsStoreData as ICard[],
+        hearts: 2,
+        points: 0,
+        gameStatus: 'on',
+      },
       touch(firstMatchingCardState.id)
     );
 
@@ -117,7 +122,12 @@ describe('game', () => {
     });
 
     const cardsStateAfterReactCardTouch = reducer(
-      { cards: allCardsStoreData as ICard[] },
+      {
+        cards: allCardsStoreData as ICard[],
+        hearts: 2,
+        points: 0,
+        gameStatus: 'on',
+      },
       touch(reactCardStoreData.id)
     );
 

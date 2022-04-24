@@ -7,8 +7,8 @@ interface IGridProps {
 }
 
 const Grid = ({ children, style }: IGridProps) => (
-  <div className={styles.grid} style={style}>
+  <main className={styles.grid} style={style}>
     {children}
-  </div>
+  </main>
 );
 export default Grid;

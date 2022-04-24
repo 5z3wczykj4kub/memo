@@ -51,7 +51,12 @@ describe('card', () => {
     expect(isTouched).toBe(true);
 
     const cardsStateAfterTouch = reducer(
-      { cards: [initialCardState as ICard] },
+      {
+        cards: [initialCardState as ICard],
+        hearts: 2,
+        points: 0,
+        gameStatus: 'on',
+      },
       touch(id)
     );
 
@@ -79,7 +84,12 @@ describe('card', () => {
     expect(isFlipped).toBe(true);
 
     const cardsStateAfterTouch = reducer(
-      { cards: [initialCardState as ICard] },
+      {
+        cards: [initialCardState as ICard],
+        hearts: 2,
+        points: 0,
+        gameStatus: 'on',
+      },
       touch(id)
     );
 

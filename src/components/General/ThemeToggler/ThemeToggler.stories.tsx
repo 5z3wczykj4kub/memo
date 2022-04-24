@@ -1,9 +1,17 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import ThemeToggler from '../components/General/ThemeToggler/ThemeToggler';
+import ThemeProvider from '../../../providers/ThemeProvider';
+import ThemeToggler from './ThemeToggler';
 
 export default {
   title: 'General/ThemeToggler',
   component: ThemeToggler,
+  decorators: [
+    (Story) => (
+      <ThemeProvider>
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
 } as ComponentMeta<typeof ThemeToggler>;
 
 const Template: ComponentStory<typeof ThemeToggler> = (args) => (

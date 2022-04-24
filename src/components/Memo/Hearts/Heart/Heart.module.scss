@@ -1,0 +1,14 @@
+@use '../../../../utils/scss/colors';
+@use '../../../../utils/scss/timings';
+
+.heart-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  fill: transparent;
+  stroke: colors.$background-dark;
+  transition: stroke timings.$dark-theme-toggle;
+
+  &--dark {
+    stroke: colors.$gray;
+  }
+}
