@@ -7,14 +7,12 @@ const Heart = () => {
   const { isDarkThemeUsed } = useTheme();
 
   return (
-    <div>
-      <HeartIcon
-        className={classNames({
-          [styles['heart-icon']]: true,
-          [styles['heart-icon--dark']]: isDarkThemeUsed,
-        })}
-      />
-    </div>
+    <HeartIcon
+      className={classNames({
+        [styles['heart-icon']]: true,
+        [styles['heart-icon--dark']]: isDarkThemeUsed,
+      })}
+    />
   );
 };
 

@@ -6,6 +6,7 @@
   height: 2.25rem;
   fill: transparent;
   stroke: colors.$background-dark;
+  transform-origin: top right;
   transition: stroke timings.$dark-theme-toggle;
 
   &--dark {
