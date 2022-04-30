@@ -1,15 +1,12 @@
+import Navbar from '../../components/General/Navbar/Navbar';
 import ThemeToggler from '../../components/General/ThemeToggler/ThemeToggler';
 import Memo from '../../components/Memo/Memo';
-import Heart from '../../components/Memo/Hearts/Heart/Heart';
 import styles from './Main.module.scss';
-import Hearts from '../../components/Memo/Hearts/Hearts';
 
 const Main = () => {
   return (
     <>
-      <header>
-        <Hearts />
-      </header>
+      <Navbar />
       <Memo.Game />
       <ThemeToggler className={styles['theme-toggler']} variant='inverse' />
     </>

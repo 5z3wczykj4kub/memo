@@ -1,7 +1,7 @@
 .theme-toggler {
   // TODO:
-  // Use `position: static;` instead of `position: absolute;`.
-  position: absolute;
+  // Use `position: static;` instead of `position: fixed;`.
+  position: fixed;
   bottom: 0;
   left: 0;
   margin: 0.5rem;

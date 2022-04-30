@@ -1,0 +1,12 @@
+@use '../../../../utils/scss/colors';
+@use '../../../../utils/scss/timings';
+
+.points {
+  font-size: 1.2rem;
+  color: colors.$background-dark;
+  transition: color timings.$dark-theme-toggle;
+
+  &--dark {
+    color: colors.$gray;
+  }
+}

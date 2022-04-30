@@ -88,6 +88,8 @@ export const selectHearts = (state: RootState) => state.memo.hearts;
 
 export const selectGameStatus = (state: RootState) => state.memo.gameStatus;
 
+export const selectPoints = (state: RootState) => state.memo.points;
+
 export const { touch, flip, unflip, check } = memoSlice.actions;
 
 export default memoSlice.reducer;
