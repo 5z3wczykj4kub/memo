@@ -1,7 +1,7 @@
 @use '../../../utils/scss/breakpoints';
 @use '../../../utils/scss/colors';
 @use '../../../utils/scss/timings';
-@use '../grid';
+@use '../Grid/grid';
 @use './card';
 
 .card {

@@ -1,12 +1,11 @@
 @use '../../../utils/scss/breakpoints';
-@use '../grid';
+@use './grid';
 
 $grid-size: calc(100vw - grid.$grid-gap);
 $grid-max-size: 50rem;
 
 .grid {
   @include grid.responsive-grid-gap;
-
   display: flex;
   flex-wrap: wrap;
   flex-shrink: 0;

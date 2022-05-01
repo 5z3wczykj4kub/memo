@@ -2,11 +2,29 @@
 @use '../../../../utils/scss/timings';
 
 .points {
-  font-size: 1.2rem;
-  color: colors.$background-dark;
-  transition: color timings.$dark-theme-toggle;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  transition: transform 200ms;
 
-  &--dark {
-    color: colors.$gray;
+  &__star-icon {
+    width: 1.75rem;
+    height: 1.75rem;
   }
+
+  &__number {
+    font-size: 1.2rem;
+    color: colors.$background-dark;
+    transition: color timings.$dark-theme-toggle;
+
+    &--dark {
+      color: colors.$gray;
+    }
+  }
+}
+
+.enterActive,
+.exitActive {
+  transform: scale(1.2);
 }

@@ -2,14 +2,9 @@
 @use '../../../../utils/scss/timings';
 
 .heart-icon {
-  width: 2.25rem;
-  height: 2.25rem;
-  fill: transparent;
-  stroke: colors.$background-dark;
+  width: 2rem;
+  height: 2rem;
+  fill: colors.$red;
+  stroke: colors.$red;
   transform-origin: top right;
-  transition: stroke timings.$dark-theme-toggle;
-
-  &--dark {
-    stroke: colors.$gray;
-  }
 }

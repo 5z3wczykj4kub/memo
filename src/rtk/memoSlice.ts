@@ -22,7 +22,7 @@ interface IInitialState {
 
 const initialState: IInitialState = {
   cards: getInitialCardsState(),
-  hearts: 3,
+  hearts: 5,
   points: 0,
   gameStatus: 'off',
 };

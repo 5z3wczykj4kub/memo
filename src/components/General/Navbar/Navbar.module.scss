@@ -1,9 +1,11 @@
+@use './navbar';
 @use '../../../utils/scss/colors';
+@use '../../../utils/scss/breakpoints';
 
 .navbar {
+  @include navbar.responsive-navbar-padding;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0.5rem;
 }
