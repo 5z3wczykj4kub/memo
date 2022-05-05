@@ -5,7 +5,20 @@
 .navbar {
   @include navbar.responsive-navbar-padding;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
   width: 100%;
+
+  @media (min-width: breakpoints.$sm) {
+    gap: 1rem;
+  }
+
+  &__theme-toggler {
+    position: absolute;
+    right: 0.5rem;
+
+    @media (min-width: breakpoints.$sm) {
+      right: 1rem;
+    }
+  }
 }
