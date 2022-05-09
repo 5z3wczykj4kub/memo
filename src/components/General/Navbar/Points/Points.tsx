@@ -6,6 +6,7 @@ import useAppSelector from '../../../../hooks/useAppSelector';
 import useTheme from '../../../../hooks/useTheme';
 import { selectPoints } from '../../../../rtk/memoSlice';
 import TechnologyName from '../../../../utils/constants';
+import Button from '../../Button/Button';
 import Modal, { useModal } from '../../Modal/Modal';
 import styles from './Points.module.scss';
 
@@ -52,6 +53,23 @@ const Points = () => {
         variant={isDarkThemeUsed ? 'dark' : 'light'}
       >
         <p>You've won the game.</p>
+        <div className={styles['modal-footer']}>
+          <Button
+            className={styles['modal-footer__button']}
+            tabIndex={2}
+            variant={isDarkThemeUsed ? 'dark' : 'light'}
+            onClick={() => setIsModalVisible(false)}
+          >
+            Close
+          </Button>
+          <Button
+            className={styles['modal-footer__button']}
+            tabIndex={3}
+            variant={isDarkThemeUsed ? 'dark' : 'light'}
+          >
+            Play again
+          </Button>
+        </div>
       </Modal>
     </>
   );

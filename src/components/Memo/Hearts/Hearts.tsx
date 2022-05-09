@@ -2,6 +2,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
 import { selectHearts } from '../../../rtk/memoSlice';
+import Button from '../../General/Button/Button';
 import Modal, { useModal } from '../../General/Modal/Modal';
 import Heart from './Heart/Heart';
 import styles from './Hearts.module.scss';
@@ -43,6 +44,23 @@ const Hearts = () => {
           You've lost the game. Try again, maybe you'll have better luck next
           time!
         </p>
+        <div className={styles['modal-footer']}>
+          <Button
+            className={styles['modal-footer__button']}
+            tabIndex={2}
+            variant={isDarkThemeUsed ? 'dark' : 'light'}
+            onClick={() => setIsModalVisible(false)}
+          >
+            Close
+          </Button>
+          <Button
+            className={styles['modal-footer__button']}
+            tabIndex={3}
+            variant={isDarkThemeUsed ? 'dark' : 'light'}
+          >
+            Play again
+          </Button>
+        </div>
       </Modal>
     </>
   );
