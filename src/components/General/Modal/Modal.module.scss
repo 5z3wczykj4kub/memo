@@ -13,8 +13,7 @@
   color: colors.$background-dark;
   border-radius: 0.25rem;
   opacity: 0;
-  transition: transform timings.$backdrop linear,
-    opacity timings.$backdrop linear;
+  transition: transform timings.$modal, opacity timings.$modal linear;
 
   @media (min-width: breakpoints.$sm) {
     width: calc(100% - 2rem);

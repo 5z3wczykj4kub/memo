@@ -1,0 +1,18 @@
+@use '../../../utils/scss/colors';
+@use '../../../utils/scss/breakpoints';
+
+.divider {
+  width: calc(100% - 1rem);
+  height: 1px;
+  margin: 0 0.5rem;
+  background-color: colors.$gray;
+
+  @media (min-width: breakpoints.$sm) {
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+  }
+
+  &--dark {
+    background-color: colors.$background-dark-brightened;
+  }
+}

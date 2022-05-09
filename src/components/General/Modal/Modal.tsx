@@ -3,6 +3,7 @@ import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/close.svg';
+import Divider from '../Divider/Divider';
 import BackdropWithPortal, { Backdrop } from './Backdrop/Backdrop';
 import styles from './Modal.module.scss';
 
@@ -18,6 +19,7 @@ const getModalJSX = ({
   isVisible,
   setIsVisible,
   heading,
+  variant,
   isWithPortal,
 }: IModal & { className: string[]; isWithPortal?: boolean }) => {
   const jsx = (
@@ -26,12 +28,14 @@ const getModalJSX = ({
         <BackdropWithPortal
           isVisible={isVisible}
           opacity={0.75}
+          variant={variant}
           onClick={() => setIsVisible(false)}
         />
       ) : (
         <Backdrop
           isVisible={isVisible}
           opacity={0.75}
+          variant={variant}
           onClick={() => setIsVisible(false)}
         />
       )}
@@ -54,6 +58,7 @@ const getModalJSX = ({
               <CloseIcon className={className[4]} />
             </button>
           </header>
+          <Divider variant={variant} />
           <main className={className[5]}>{children}</main>
         </div>
       </CSSTransition>
@@ -91,19 +96,14 @@ const getClassName = (variant: IModal['variant']) => [
 interface IModal {
   style?: React.CSSProperties;
   children: ReactNode;
-  variant?: 'light' | 'dark';
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
   heading?: ReactNode;
+  variant?: 'light' | 'dark';
 }
 
 const useModal = (isVisible = false) => useState(isVisible);
 
-/**
- * TODO:
- * Improve animation.
- * Add unit and integration tests.
- */
 const Modal = ({
   style,
   children,
@@ -119,6 +119,7 @@ const Modal = ({
     isVisible,
     setIsVisible,
     heading,
+    variant,
   });
 
 const ModalWithPortal = ({
@@ -136,6 +137,7 @@ const ModalWithPortal = ({
     isVisible,
     setIsVisible,
     heading,
+    variant,
     isWithPortal: true,
   });
 

@@ -18,15 +18,12 @@ Invisible.args = {
   opacity: 0,
 };
 
-/**
- * TODO:
- * Add variant prop.
- */
 export const Light = Template.bind({});
 
 Light.args = {
   isVisible: true,
   opacity: 0.75,
+  variant: 'light',
 };
 
 export const Dark = Template.bind({});
@@ -34,4 +31,5 @@ export const Dark = Template.bind({});
 Dark.args = {
   isVisible: true,
   opacity: 0.75,
+  variant: 'dark',
 };

@@ -4,11 +4,11 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background-color: colors.$background-dark;
+  background-color: colors.$background-dark-brightened;
   opacity: 0;
   transition: opacity timings.$backdrop linear;
 
   &--light {
-    background-color: colors.$background-dark-brightened;
+    background-color: colors.$background-dark;
   }
 }
