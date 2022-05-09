@@ -8,6 +8,7 @@ import {
   flip,
   selectCurrentlyComparedFlippedCards,
   selectCurrentlyComparedTouchedCards,
+  selectHearts,
   selectTouchedCard,
   touch,
   unflip,
@@ -16,6 +17,7 @@ import { ICard } from '../../../rtk/types';
 import styles from './Card.module.scss';
 
 const Card = ({ id: cardId, src, name }: ICard) => {
+  const hearts = useAppSelector(selectHearts);
   const { isTouched } = useAppSelector(selectTouchedCard(cardId))!;
   const currentlyComparedTouchedCards = useAppSelector(
     selectCurrentlyComparedTouchedCards
@@ -26,7 +28,7 @@ const Card = ({ id: cardId, src, name }: ICard) => {
 
   const areTwoCardsTouched = currentlyComparedTouchedCards.length === 2;
   const areTwoCardsFlipped = currentlyComparedFlippedCards.length === 2;
-  const isCardDisabled = isTouched || areTwoCardsTouched;
+  const isCardDisabled = isTouched || areTwoCardsTouched || hearts === 0;
 
   const [canCompare, setCanCompare] = useState(false);
 

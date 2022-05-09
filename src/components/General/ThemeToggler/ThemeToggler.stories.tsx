@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import '../../../index.css';
 import ThemeProvider from '../../../providers/ThemeProvider';
 import ThemeToggler from './ThemeToggler';
 

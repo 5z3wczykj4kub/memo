@@ -10,21 +10,12 @@ interface IInitialState {
   cards: ICard[];
   hearts: number;
   points: number;
-  /**
-   * FIXME:
-   * The `won` and `lost` status could be easly derived from state.
-   * `lost` is when the number of hearts hits 0.
-   * `won` is when the number of cards with `.isChecked` flag set to true
-   * is equel to total cards number.
-   */
-  gameStatus: 'off' | 'on' | 'won' | 'lost';
 }
 
 const initialState: IInitialState = {
   cards: getInitialCardsState(),
   hearts: 5,
   points: 0,
-  gameStatus: 'off',
 };
 
 export const memoSlice = createSlice({
@@ -47,11 +38,7 @@ export const memoSlice = createSlice({
         card.isFlipped = false;
       });
 
-      (() => {
-        if (state.hearts === 0) return;
-        if (state.hearts === 1) state.gameStatus = 'lost';
-        state.hearts--;
-      })();
+      if (state.hearts !== 0) state.hearts--;
     },
     check: (state) => {
       const currentlyComparedFlippedCards =
@@ -59,10 +46,6 @@ export const memoSlice = createSlice({
       currentlyComparedFlippedCards.forEach((card) => (card.isChecked = true));
 
       state.points += 100;
-      const isGameWon =
-        state.cards.filter((card) => card.isChecked).length ===
-        state.cards.length;
-      if (isGameWon) state.gameStatus = 'won';
     },
   },
 });
@@ -85,8 +68,6 @@ export const selectCurrentlyComparedFlippedCards = ({
 }) => getCurrentlyComparedFlippedCardsState(cards);
 
 export const selectHearts = (state: RootState) => state.memo.hearts;
-
-export const selectGameStatus = (state: RootState) => state.memo.gameStatus;
 
 export const selectPoints = (state: RootState) => state.memo.points;
 

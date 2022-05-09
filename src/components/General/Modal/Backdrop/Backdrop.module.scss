@@ -1,0 +1,14 @@
+@use '../../../../utils/scss/colors';
+@use '../../../../utils/scss/timings';
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: colors.$background-dark;
+  opacity: 0;
+  transition: opacity timings.$backdrop linear;
+
+  &--light {
+    background-color: colors.$background-dark-brightened;
+  }
+}

@@ -55,7 +55,6 @@ describe('card', () => {
         cards: [initialCardState as ICard],
         hearts: 2,
         points: 0,
-        gameStatus: 'on',
       },
       touch(id)
     );
@@ -88,7 +87,6 @@ describe('card', () => {
         cards: [initialCardState as ICard],
         hearts: 2,
         points: 0,
-        gameStatus: 'on',
       },
       touch(id)
     );

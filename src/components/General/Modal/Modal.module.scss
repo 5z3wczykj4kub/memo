@@ -1,0 +1,83 @@
+@use '../../../utils/scss/colors';
+@use '../../../utils/scss/timings';
+@use '../../../utils/scss/breakpoints';
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: calc(100% - 1rem);
+  max-width: 40rem;
+  background-color: colors.$background-light;
+  color: colors.$background-dark;
+  border-radius: 0.25rem;
+  opacity: 0;
+  transition: transform timings.$backdrop linear,
+    opacity timings.$backdrop linear;
+
+  @media (min-width: breakpoints.$sm) {
+    width: calc(100% - 2rem);
+  }
+
+  &--dark {
+    background-color: colors.$background-dark;
+    color: colors.$gray;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__heading {
+      font-size: 1rem;
+      font-weight: normal;
+      padding: 0.5rem;
+
+      @media (min-width: breakpoints.$sm) {
+        padding: 1rem;
+      }
+    }
+
+    &__icon-button {
+      border: none;
+      background-color: transparent;
+
+      &__icon {
+        box-sizing: content-box;
+        width: 1.5rem;
+        height: 1.5rem;
+        padding: 0.5rem;
+        cursor: pointer;
+
+        @media (min-width: breakpoints.$sm) {
+          padding: 1rem;
+        }
+
+        &--dark {
+          fill: colors.$gray;
+        }
+      }
+    }
+  }
+
+  &__body {
+    padding: 0.5rem;
+
+    @media (min-width: breakpoints.$sm) {
+      padding: 1rem;
+    }
+  }
+}
+
+.enterActive,
+.enterDone {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+.exitActive {
+  transform: translate(-50%, 0);
+  opacity: 0;
+}

@@ -61,7 +61,6 @@ describe('game', () => {
         cards: initialMatchingCardsStoreData as ICard[],
         hearts: 2,
         points: 0,
-        gameStatus: 'on',
       },
       touch(firstMatchingCardState.id)
     );
@@ -126,7 +125,6 @@ describe('game', () => {
         cards: allCardsStoreData as ICard[],
         hearts: 2,
         points: 0,
-        gameStatus: 'on',
       },
       touch(reactCardStoreData.id)
     );

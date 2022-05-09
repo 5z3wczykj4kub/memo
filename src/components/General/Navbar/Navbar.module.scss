@@ -2,6 +2,10 @@
 @use '../../../utils/scss/colors';
 @use '../../../utils/scss/breakpoints';
 
+// TODO:
+// Add fixed height
+// to prevent jumping effect
+// when all hearts disappear.
 .navbar {
   @include navbar.responsive-navbar-padding;
   display: flex;

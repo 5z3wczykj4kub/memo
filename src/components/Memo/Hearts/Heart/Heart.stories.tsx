@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import ThemeProvider from '../../../../providers/ThemeProvider';
+import '../../../../index.css';
 import Heart from './Heart';
 
 export default {

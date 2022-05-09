@@ -5,6 +5,8 @@ import { ReactComponent as StarIcon } from '../../../../assets/icons/star.svg';
 import useAppSelector from '../../../../hooks/useAppSelector';
 import useTheme from '../../../../hooks/useTheme';
 import { selectPoints } from '../../../../rtk/memoSlice';
+import TechnologyName from '../../../../utils/constants';
+import Modal, { useModal } from '../../Modal/Modal';
 import styles from './Points.module.scss';
 
 const Points = () => {
@@ -15,6 +17,13 @@ const Points = () => {
     setTransitionTrigger((prevState) => !prevState);
   }, [points]);
 
+  const [isModalVisible, setIsModalVisible] = useModal();
+
+  const onPointsTransitionEndHandler = () => {
+    const totalCardPairs = Object.keys(TechnologyName).length;
+    if (points === totalCardPairs * 100) setIsModalVisible(true);
+  };
+
   const { isDarkThemeUsed } = useTheme();
 
   const className = classNames({
@@ -23,16 +32,28 @@ const Points = () => {
   });
 
   return (
-    <CSSTransition
-      in={transitionTrigger}
-      timeout={200}
-      classNames={{ ...styles }}
-    >
-      <div className={styles.points}>
-        <StarIcon className={styles['points__star-icon']} />
-        <span className={className}>{points}</span>
-      </div>
-    </CSSTransition>
+    <>
+      <CSSTransition
+        in={transitionTrigger}
+        timeout={200}
+        classNames={{ ...styles }}
+        onEntered={onPointsTransitionEndHandler}
+        onExited={onPointsTransitionEndHandler}
+      >
+        <div className={styles.points}>
+          <StarIcon className={styles['points__star-icon']} />
+          <span className={className}>{points}</span>
+        </div>
+      </CSSTransition>
+      <Modal
+        isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
+        heading={<b>Congratulations!</b>}
+        variant={isDarkThemeUsed ? 'dark' : 'light'}
+      >
+        <p>You've won the game.</p>
+      </Modal>
+    </>
   );
 };
 
