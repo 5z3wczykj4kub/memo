@@ -1,18 +1,25 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as StarIcon } from '../../../../assets/icons/star.svg';
+import useAppDispatch from '../../../../hooks/useAppDispatch';
 import useAppSelector from '../../../../hooks/useAppSelector';
 import useTheme from '../../../../hooks/useTheme';
-import { selectPoints } from '../../../../rtk/memoSlice';
+import { restart, selectPoints } from '../../../../rtk/memoSlice';
 import TechnologyName from '../../../../utils/constants';
 import Button from '../../Button/Button';
 import Modal, { useModal } from '../../Modal/Modal';
 import styles from './Points.module.scss';
 
-const Points = () => {
+interface IPoints {
+  setIsGameOver: Dispatch<SetStateAction<boolean>>;
+}
+
+const Points = ({ setIsGameOver }: IPoints) => {
   const points = useAppSelector(selectPoints);
   const [transitionTrigger, setTransitionTrigger] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setTransitionTrigger((prevState) => !prevState);
@@ -22,7 +29,10 @@ const Points = () => {
 
   const onPointsTransitionEndHandler = () => {
     const totalCardPairs = Object.keys(TechnologyName).length;
-    if (points === totalCardPairs * 100) setIsModalVisible(true);
+    if (points === totalCardPairs * 100) {
+      setIsModalVisible(true);
+      setIsGameOver(true);
+    }
   };
 
   const { isDarkThemeUsed } = useTheme();
@@ -66,6 +76,11 @@ const Points = () => {
             className={styles['modal-footer__button']}
             tabIndex={3}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
+            onClick={() => {
+              setIsModalVisible(false);
+              setIsGameOver(false);
+              dispatch(restart());
+            }}
           >
             Play again
           </Button>

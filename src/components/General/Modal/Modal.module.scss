@@ -8,7 +8,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   width: calc(100% - 1rem);
-  max-width: 40rem;
+  max-width: 32.5rem;
   background-color: colors.$background-light;
   color: colors.$background-dark;
   border-radius: 0.25rem;
@@ -32,11 +32,7 @@
     &__heading {
       font-size: 1rem;
       font-weight: normal;
-      padding: 0.5rem;
-
-      @media (min-width: breakpoints.$sm) {
-        padding: 1rem;
-      }
+      padding: 1rem;
     }
 
     &__icon-button {
@@ -47,12 +43,8 @@
         box-sizing: content-box;
         width: 1.5rem;
         height: 1.5rem;
-        padding: 0.5rem;
+        padding: 1rem;
         cursor: pointer;
-
-        @media (min-width: breakpoints.$sm) {
-          padding: 1rem;
-        }
 
         &--dark {
           fill: colors.$gray;
@@ -62,11 +54,7 @@
   }
 
   &__body {
-    padding: 0.5rem;
-
-    @media (min-width: breakpoints.$sm) {
-      padding: 1rem;
-    }
+    padding: 1rem;
   }
 }
 

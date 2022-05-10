@@ -12,15 +12,15 @@ interface IInitialState {
   points: number;
 }
 
-const initialState: IInitialState = {
+const getInitialState = (): IInitialState => ({
   cards: getInitialCardsState(),
   hearts: 5,
   points: 0,
-};
+});
 
 export const memoSlice = createSlice({
   name: 'memo',
-  initialState,
+  initialState: getInitialState(),
   reducers: {
     touch: (state, action: PayloadAction<ICard['id']>) => {
       const card = getSpecificCardState(state.cards, action.payload);
@@ -47,6 +47,7 @@ export const memoSlice = createSlice({
 
       state.points += 100;
     },
+    restart: () => getInitialState(),
   },
 });
 
@@ -71,6 +72,6 @@ export const selectHearts = (state: RootState) => state.memo.hearts;
 
 export const selectPoints = (state: RootState) => state.memo.points;
 
-export const { touch, flip, unflip, check } = memoSlice.actions;
+export const { touch, flip, unflip, check, restart } = memoSlice.actions;
 
 export default memoSlice.reducer;

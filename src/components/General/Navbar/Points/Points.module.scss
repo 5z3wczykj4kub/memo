@@ -45,11 +45,7 @@
   }
 
   &__button {
-    padding: 0.5rem;
-
-    @media (min-width: breakpoints.$sm) {
-      padding: 0.75rem;
-    }
+    padding: 0.75rem;
   }
 }
 
