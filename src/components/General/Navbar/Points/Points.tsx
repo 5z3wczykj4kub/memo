@@ -5,7 +5,7 @@ import { ReactComponent as StarIcon } from '../../../../assets/icons/star.svg';
 import useAppDispatch from '../../../../hooks/useAppDispatch';
 import useAppSelector from '../../../../hooks/useAppSelector';
 import useTheme from '../../../../hooks/useTheme';
-import { restart, selectPoints } from '../../../../rtk/memoSlice';
+import { restart, selectPoints, shuffle } from '../../../../rtk/memoSlice';
 import TechnologyName from '../../../../utils/constants';
 import Button from '../../Button/Button';
 import Modal, { useModal } from '../../Modal/Modal';
@@ -80,6 +80,7 @@ const Points = ({ setIsGameOver }: IPoints) => {
               setIsModalVisible(false);
               setIsGameOver(false);
               dispatch(restart());
+              setTimeout(() => dispatch(shuffle()), 400);
             }}
           >
             Play again

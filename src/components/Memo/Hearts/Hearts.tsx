@@ -3,7 +3,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
-import { restart, selectHearts } from '../../../rtk/memoSlice';
+import { restart, selectHearts, shuffle } from '../../../rtk/memoSlice';
 import Button from '../../General/Button/Button';
 import Modal, { useModal } from '../../General/Modal/Modal';
 import Heart from './Heart/Heart';
@@ -39,6 +39,7 @@ const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
           onClick={() => {
             setIsGameOver(false);
             dispatch(restart());
+            setTimeout(() => dispatch(shuffle()), 400);
           }}
         >
           Play again
@@ -87,6 +88,7 @@ const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
               setIsModalVisible(false);
               setIsGameOver(false);
               dispatch(restart());
+              setTimeout(() => dispatch(shuffle()), 400);
             }}
           >
             Play again

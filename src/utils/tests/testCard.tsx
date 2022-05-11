@@ -3,6 +3,11 @@ import { ICard } from '../../rtk/types';
 import TechnologyName from '../constants';
 import { render, store } from './customRender';
 
+/**
+ * TODO:
+ * Rewrite tests as they fail
+ * because of added randomness.
+ */
 const initialCardState = {
   id: 'React.js8',
   name: 'React.js',

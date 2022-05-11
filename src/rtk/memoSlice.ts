@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import getInitialCardsState from '../utils/functions/getInitialCardsState';
 import getCurrentlyComparedFlippedCardsState from '../utils/functions/getCurrentlyComparedFlippedCardsState';
 import getCurrentlyComparedTouchedCardsState from '../utils/functions/getCurrentlyComparedTouchedCardsState';
+import getInitialCardsState from '../utils/functions/getInitialCardsState';
 import getSpecificCardState from '../utils/functions/getSpecificCardState';
+import shuffleCards from '../utils/functions/shuffleCards';
 import { RootState } from './store';
 import { ICard } from './types';
 
@@ -12,15 +13,17 @@ interface IInitialState {
   points: number;
 }
 
-const getInitialState = (): IInitialState => ({
-  cards: getInitialCardsState(),
+const getInitialState = (isInitial = false): IInitialState => ({
+  cards: isInitial
+    ? shuffleCards(getInitialCardsState())
+    : getInitialCardsState(),
   hearts: 5,
   points: 0,
 });
 
 export const memoSlice = createSlice({
   name: 'memo',
-  initialState: getInitialState(),
+  initialState: getInitialState(true),
   reducers: {
     touch: (state, action: PayloadAction<ICard['id']>) => {
       const card = getSpecificCardState(state.cards, action.payload);
@@ -47,7 +50,16 @@ export const memoSlice = createSlice({
 
       state.points += 100;
     },
-    restart: () => getInitialState(),
+    shuffle: (state) => ({ ...state, cards: shuffleCards(state.cards) }),
+    restart: (state) => ({
+      ...getInitialState(),
+      cards: state.cards.map((card) => ({
+        ...card,
+        isTouched: false,
+        isFlipped: false,
+        isChecked: false,
+      })),
+    }),
   },
 });
 
@@ -72,6 +84,7 @@ export const selectHearts = (state: RootState) => state.memo.hearts;
 
 export const selectPoints = (state: RootState) => state.memo.points;
 
-export const { touch, flip, unflip, check, restart } = memoSlice.actions;
+export const { touch, flip, unflip, check, shuffle, restart } =
+  memoSlice.actions;
 
 export default memoSlice.reducer;
