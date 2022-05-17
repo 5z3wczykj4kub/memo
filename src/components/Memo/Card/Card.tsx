@@ -74,8 +74,18 @@ const Card = ({ id: cardId, src, name }: ICard) => {
       onEntered={onCardTransitionEnteredHanlder}
     >
       <button className={className[0]} onClick={onCardClickHandler}>
-        <img className={className[1]} src='./images/code.png' alt='code' />
-        <img className={className[2]} src={src} alt={name} />
+        <img
+          className={className[1]}
+          src='./images/code.png'
+          alt='code'
+          hidden={isTouched}
+        />
+        <img
+          className={className[2]}
+          src={src}
+          alt={name}
+          hidden={!isTouched}
+        />
       </button>
     </CSSTransition>
   );

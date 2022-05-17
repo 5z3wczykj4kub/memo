@@ -9,3 +9,5 @@ export interface ICard {
   isFlipped: boolean;
   isChecked: boolean;
 }
+
+export type TDifficultyLevel = 'easy' | 'medium' | 'hard' | 'extreme';

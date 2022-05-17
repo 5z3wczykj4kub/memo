@@ -1,111 +1,82 @@
-import { AnyAction } from '@reduxjs/toolkit';
-import '@testing-library/jest-dom';
-import { fireEvent, screen } from '@testing-library/react';
-import reducer, { flip, touch } from '../../../rtk/memoSlice';
+import { configureStore } from '@reduxjs/toolkit';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import memoSlice from '../../../rtk/memoSlice';
 import { ICard } from '../../../rtk/types';
+import TechnologyName from '../../../utils/constants';
 import {
-  findCard,
-  getCardStoreData,
-  initialCardState,
-  renderCard,
-} from '../../../utils/tests/testCard';
+  getCard,
+  getCardImageByName,
+  getCodeImage,
+} from '../../../utils/tests/queries';
+import Card from './Card';
 
-describe('card', () => {
-  test('card renders', () => {
-    const { name } = getCardStoreData();
+const props: ICard = {
+  id: 'React.js8',
+  name: 'React.js',
+  fileName: 'react' as TechnologyName,
+  src: './images/react.png',
+  isTouched: false,
+  isFlipped: false,
+  isChecked: false,
+};
 
-    renderCard();
+beforeEach(() =>
+  render(
+    <Provider
+      store={configureStore({
+        reducer: {
+          memo: memoSlice,
+        },
+      })}
+    >
+      <Card {...props} />
+    </Provider>
+  )
+);
 
-    const cardBackImageElement = screen.getByAltText('code');
-    const cardFrontImageElement = screen.getByAltText(name);
-    const cardElement = cardFrontImageElement.parentElement;
+const getCardImage = () => getCardImageByName(props.name as 'React.js');
 
-    [cardBackImageElement, cardFrontImageElement, cardElement].forEach(
-      (element) => expect(element).toBeInTheDocument()
-    );
+describe('<Card />', () => {
+  test('renders', () => {
+    expect(getCodeImage()).toBeInTheDocument();
+    expect(getCodeImage()).toBeVisible();
 
-    [cardBackImageElement, cardFrontImageElement].forEach((element) =>
-      expect(cardElement).toContainElement(element)
-    );
+    expect(getCardImage()).toBeInTheDocument();
+    expect(getCardImage()).not.toBeVisible();
 
-    expect(cardElement).toHaveClass('card');
-
-    expect(reducer(undefined, {} as AnyAction).cards.find(findCard)).toEqual(
-      initialCardState
-    );
+    expect(getCard()).toBeInTheDocument();
+    expect(getCard()).toBeVisible();
   });
 
-  test('card gets touched', () => {
-    const { id, name } = getCardStoreData();
+  test('focuses on tab', async () => {
+    const user = userEvent.setup();
 
-    renderCard();
+    expect(getCard()).not.toHaveFocus();
 
-    const cardElement = screen.getByAltText(name).parentElement;
+    await user.tab();
 
-    fireEvent.click(cardElement as Element);
-
-    expect(cardElement).toHaveClass('card card--flipped card--disabled');
-
-    const { isTouched } = getCardStoreData();
-
-    expect(isTouched).toBe(true);
-
-    const cardsStateAfterTouch = reducer(
-      {
-        cards: [initialCardState as ICard],
-        hearts: 2,
-        points: 0,
-      },
-      touch(id)
-    );
-
-    const cardElementTouched = cardsStateAfterTouch.cards.find(findCard);
-
-    expect(cardElementTouched).toEqual({
-      ...initialCardState,
-      isTouched: true,
-    });
+    expect(getCard()).toHaveFocus();
   });
 
-  test('card gets flipped', () => {
-    const { id, name } = getCardStoreData();
+  test('flips on click', async () => {
+    const user = userEvent.setup();
 
-    renderCard();
+    await user.click(getCard());
 
-    const cardElement = screen.getByAltText(name).parentElement;
+    expect(getCodeImage()).not.toBeVisible();
 
-    fireEvent.click(cardElement as Element);
+    expect(getCardImage()).toBeVisible();
+  });
 
-    expect(cardElement).toHaveClass('card card--flipped card--disabled');
+  test('flips on tab + enter', async () => {
+    const user = userEvent.setup();
 
-    const { isFlipped } = getCardStoreData();
+    await user.keyboard('{Tab}{Enter}');
 
-    expect(isFlipped).toBe(true);
+    expect(getCodeImage()).not.toBeVisible();
 
-    const cardsStateAfterTouch = reducer(
-      {
-        cards: [initialCardState as ICard],
-        hearts: 2,
-        points: 0,
-      },
-      touch(id)
-    );
-
-    const cardElementTouched = cardsStateAfterTouch.cards.find(findCard);
-
-    expect(cardElementTouched).toEqual({
-      ...initialCardState,
-      isTouched: true,
-    });
-
-    const cardsStateAfterFlip = reducer(cardsStateAfterTouch, flip(id));
-
-    const cardElementFlipped = cardsStateAfterFlip.cards.find(findCard);
-
-    expect(cardElementFlipped).toEqual({
-      ...initialCardState,
-      isTouched: true,
-      isFlipped: true,
-    });
+    expect(getCardImage()).toBeVisible();
   });
 });

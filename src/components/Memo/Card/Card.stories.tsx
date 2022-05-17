@@ -39,7 +39,7 @@ const Template: ComponentStory<typeof Memo.Card> = (args) => (
 export const Default = Template.bind({});
 
 Default.args = {
-  id: 'React.js8',
+  id: store.getState().memo.cards[0].id,
   name: 'React.js',
   fileName: 'react' as TechnologyName,
   src: './images/react.png',

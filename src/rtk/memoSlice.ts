@@ -5,21 +5,28 @@ import getInitialCardsState from '../utils/functions/getInitialCardsState';
 import getSpecificCardState from '../utils/functions/getSpecificCardState';
 import shuffleCards from '../utils/functions/shuffleCards';
 import { RootState } from './store';
-import { ICard } from './types';
+import { ICard, TDifficultyLevel } from './types';
 
 interface IInitialState {
   cards: ICard[];
   hearts: number;
   points: number;
+  difficultyLevel: TDifficultyLevel;
 }
 
-const getInitialState = (isInitial = false): IInitialState => ({
-  cards: isInitial
-    ? shuffleCards(getInitialCardsState())
-    : getInitialCardsState(),
-  hearts: 5,
-  points: 0,
-});
+const getInitialState = (isInitial = false): IInitialState => {
+  const getDifficultyLevel = () =>
+    (localStorage.getItem('difficultyLevel') as TDifficultyLevel) || 'medium';
+
+  return {
+    cards: isInitial
+      ? shuffleCards(getInitialCardsState(getDifficultyLevel()))
+      : getInitialCardsState(getDifficultyLevel()),
+    hearts: 5,
+    points: 0,
+    difficultyLevel: getDifficultyLevel(),
+  };
+};
 
 export const memoSlice = createSlice({
   name: 'memo',

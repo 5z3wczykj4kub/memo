@@ -1,6 +1,6 @@
 import React from 'react';
 
-describe('memo', () => {
+describe('<Memo />', () => {
   test('checks if there are any numbers within the range of [0, 30] divisible by {2, 3, 5}', () => {
     const maxNumber = 30;
     const divisors = [2, 3, 5];

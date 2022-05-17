@@ -1,161 +1,97 @@
-import { AnyAction } from '@reduxjs/toolkit';
-import '@testing-library/jest-dom';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
-import reducer, { check, flip, touch, unflip } from '../../../rtk/memoSlice';
+import { configureStore } from '@reduxjs/toolkit';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import memoSlice from '../../../rtk/memoSlice';
 import { ICard } from '../../../rtk/types';
-import getInitialCardsState from '../../../utils/functions/getInitialCardsState';
+import TechnologyName from '../../../utils/constants';
 import {
-  getAllCardsStoreData,
-  getMatchingCardsStoreData,
-  renderCards,
-} from '../../../utils/tests/testCard';
+  getAllCardImagesByName,
+  getAllCodeImages,
+} from '../../../utils/tests/queries';
+import Memo from '../Memo';
 
-describe('game', () => {
-  test('cards render', () => {
-    renderCards();
+const reactCardsProps: [ICard, ICard] = [
+  {
+    id: 'React.js8',
+    name: 'React.js',
+    fileName: 'react' as TechnologyName,
+    src: './images/react.png',
+    isTouched: false,
+    isFlipped: false,
+    isChecked: false,
+  },
+  {
+    id: 'React.js17',
+    name: 'React.js',
+    fileName: 'react' as TechnologyName,
+    src: './images/react.png',
+    isTouched: false,
+    isFlipped: false,
+    isChecked: false,
+  },
+];
 
-    const cardBackImageElements = screen.getAllByAltText('code');
+const angularCardPorps: [ICard, ICard] = [
+  {
+    id: 'Angular.js0',
+    name: 'Angular.js',
+    fileName: 'angular' as TechnologyName,
+    src: './images/angular.png',
+    isTouched: false,
+    isFlipped: false,
+    isChecked: false,
+  },
+  {
+    id: 'Angular.js9',
+    name: 'Angular.js',
+    fileName: 'angular' as TechnologyName,
+    src: './images/angular.png',
+    isTouched: false,
+    isFlipped: false,
+    isChecked: false,
+  },
+];
 
-    const cardElements = cardBackImageElements.map(
-      (cardBackImageElement) => cardBackImageElement.parentElement
-    );
+beforeEach(() =>
+  render(
+    <Provider
+      store={configureStore({
+        reducer: {
+          memo: memoSlice,
+        },
+      })}
+    >
+      <Memo.Grid>
+        {[...reactCardsProps, ...angularCardPorps].map((card) => (
+          <Memo.Card key={card.id} {...card} />
+        ))}
+      </Memo.Grid>
+    </Provider>
+  )
+);
 
-    cardElements.forEach((cardElement, index) => {
-      expect(cardElement).toContainElement(cardBackImageElements[index]);
-      expect(cardElement).toBeInTheDocument();
-      expect(cardElement).toHaveClass('card');
+describe('<Game />', () => {
+  test('renders', () => {
+    const codeImages = getAllCodeImages();
+    const cardImages = [
+      ...getAllCardImagesByName('React.js'),
+      ...getAllCardImagesByName('Angular.js'),
+    ];
+    const cards = cardImages.map((cardImage) => cardImage.parentElement);
+
+    codeImages.forEach((codeImage) => {
+      expect(codeImage).toBeInTheDocument();
+      expect(codeImage).toBeVisible();
     });
 
-    expect(cardElements).toHaveLength(30);
-
-    expect(reducer(undefined, {} as AnyAction).cards).toEqual(
-      getInitialCardsState()
-    );
-  });
-
-  test('cards get checked', () => {
-    const initialMatchingCardsStoreData = getMatchingCardsStoreData();
-
-    renderCards();
-
-    const [firstMatchingCardElement, secondMatchingCardElement] =
-      screen.getAllByAltText('React.js');
-
-    [firstMatchingCardElement, secondMatchingCardElement].forEach(
-      (matchingCardElement) => fireEvent.click(matchingCardElement)
-    );
-
-    const [firstMatchingCardState, secondMatchingCardState] =
-      getMatchingCardsStoreData();
-
-    [firstMatchingCardState, secondMatchingCardState].forEach(
-      (matchingCardState) => {
-        expect(matchingCardState.isTouched).toBe(true);
-        expect(matchingCardState.isFlipped).toBe(true);
-        waitFor(() => expect(matchingCardState.isChecked).toBe(true));
-      }
-    );
-
-    const cardsStateAfterFirstMatchingCardTouch = reducer(
-      {
-        cards: initialMatchingCardsStoreData as ICard[],
-        hearts: 2,
-        points: 0,
-      },
-      touch(firstMatchingCardState.id)
-    );
-
-    const cardsStateAfterSecondMatchingCardTouch = reducer(
-      cardsStateAfterFirstMatchingCardTouch,
-      touch(secondMatchingCardState.id)
-    );
-
-    const cardsStateAfterFirstMatchingCardFlip = reducer(
-      cardsStateAfterSecondMatchingCardTouch,
-      flip(firstMatchingCardState.id)
-    );
-
-    const cardsStateAfterSecondMatchingCardFlip = reducer(
-      cardsStateAfterFirstMatchingCardFlip,
-      flip(secondMatchingCardState.id)
-    );
-
-    const { cards: cardsStateAfterCheck } = reducer(
-      cardsStateAfterSecondMatchingCardFlip,
-      check()
-    );
-
-    cardsStateAfterCheck.forEach((cardStateAfterCheck) =>
-      expect(cardStateAfterCheck).toEqual({
-        ...cardStateAfterCheck,
-        isTouched: true,
-        isFlipped: true,
-        isChecked: true,
-      })
-    );
-  });
-
-  test('cards get unflipped', () => {
-    renderCards();
-
-    const reactCardElement =
-      screen.getAllByAltText('React.js')[0].parentElement!;
-    const angularCardElement =
-      screen.getAllByAltText('Angular.js')[0].parentElement!;
-
-    fireEvent.click(reactCardElement);
-    fireEvent.click(angularCardElement);
-
-    const allCardsStoreData = getAllCardsStoreData();
-    const reactCardStoreData = allCardsStoreData.find(
-      ({ name }) => name === 'React.js'
-    )!;
-    const angularCardStoreData = allCardsStoreData.find(
-      ({ name }) => name === 'Angular.js'
-    )!;
-
-    [reactCardStoreData, angularCardStoreData].forEach((card) => {
-      expect(card?.isTouched).toBe(true);
-      expect(card?.isFlipped).toBe(true);
-      waitFor(() => expect(card?.isChecked).toBe(true));
+    cardImages.forEach((cardImage) => {
+      expect(cardImage).toBeInTheDocument();
+      expect(cardImage).not.toBeVisible();
     });
 
-    const cardsStateAfterReactCardTouch = reducer(
-      {
-        cards: allCardsStoreData as ICard[],
-        hearts: 2,
-        points: 0,
-      },
-      touch(reactCardStoreData.id)
-    );
-
-    const cardsStateAfterAngularCardTouch = reducer(
-      cardsStateAfterReactCardTouch,
-      touch(angularCardStoreData.id)
-    );
-
-    const cardsStateAfterReactCardFlip = reducer(
-      cardsStateAfterAngularCardTouch,
-      flip(reactCardStoreData.id)
-    );
-
-    const cardsStateAfterAngularCardFlip = reducer(
-      cardsStateAfterReactCardFlip,
-      flip(angularCardStoreData.id)
-    );
-
-    const { cards: cardsStateAfterUnflip } = reducer(
-      cardsStateAfterAngularCardFlip,
-      unflip()
-    );
-
-    cardsStateAfterUnflip.forEach((cardStateAfterUnflip) =>
-      expect(cardStateAfterUnflip).toEqual({
-        ...cardStateAfterUnflip,
-        isTouched: false,
-        isFlipped: false,
-        isChecked: false,
-      })
-    );
+    cards.forEach((card) => {
+      expect(card).toBeInTheDocument();
+      expect(card).toBeVisible();
+    });
   });
 });

@@ -11,6 +11,7 @@ $grid-max-size: 50rem;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
+  align-content: flex-start;
   width: $grid-size;
   max-width: $grid-max-size;
   height: $grid-size;
