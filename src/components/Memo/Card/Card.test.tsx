@@ -3,16 +3,11 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import memoSlice from '../../../rtk/memoSlice';
-import { ICard } from '../../../rtk/types';
 import TechnologyName from '../../../utils/constants';
-import {
-  getCard,
-  getCardImageByName,
-  getCodeImage,
-} from '../../../utils/tests/queries';
 import Card from './Card';
+import TestCard from '../../../utils/tests/TestCard.class';
 
-const props: ICard = {
+const testCard = new TestCard({
   id: 'React.js8',
   name: 'React.js',
   fileName: 'react' as TechnologyName,
@@ -20,7 +15,7 @@ const props: ICard = {
   isTouched: false,
   isFlipped: false,
   isChecked: false,
-};
+});
 
 beforeEach(() =>
   render(
@@ -31,52 +26,32 @@ beforeEach(() =>
         },
       })}
     >
-      <Card {...props} />
+      <Card {...testCard} />
     </Provider>
   )
 );
 
-const getCardImage = () => getCardImageByName(props.name as 'React.js');
-
 describe('<Card />', () => {
-  test('renders', () => {
-    expect(getCodeImage()).toBeInTheDocument();
-    expect(getCodeImage()).toBeVisible();
-
-    expect(getCardImage()).toBeInTheDocument();
-    expect(getCardImage()).not.toBeVisible();
-
-    expect(getCard()).toBeInTheDocument();
-    expect(getCard()).toBeVisible();
-  });
+  test('renders', () => testCard.expectToBeUnflipped());
 
   test('focuses on tab', async () => {
     const user = userEvent.setup();
-
-    expect(getCard()).not.toHaveFocus();
-
+    expect(testCard.getCard()).not.toHaveFocus();
     await user.tab();
-
-    expect(getCard()).toHaveFocus();
+    expect(testCard.getCard()).toHaveFocus();
   });
 
   test('flips on click', async () => {
     const user = userEvent.setup();
-
-    await user.click(getCard());
-
-    expect(getCodeImage()).not.toBeVisible();
-
-    expect(getCardImage()).toBeVisible();
+    testCard.expectToBeUnflipped();
+    await user.click(testCard.getCard());
+    testCard.expectToBeFlipped();
   });
 
   test('flips on tab + enter', async () => {
     const user = userEvent.setup();
-
+    testCard.expectToBeUnflipped();
     await user.keyboard('{Tab}{Enter}');
-
-    expect(getCodeImage()).not.toBeVisible();
-
-    expect(getCardImage()).toBeVisible();
+    testCard.expectToBeFlipped();
   });
 });

@@ -73,7 +73,11 @@ const Card = ({ id: cardId, src, name }: ICard) => {
       onEntering={onCardTransitionEnteringHandler}
       onEntered={onCardTransitionEnteredHanlder}
     >
-      <button className={className[0]} onClick={onCardClickHandler}>
+      <button
+        className={className[0]}
+        onClick={onCardClickHandler}
+        data-testid={cardId}
+      >
         <img
           className={className[1]}
           src='./images/code.png'
