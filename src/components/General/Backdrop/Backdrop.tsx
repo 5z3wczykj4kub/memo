@@ -10,12 +10,7 @@ interface IBackdrop {
   onClick?: () => void;
 }
 
-const Backdrop = ({
-  isVisible,
-  opacity = 0,
-  variant,
-  onClick = () => {},
-}: IBackdrop) => (
+const Backdrop = ({ isVisible, opacity = 0, variant, onClick }: IBackdrop) => (
   <Transition in={isVisible} timeout={100} appear mountOnEnter unmountOnExit>
     {(state) => (
       <div
@@ -27,6 +22,7 @@ const Backdrop = ({
           opacity: state === 'entered' ? opacity : state === 'exiting' ? 0 : 0,
         }}
         onClick={onClick}
+        data-testid='backdrop'
       ></div>
     )}
   </Transition>

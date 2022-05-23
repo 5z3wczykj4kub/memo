@@ -11,7 +11,7 @@ const Divider = ({ variant = 'light' }: IDivider) => {
     [styles['divider--dark']]: variant === 'dark',
   });
 
-  return <div className={className}></div>;
+  return <div className={className} data-testid='divider'></div>;
 };
 
 export default Divider;

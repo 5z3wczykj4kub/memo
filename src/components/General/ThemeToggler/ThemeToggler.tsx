@@ -44,6 +44,7 @@ const ThemeToggler = ({
       className={buttonClassName}
       style={style}
       onClick={() => toggleDarkTheme()}
+      data-testid='theme-toggler'
     >
       <span className={styles['theme-toggler__icon-container']}>
         <SunIcon className={sunIconClassName} />

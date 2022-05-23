@@ -1,4 +1,4 @@
-import Navbar from '../../components/General/Navbar/Navbar';
+import Navbar from '../../components/Memo/Navbar/Navbar';
 import Memo from '../../components/Memo/Memo';
 
 const Main = () => {

@@ -28,6 +28,11 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "^.*\\.stories\\.[jt]sx?$"
+    ]
+  },
   "eslintConfig": {
     "extends": "react-app",
     "overrides": [

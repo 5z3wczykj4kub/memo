@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/close.svg';
 import Divider from '../Divider/Divider';
-import BackdropWithPortal, { Backdrop } from './Backdrop/Backdrop';
+import BackdropWithPortal, { Backdrop } from '../Backdrop/Backdrop';
 import styles from './Modal.module.scss';
 
 /**

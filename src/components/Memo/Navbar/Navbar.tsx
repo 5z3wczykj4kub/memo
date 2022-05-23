@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Hearts from '../../Memo/Hearts/Hearts';
-import ThemeToggler from '../ThemeToggler/ThemeToggler';
+import Hearts from '../Hearts/Hearts';
+import ThemeToggler from '../../General/ThemeToggler/ThemeToggler';
 import styles from './Navbar.module.scss';
-import Points from './Points/Points';
+import Points from '../Points/Points';
 
 const Navbar = () => {
   const [isGameOver, setIsGameOver] = useState(false);

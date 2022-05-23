@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import '../../../../index.css';
+import '../../../index.css';
 import { Backdrop } from './Backdrop';
 
 export default {
