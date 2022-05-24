@@ -5,8 +5,12 @@ import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
-import { restart, selectPoints, shuffle } from '../../../rtk/memoSlice';
-import TechnologyName from '../../../utils/constants';
+import {
+  restart,
+  selectCards,
+  selectPoints,
+  shuffle,
+} from '../../../rtk/memoSlice';
 import Button from '../../General/Button/Button';
 import Modal, { useModal } from '../../General/Modal/Modal';
 import styles from './Points.module.scss';
@@ -27,8 +31,9 @@ const Points = ({ setIsGameOver }: IPoints) => {
 
   const [isModalVisible, setIsModalVisible] = useModal();
 
+  const totalCardPairs = useAppSelector(selectCards).length / 2;
+
   const onPointsTransitionEndHandler = () => {
-    const totalCardPairs = Object.keys(TechnologyName).length;
     if (points === totalCardPairs * 100) {
       setIsModalVisible(true);
       setIsGameOver(true);

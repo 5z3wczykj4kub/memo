@@ -13,9 +13,11 @@ describe('<ThemeToggler />', () => {
 
   test('toggles theme', async () => {
     render(<ThemeToggler />);
+    expect(document.body).not.toHaveClass('dark-theme');
     expect(document.body).toHaveStyle('background-color: "#fff"');
     const user = userEvent.setup();
     await user.click(getThemeToggler());
+    expect(document.body).toHaveClass('dark-theme');
     expect(document.body).toHaveStyle('background-color: "#333"');
   });
 });

@@ -30,7 +30,9 @@
   },
   "jest": {
     "coveragePathIgnorePatterns": [
-      "^.*\\.stories\\.[jt]sx?$"
+      "^.*\\.stories\\.[jt]sx?$",
+      "src/index.tsx",
+      "src/serviceWorker.ts"
     ]
   },
   "eslintConfig": {

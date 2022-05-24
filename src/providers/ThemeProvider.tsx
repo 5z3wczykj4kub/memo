@@ -1,6 +1,6 @@
 import {
   createContext,
-  ReactChild,
+  ReactElement,
   useContext,
   useEffect,
   useState,
@@ -15,7 +15,7 @@ const defaultValue = {
 
 const ThemeContext = createContext(defaultValue);
 
-const ThemeProvider = ({ children }: { children: ReactChild }) => {
+const ThemeProvider = ({ children }: { children?: ReactElement }) => {
   const themeContext = useContext(ThemeContext);
 
   const [isDarkThemeUsed, setIsDarkThemeUsed] = useState(
