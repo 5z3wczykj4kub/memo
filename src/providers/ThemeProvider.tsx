@@ -22,12 +22,11 @@ const ThemeProvider = ({ children }: { children?: ReactElement }) => {
     themeContext.isDarkThemeUsed
   );
 
-  /**
-   * FIXME:
-   * Component mounting makes flashing effect.
-   */
   useEffect(() => {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (
+      localStorage.getItem('theme') === 'dark' ||
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
       document.body.classList.add(DARK_THEME_CLASS_NAME);
       setIsDarkThemeUsed(true);
     }
@@ -36,6 +35,7 @@ const ThemeProvider = ({ children }: { children?: ReactElement }) => {
   const toggleDarkTheme = () => {
     const isDarkThemeUsed = themeContext.toggleDarkTheme();
     setIsDarkThemeUsed(isDarkThemeUsed);
+    localStorage.setItem('theme', isDarkThemeUsed ? 'dark' : 'light');
     return isDarkThemeUsed;
   };
 

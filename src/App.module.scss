@@ -5,9 +5,11 @@
   body {
     background-color: colors.$background-light;
     transition: background-color timings.$dark-theme-toggle;
+    color: colors.$background-dark;
   }
 
   .dark-theme {
     background-color: colors.$background-dark;
+    color: colors.$gray;
   }
 }

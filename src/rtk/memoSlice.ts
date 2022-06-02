@@ -58,6 +58,7 @@ export const memoSlice = createSlice({
       state.points += 100;
     },
     shuffle: (state) => ({ ...state, cards: shuffleCards(state.cards) }),
+    start: () => getInitialState(true),
     restart: (state) => ({
       ...getInitialState(),
       cards: state.cards.map((card) => ({
@@ -91,7 +92,7 @@ export const selectHearts = (state: RootState) => state.memo.hearts;
 
 export const selectPoints = (state: RootState) => state.memo.points;
 
-export const { touch, flip, unflip, check, shuffle, restart } =
+export const { touch, flip, unflip, check, shuffle, start, restart } =
   memoSlice.actions;
 
 export default memoSlice.reducer;

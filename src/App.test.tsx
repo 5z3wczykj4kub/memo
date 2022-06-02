@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import memoSlice from './rtk/memoSlice';
 
@@ -21,7 +22,9 @@ describe('<App />', () => {
           },
         })}
       >
-        <App />
+        <Router>
+          <App />
+        </Router>
       </Provider>
     );
     waitFor(() => expect(document.getElementById('app')).toBeInTheDocument());

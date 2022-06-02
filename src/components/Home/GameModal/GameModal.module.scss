@@ -1,0 +1,42 @@
+@use '../../../utils/scss/colors';
+@use '../../../utils/scss/breakpoints';
+@use '../../../utils/scss/layout';
+
+.game-modal {
+  &__step {
+    margin-bottom: 1rem;
+  }
+
+  &__mode {
+    @include layout.center;
+    justify-content: space-around;
+
+    &__option {
+      @include layout.center;
+      gap: 0.5rem;
+      cursor: pointer;
+
+      &--active {
+        text-decoration: underline;
+      }
+
+      &__controller-icon {
+        width: 2rem;
+        height: 2rem;
+
+        &--dark {
+          fill: colors.$background-light;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    margin-top: 1rem;
+
+    &__button {
+      display: block;
+      margin-left: auto;
+    }
+  }
+}

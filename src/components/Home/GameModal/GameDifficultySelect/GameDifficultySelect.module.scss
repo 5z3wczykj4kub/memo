@@ -1,0 +1,105 @@
+@use '../../../../utils/scss/colors';
+@use '../../../../utils/scss/layout';
+@use '../../../../utils/scss/timings';
+@use '../../../../utils/scss/breakpoints';
+
+.game-difficulty-select {
+  &__label {
+    display: block;
+    margin-block: 1rem;
+  }
+
+  &__button {
+    @include layout.center;
+    justify-content: space-between;
+    gap: 0.25rem;
+    width: 100%;
+    padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+    background-color: colors.$background-light;
+    border: 1px solid colors.$background-dark;
+    border-radius: 0.25rem;
+    font-size: inherit;
+    transition: background-color timings.$select linear;
+    cursor: pointer;
+
+    @media (min-width: breakpoints.$sm) {
+      width: 10.85rem;
+    }
+
+    &:hover {
+      background-color: colors.$gray-brightened;
+    }
+
+    &--dark {
+      color: colors.$gray;
+      background-color: colors.$background-dark;
+      border-color: colors.$gray;
+
+      &:hover {
+        background-color: colors.$background-dark-brightened;
+      }
+
+      svg {
+        fill: colors.$gray !important;
+      }
+
+      &.game-difficulty-select__button--active {
+        border-bottom: 1px solid colors.$gray;
+      }
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: colors.$background-dark;
+    }
+
+    &--active {
+      border-bottom: 1px solid colors.$background-dark;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__menu {
+    border-top: 0;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    list-style: none;
+    font-size: inherit;
+    overflow: hidden;
+
+    @media (min-width: breakpoints.$sm) {
+      width: 10.85rem;
+    }
+
+    &--active {
+      border: 1px solid colors.$background-dark;
+      border-top: 0;
+    }
+
+    &--dark {
+      color: colors.$gray;
+      background-color: colors.$background-dark;
+      border-color: colors.$gray;
+    }
+
+    &__option {
+      padding: 0.5rem 0.75rem;
+      transition: background-color timings.$select linear;
+      cursor: pointer;
+
+      &--dark.game-difficulty-select__menu__option--highlighted {
+        background-color: colors.$background-dark-brightened;
+      }
+
+      &--highlighted {
+        background-color: colors.$gray-brightened;
+      }
+    }
+  }
+}
