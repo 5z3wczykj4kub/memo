@@ -65,6 +65,10 @@
           }
         }
       }
+
+      &__button {
+        background-color: colors.$gray-brightened;
+      }
     }
   }
 }

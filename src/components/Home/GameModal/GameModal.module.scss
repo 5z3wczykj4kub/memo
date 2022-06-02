@@ -1,6 +1,7 @@
 @use '../../../utils/scss/colors';
 @use '../../../utils/scss/breakpoints';
 @use '../../../utils/scss/layout';
+@use '../../../utils/scss/timings';
 
 .game-modal {
   &__step {
@@ -9,15 +10,35 @@
 
   &__mode {
     @include layout.center;
+    flex-direction: column;
+    row-gap: 1rem;
     justify-content: space-around;
+
+    @media (min-width: breakpoints.$sm) {
+      flex-direction: row;
+      column-gap: 1rem;
+    }
 
     &__option {
       @include layout.center;
       gap: 0.5rem;
+      width: 100%;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+      background-color: colors.$gray-brightened;
+      transition: timings.$select linear;
       cursor: pointer;
 
+      &--dark {
+        background-color: colors.$background-dark-muted;
+      }
+
       &--active {
-        text-decoration: underline;
+        background-color: colors.$gray;
+
+        &.game-modal__mode__option--dark {
+          background-color: colors.$background-dark-brightened;
+        }
       }
 
       &__controller-icon {

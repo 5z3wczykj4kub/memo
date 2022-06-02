@@ -33,8 +33,15 @@ const HomeCard = ({ setIsModalVisible }: IHomeCard) => {
               alt='code'
             />
           </h1>
-          <Button onClick={() => setIsModalVisible(true)}>Play game</Button>
-          <Button>Settings</Button>
+          <Button
+            className={styles['home__card__rows__button']}
+            onClick={() => setIsModalVisible(true)}
+          >
+            Play game
+          </Button>
+          <Button className={styles['home__card__rows__button']}>
+            Settings
+          </Button>
         </div>
       </div>
     </div>

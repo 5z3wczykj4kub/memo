@@ -14,6 +14,7 @@ const GameModeOption = ({ mode, active, onClick }: IGameModeOption) => {
 
   const gameModeClassName = classNames({
     [styles['game-modal__mode__option']]: true,
+    [styles['game-modal__mode__option--dark']]: isDarkThemeUsed,
     [styles['game-modal__mode__option--active']]: active,
   });
 
