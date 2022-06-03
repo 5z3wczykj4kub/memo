@@ -1,18 +1,20 @@
 {
   "files": {
-    "main.css": "/memo/static/css/main.e2c6fa43.css",
-    "main.js": "/memo/static/js/main.aedd786e.js",
+    "main.css": "/memo/static/css/main.8c6998fd.css",
+    "main.js": "/memo/static/js/main.2a8c4499.js",
+    "static/media/game-controller.svg": "/memo/static/media/game-controller.6013f866b4595fc281f1c87f01d268cd.svg",
     "static/media/star.svg": "/memo/static/media/star.5c3288129a405b427dcc2574d9752c2e.svg",
     "static/media/sun.svg": "/memo/static/media/sun.f8653db37885713856e4d7c2a9a5e8e2.svg",
     "index.html": "/memo/index.html",
     "static/media/heart.svg": "/memo/static/media/heart.bf3a5fd6e5f76c1a4afce5d5540b5600.svg",
     "static/media/moon.svg": "/memo/static/media/moon.3110b6b43dc0da840d299ca2c33e13bc.svg",
     "static/media/close.svg": "/memo/static/media/close.3338e53b501cbdc001ef59c0ce7d7a3c.svg",
-    "main.e2c6fa43.css.map": "/memo/static/css/main.e2c6fa43.css.map",
-    "main.aedd786e.js.map": "/memo/static/js/main.aedd786e.js.map"
+    "static/media/chevron.svg": "/memo/static/media/chevron.42fdbd969cae64fafd99a54b1b755cf4.svg",
+    "main.8c6998fd.css.map": "/memo/static/css/main.8c6998fd.css.map",
+    "main.2a8c4499.js.map": "/memo/static/js/main.2a8c4499.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2c6fa43.css",
-    "static/js/main.aedd786e.js"
+    "static/css/main.8c6998fd.css",
+    "static/js/main.2a8c4499.js"
   ]
 }
