@@ -11,7 +11,7 @@
   &__mode {
     @include layout.center;
     flex-direction: column;
-    row-gap: 1rem;
+    row-gap: 0.75rem;
     justify-content: space-around;
 
     @media (min-width: breakpoints.$sm) {
@@ -20,14 +20,31 @@
     }
 
     &__option {
+      // TODO: Temp positioning.
+      position: relative;
       @include layout.center;
       gap: 0.5rem;
       width: 100%;
       padding: 0.25rem;
+      border: 0;
       border-radius: 0.25rem;
+      font-size: inherit;
+      color: inherit;
       background-color: colors.$gray-brightened;
       transition: timings.$select linear;
       cursor: pointer;
+
+      // TODO: Temp info.
+      &:last-of-type {
+        &::after {
+          content: 'Work in progress. Comming soon.';
+          position: absolute;
+          bottom: 0;
+          transform: translateY(100%);
+          font-size: 0.6rem;
+          color: #888;
+        }
+      }
 
       &--dark {
         background-color: colors.$background-dark-muted;

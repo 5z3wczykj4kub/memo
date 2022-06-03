@@ -6,7 +6,7 @@ import styles from '../../GameModal.module.scss';
 interface IGameModeOption {
   mode: 'single' | 'multi';
   active: boolean;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const GameModeOption = ({ mode, active, onClick }: IGameModeOption) => {
@@ -25,13 +25,13 @@ const GameModeOption = ({ mode, active, onClick }: IGameModeOption) => {
   });
 
   return (
-    <div className={gameModeClassName} onClick={onClick}>
+    <button className={gameModeClassName} onClick={onClick}>
       {mode.toUpperCase()}
       <GameControllerIcon className={gameControllerClassName} />
       {mode === 'multi' && (
         <GameControllerIcon className={gameControllerClassName} />
       )}
-    </div>
+    </button>
   );
 };
 
