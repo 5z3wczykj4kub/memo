@@ -21,17 +21,11 @@ const addUserValidator = [
     .isLength({ min: 5, max: 20 })
     .withMessage(USERNAME_LENGTH_VALIDATION_MESSAGE)
     .custom(async (username) => {
-      /**
-       * FIXME:
-       * `userCount` always returns 1
-       */
-      const userCount = await User.count({
-        where: { username },
-      });
-      console.log('userCount', userCount);
-      const isUsernameAlreadyUsed = !!userCount;
+      const isUsernameAlreadyUsed = !!(await User.count({
+        username,
+      }));
       if (isUsernameAlreadyUsed)
-        throw new Error(USERNAME_UNIQUENESS_VALIDATION_MESSAGE);
+        return Promise.reject(USERNAME_UNIQUENESS_VALIDATION_MESSAGE);
       return true;
     }),
   body('password', PASSWORD_VALIDATION_MESSAGE)
