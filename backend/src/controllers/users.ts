@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User';
 
 const addUserController = async (
@@ -18,7 +19,9 @@ const addUserController = async (
 
   await user.save();
 
-  return res.status(201).json(user);
+  const token = jwt.sign({ ...user.format() }, process.env.JWT_SECRET!);
+
+  return res.status(201).json({ ...user.format(), token });
 };
 
 export { addUserController };

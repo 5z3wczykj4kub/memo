@@ -20,5 +20,5 @@ try {
     });
   })();
 } catch (error) {
-  console.error('Setting up the development server failed');
+  console.error('Development server crashed');
 }
