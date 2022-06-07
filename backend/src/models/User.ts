@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { PASSWORD_VALIDATION_REG_EXP } from '../validators/users';
+import { PASSWORD_VALIDATION_REG_EXP } from '../validators/auth';
 
 export interface IUser {
+  id: string;
   username: string;
   password: string;
   format: () => IUser;
