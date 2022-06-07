@@ -21,7 +21,7 @@ const GameModal = ({ isModalVisible, setIsModalVisible }: IGameModal) => {
     <Modal
       isVisible={isModalVisible}
       setIsVisible={setIsModalVisible}
-      heading='Choose game mode and difficulty'
+      heading={<b>Choose game mode and difficulty</b>}
       variant={isDarkThemeUsed ? 'dark' : 'light'}
     >
       <div className={styles['game-modal']}>

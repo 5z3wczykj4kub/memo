@@ -5,10 +5,14 @@ import Button from '../../General/Button/Button';
 import styles from './HomeCard.module.scss';
 
 interface IHomeCard {
-  setIsModalVisible: Dispatch<SetStateAction<boolean>>;
+  setIsGameModalVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSettingslVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const HomeCard = ({ setIsModalVisible }: IHomeCard) => {
+const HomeCard = ({
+  setIsGameModalVisible,
+  setIsSettingslVisible,
+}: IHomeCard) => {
   const { isDarkThemeUsed } = useTheme();
 
   const headingClassName = classNames({
@@ -35,11 +39,14 @@ const HomeCard = ({ setIsModalVisible }: IHomeCard) => {
           </h1>
           <Button
             className={styles['home__card__rows__button']}
-            onClick={() => setIsModalVisible(true)}
+            onClick={() => setIsGameModalVisible(true)}
           >
             Play game
           </Button>
-          <Button className={styles['home__card__rows__button']}>
+          <Button
+            className={styles['home__card__rows__button']}
+            onClick={() => setIsSettingslVisible(true)}
+          >
             Settings
           </Button>
         </div>

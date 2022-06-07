@@ -47,19 +47,21 @@ const getModalJSX = ({
         mountOnEnter
         unmountOnExit
       >
-        <div className={className[0]} style={style}>
-          <header className={className[1]}>
-            <h2 className={className[2]}>{heading}</h2>
-            <button
-              className={className[3]}
-              tabIndex={1 /* TODO: Best use of tabindex. */}
-              onClick={() => setIsVisible(false)}
-            >
-              <CloseIcon className={className[4]} />
-            </button>
-          </header>
-          <Divider variant={variant} />
-          <main className={className[5]}>{children}</main>
+        <div className={styles.modal} style={style}>
+          <div className={className[0]}>
+            <header className={className[1]}>
+              <h2 className={className[2]}>{heading}</h2>
+              <button
+                className={className[3]}
+                tabIndex={1 /* TODO: Best use of tabindex. */}
+                onClick={() => setIsVisible(false)}
+              >
+                <CloseIcon className={className[4]} />
+              </button>
+            </header>
+            <Divider variant={variant} />
+            <main className={className[5]}>{children}</main>
+          </div>
         </div>
       </CSSTransition>
     </>
@@ -72,7 +74,6 @@ const getModalJSX = ({
 
 const getClassName = (variant: IModal['variant']) => [
   classNames({
-    [styles.modal]: true,
     [styles['modal--dark']]: variant === 'dark',
   }),
   classNames({

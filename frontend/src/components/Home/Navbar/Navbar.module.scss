@@ -1,0 +1,26 @@
+@use '../../../utils/scss/colors';
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+  &__sign-in-link {
+    padding: 1rem;
+    text-decoration: none;
+    color: colors.$background-dark;
+
+    &--dark {
+      color: colors.$gray;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

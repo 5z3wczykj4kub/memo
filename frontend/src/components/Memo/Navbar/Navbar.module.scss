@@ -14,13 +14,4 @@
     gap: 1rem;
     height: 3rem;
   }
-
-  &__theme-toggler {
-    position: absolute;
-    right: 0.5rem;
-
-    @media (min-width: breakpoints.$sm) {
-      right: 1rem;
-    }
-  }
 }
