@@ -1,0 +1,48 @@
+@use '../../../utils/scss/colors';
+@use '../../../utils/scss/timings';
+@use '../../../utils/scss/breakpoints';
+
+.textfield {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @media (min-width: breakpoints.$sm) {
+    max-width: 14.75rem;
+  }
+
+  &__label {
+    margin-bottom: 0.25rem;
+  }
+
+  &__input {
+    margin: 0;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid colors.$background-dark;
+    border-radius: 0.25rem;
+    transition: background-color timings.$select;
+
+    &:focus,
+    &:hover {
+      outline: 0;
+      background-color: colors.$gray-brightened;
+    }
+
+    &--dark {
+      color: colors.$gray;
+      background-color: unset;
+      border-color: colors.$gray;
+
+      &:focus,
+      &:hover {
+        background-color: colors.$background-dark-brightened;
+      }
+    }
+  }
+
+  &__error-message {
+    font-size: 0.85rem;
+    color: colors.$error;
+  }
+}
