@@ -1,28 +1,45 @@
 import { Form, Formik, FormikHelpers } from 'formik';
+import useAppDispatch from '../../../hooks/useAppDispatch';
 import useTheme from '../../../hooks/useTheme';
+import { ISignUpFormValues, useSignUpMutation } from '../../../rtk/authApi';
+import { setCurrentUser } from '../../../rtk/authSlice';
 import Button from '../../General/Button/Button';
 import TextField from '../../General/TextField/TextField';
 import initialValues from './initialValues';
 import styles from './SignUpForm.module.scss';
 import validationSchema from './validationSchema';
 
-interface ISignUpFormValues {
-  username: string;
-  password: string;
-  confirmedPassword: string;
-}
-
 const SignUpForm = () => {
   const { isDarkThemeUsed } = useTheme();
 
-  const onSubmitHandler = (
+  /**
+   * TODO:
+   * What's the difference between
+   * `isLoading` and `isFetching`?
+   */
+  const [signUp, { isLoading }] = useSignUpMutation();
+
+  const dispatch = useAppDispatch();
+
+  const onSubmitHandler = async (
     values: ISignUpFormValues,
     { setSubmitting }: FormikHelpers<ISignUpFormValues>
   ) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+    try {
+      const currentUserData = await signUp(values).unwrap();
+      dispatch(setCurrentUser(currentUserData));
+      /**
+       * TODO:
+       * What's `setSubmitting` function doing?
+       */
       setSubmitting(false);
-    }, 400);
+    } catch (error) {
+      /**
+       * TODO:
+       * Handle error.
+       */
+      console.log('error', error);
+    }
   };
 
   return (
@@ -47,7 +64,7 @@ const SignUpForm = () => {
           <Button
             className={styles['form__submit-button']}
             type='submit'
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
           >
             Submit
