@@ -6,12 +6,12 @@ import styles from './HomeCard.module.scss';
 
 interface IHomeCard {
   setIsGameModalVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSettingslVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSettingsModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 const HomeCard = ({
   setIsGameModalVisible,
-  setIsSettingslVisible,
+  setIsSettingsModalVisible,
 }: IHomeCard) => {
   const { isDarkThemeUsed } = useTheme();
 
@@ -45,7 +45,7 @@ const HomeCard = ({
           </Button>
           <Button
             className={styles['home__card__rows__button']}
-            onClick={() => setIsSettingslVisible(true)}
+            onClick={() => setIsSettingsModalVisible(true)}
           >
             Settings
           </Button>

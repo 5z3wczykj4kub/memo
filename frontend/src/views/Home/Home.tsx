@@ -3,11 +3,13 @@ import { useModal } from '../../components/General/Modal/Modal';
 import HomeCard from '../../components/Home/HomeCard/HomeCard';
 import Navbar from '../../components/Home/Navbar/Navbar';
 import SettingsModal from '../../components/Home/SettingsModal/SettingsModal';
+import SignUpModal from '../../components/Home/SignUpModal/SignUpModal';
 import GameModal from './../../components/Home/GameModal/GameModal';
 
 const Home = () => {
   const [isGameModalVisible, setIsGameModalVisible] = useModal();
-  const [isSettingslVisible, setIsSettingslVisible] = useModal();
+  const [isSettingsModalVisible, setIsSettingsModalVisible] = useModal();
+  const [isSignUpModalVisible, setIsSignUpModalVisible] = useModal();
 
   useEffect(() => {
     document.body.classList.add('home');
@@ -16,18 +18,22 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar setIsSignUpModalVisible={setIsSignUpModalVisible} />
       <HomeCard
         setIsGameModalVisible={setIsGameModalVisible}
-        setIsSettingslVisible={setIsSettingslVisible}
+        setIsSettingsModalVisible={setIsSettingsModalVisible}
       />
       <GameModal
         isModalVisible={isGameModalVisible}
         setIsModalVisible={setIsGameModalVisible}
       />
       <SettingsModal
-        isModalVisible={isSettingslVisible}
-        setIsModalVisible={setIsSettingslVisible}
+        isModalVisible={isSettingsModalVisible}
+        setIsModalVisible={setIsSettingsModalVisible}
+      />
+      <SignUpModal
+        isModalVisible={isSignUpModalVisible}
+        setIsModalVisible={setIsSignUpModalVisible}
       />
     </>
   );

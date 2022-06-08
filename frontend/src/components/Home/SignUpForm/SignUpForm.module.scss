@@ -1,0 +1,90 @@
+@use '../../../utils/scss/layout';
+@use '../../../utils/scss/colors';
+@use '../../../utils/scss/timings';
+@use '../../../utils/scss/breakpoints';
+
+.form {
+  @include layout.center;
+  flex-direction: column;
+  row-gap: 1rem;
+  position: relative;
+
+  @media (min-width: breakpoints.$sm) {
+    align-items: flex-end;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @media (min-width: breakpoints.$sm) {
+      max-width: 14.75rem;
+    }
+
+    &:first-of-type {
+      &::before {
+        content: url('../../../assets/icons/registration.svg');
+        position: absolute;
+        top: 50%;
+        left: 25%;
+        transform: translate(-50%, -50%);
+        display: none;
+        width: 8rem;
+        height: 8rem;
+        opacity: 0.25;
+
+        @media (min-width: breakpoints.$sm) {
+          display: block;
+        }
+      }
+    }
+
+    &--dark {
+      &:first-of-type {
+        &::before {
+          filter: invert(100%);
+        }
+      }
+    }
+
+    &__label {
+      margin-bottom: 0.25rem;
+    }
+
+    &__input {
+      margin: 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid colors.$background-dark;
+      border-radius: 0.25rem;
+      transition: background-color timings.$select;
+
+      &:focus,
+      &:hover {
+        outline: 0;
+        background-color: colors.$gray-brightened;
+      }
+
+      &--dark {
+        color: colors.$gray;
+        background-color: unset;
+        border-color: colors.$gray;
+
+        &:focus,
+        &:hover {
+          background-color: colors.$background-dark-brightened;
+        }
+      }
+    }
+
+    &__error-message {
+      font-size: 0.85rem;
+      color: colors.$error;
+    }
+  }
+
+  &__submit-button {
+    align-self: flex-end;
+  }
+}

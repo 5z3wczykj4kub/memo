@@ -23,7 +23,7 @@ const INVALID_TOKEN_MESSAGE = 'Invalid token';
 const USER_NOT_FOUND_MESSAGE = "User doesn't exist";
 
 const PASSWORD_VALIDATION_REG_EXP =
-  /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'\|\\<,>.?\/\d]){12,72}$/;
+  /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'|\\<,>.?/\d]){12,72}$/;
 
 const signUpValidator = [
   body('username')
