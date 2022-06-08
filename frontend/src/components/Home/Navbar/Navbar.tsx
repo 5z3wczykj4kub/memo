@@ -8,9 +8,13 @@ import styles from './Navbar.module.scss';
 
 interface INavbar {
   setIsSignUpModalVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSignInModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const Navbar = ({ setIsSignUpModalVisible }: INavbar) => {
+const Navbar = ({
+  setIsSignUpModalVisible,
+  setIsSignInModalVisible,
+}: INavbar) => {
   const { isDarkThemeUsed } = useTheme();
 
   return (
@@ -21,6 +25,7 @@ const Navbar = ({ setIsSignUpModalVisible }: INavbar) => {
           [styles['navbar__link--dark']]: isDarkThemeUsed,
         })}
         to='#'
+        onClick={() => setIsSignInModalVisible(true)}
       >
         <SignInIcon
           className={classNames({

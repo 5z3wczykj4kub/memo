@@ -14,14 +14,18 @@ const PASSWORD_DO_NOT_MATCH_VALIDATION_MESSAGE = "Passwords don't match";
 const PASSWORD_VALIDATION_REG_EXP =
   /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'|\\<,>.?/\d]){12,72}$/;
 
+export const usernameValidation = Yup.string()
+  .min(5, USERNAME_MIN_LENGTH_VALIDATION_MESSAGE)
+  .max(15, USERNAME_MAX_LENGTH_VALIDATION_MESSAGE)
+  .required(REQUIRED_VALIDATION_MESSAGE);
+
+export const passwordValidation = Yup.string()
+  .matches(PASSWORD_VALIDATION_REG_EXP, PASSWORD_LENGTH_VALIDATION_MESSAGE)
+  .required(REQUIRED_VALIDATION_MESSAGE);
+
 const validationSchema = Yup.object({
-  username: Yup.string()
-    .min(5, USERNAME_MIN_LENGTH_VALIDATION_MESSAGE)
-    .max(15, USERNAME_MAX_LENGTH_VALIDATION_MESSAGE)
-    .required(REQUIRED_VALIDATION_MESSAGE),
-  password: Yup.string()
-    .matches(PASSWORD_VALIDATION_REG_EXP, PASSWORD_LENGTH_VALIDATION_MESSAGE)
-    .required(REQUIRED_VALIDATION_MESSAGE),
+  username: usernameValidation,
+  password: passwordValidation,
   confirmedPassword: Yup.string()
     .oneOf([Yup.ref('password')], PASSWORD_DO_NOT_MATCH_VALIDATION_MESSAGE)
     .required(REQUIRED_VALIDATION_MESSAGE),

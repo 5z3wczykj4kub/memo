@@ -24,14 +24,14 @@
 
     &:first-of-type {
       &::before {
-        content: url('../../../assets/icons/signup.svg');
+        content: url('../../../assets/icons/signin.svg');
         position: absolute;
         top: 50%;
         left: 25%;
-        transform: translate(-50%, -60%);
+        transform: translate(-50%, -65%);
         display: none;
-        width: 8rem;
-        height: 8rem;
+        width: 7.75rem;
+        height: 7.75rem;
         opacity: 0.25;
 
         @media (min-width: breakpoints.$sm) {
