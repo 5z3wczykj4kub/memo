@@ -1,17 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
-
-export interface ICurrentUser {
-  id: string | null;
-  username: string | null;
-  token: string | null;
-}
-
-export interface ISignUpFormValues {
-  username: string;
-  password: string;
-  confirmedPassword: string;
-}
+import { ICurrentUser, ISignUpFormValues } from './types';
 
 export const authApi = createApi({
   baseQuery: fetchBaseQuery({

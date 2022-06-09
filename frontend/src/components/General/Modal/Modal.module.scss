@@ -40,6 +40,7 @@
       background-color: transparent;
 
       &__icon {
+        fill: colors.$background-dark;
         box-sizing: content-box;
         width: 1.5rem;
         height: 1.5rem;

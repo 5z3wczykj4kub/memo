@@ -1,0 +1,35 @@
+@use '../../../utils/scss/colors';
+
+.toast-container {
+  :global {
+    .Toastify__toast {
+      min-height: 1rem;
+    }
+
+    .Toastify__toast-theme--light {
+      color: colors.$background-dark;
+      background-color: colors.$background-light;
+    }
+
+    .Toastify__toast-theme--dark {
+      color: colors.$gray;
+      background-color: colors.$background-dark;
+    }
+  }
+
+  &__close-button {
+    min-width: 0.9rem;
+    height: 0.9rem;
+    border: none;
+    background-color: transparent;
+
+    &__icon {
+      fill: colors.$background-dark;
+      cursor: pointer;
+
+      &--dark {
+        fill: colors.$gray;
+      }
+    }
+  }
+}

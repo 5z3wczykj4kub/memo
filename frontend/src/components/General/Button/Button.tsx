@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import styles from './Button.module.scss';
+import { Icons } from 'react-toastify';
 
 interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   style?: React.CSSProperties;
@@ -11,6 +12,8 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
+
+const { spinner: Spinner } = Icons;
 
 const Button = (props: IButton) => {
   const { className, children, isLoading, variant = 'light' } = props;
@@ -25,7 +28,10 @@ const Button = (props: IButton) => {
         [className!]: true,
       })}
     >
-      {children}
+      <>
+        {children}
+        {isLoading && <Spinner />}
+      </>
     </button>
   );
 };

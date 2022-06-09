@@ -7,9 +7,15 @@ const USERNAME_MAX_LENGTH_VALIDATION_MESSAGE = 'Must be 15 characters or less';
 const REQUIRED_VALIDATION_MESSAGE = 'Required';
 
 const PASSWORD_LENGTH_VALIDATION_MESSAGE =
-  'Must be between 12 and 72 characters long';
+  'Password must be between 12 and 72 characters long and not contain any whitespaces';
 
 const PASSWORD_DO_NOT_MATCH_VALIDATION_MESSAGE = "Passwords don't match";
+
+export const SIGN_UP_TOAST_MESSAGE = {
+  PENDING: 'Signing up...',
+  SUCCESS: 'Signed up successfully',
+  ERROR: 'Signing up failed',
+};
 
 const PASSWORD_VALIDATION_REG_EXP =
   /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'|\\<,>.?/\d]){12,72}$/;

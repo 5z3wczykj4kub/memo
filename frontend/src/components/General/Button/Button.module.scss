@@ -4,6 +4,8 @@
 @use '../../../utils/scss/animations';
 
 .button {
+  @include layout.center;
+  column-gap: 0.25rem;
   padding: 0.75rem;
   border: none;
   border-radius: 0.25rem;
@@ -19,28 +21,37 @@
     color: colors.$gray;
   }
 
-  &--loading {
-    @include layout.center;
-    column-gap: 0.25rem;
-
-    &::after {
-      content: '';
-      display: inline-flex;
-      width: 0.85rem;
-      height: 0.85rem;
-      border: 0.125rem solid colors.$background-dark;
-      border-radius: 50%;
-      border-left-color: transparent;
-      @include animations.spin;
-    }
+  div {
+    width: 0.85rem;
+    height: 0.85rem;
   }
 
-  &--loading.button--dark {
-    &::after {
-      border-color: colors.$gray;
-      border-left-color: transparent;
-    }
-  }
+  // NOTE:
+  // Custom CSS spinner.
+  // Left for eventual future purposes.
+
+  // &--loading {
+  //   @include layout.center;
+  //   column-gap: 0.25rem;
+
+  //   &::after {
+  //     content: '';
+  //     display: inline-flex;
+  //     width: 0.85rem;
+  //     height: 0.85rem;
+  //     border: 0.125rem solid colors.$background-dark;
+  //     border-radius: 50%;
+  //     border-left-color: transparent;
+  //     @include animations.spin;
+  //   }
+  // }
+
+  // &--loading.button--dark {
+  //   &::after {
+  //     border-color: colors.$gray;
+  //     border-left-color: transparent;
+  //   }
+  // }
 
   &:disabled {
     opacity: 0.5;

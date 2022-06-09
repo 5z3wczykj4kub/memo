@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICurrentUser } from './authApi';
 import { RootState } from './store';
+import { ICurrentUser } from './types';
 
 const initialState: ICurrentUser = {
   id: null,
