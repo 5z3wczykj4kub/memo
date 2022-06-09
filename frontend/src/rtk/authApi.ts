@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
-import { ICurrentUser, ISignUpFormValues } from './types';
+import { ICurrentUser, IAuthenticateFormValues } from './types';
 
 export const authApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -15,9 +15,16 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    signUp: builder.mutation<ICurrentUser, ISignUpFormValues>({
+    signUp: builder.mutation<ICurrentUser, IAuthenticateFormValues>({
       query: (credentials) => ({
         url: '/signup',
+        method: 'POST',
+        body: credentials,
+      }),
+    }),
+    signIn: builder.mutation<ICurrentUser, IAuthenticateFormValues>({
+      query: (credentials) => ({
+        url: '/signin',
         method: 'POST',
         body: credentials,
       }),
@@ -30,4 +37,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useSignUpMutation } = authApi;
+export const { useSignUpMutation, useSignInMutation } = authApi;

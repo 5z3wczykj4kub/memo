@@ -24,6 +24,8 @@
     background-color: transparent;
 
     &__icon {
+      width: 100%;
+      height: 100%;
       fill: colors.$background-dark;
       cursor: pointer;
 

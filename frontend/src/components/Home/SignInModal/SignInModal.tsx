@@ -18,7 +18,7 @@ const SignInModal = ({ isModalVisible, setIsModalVisible }: ISignInModal) => {
       heading={<b>Sign in</b>}
       variant={isDarkThemeUsed ? 'dark' : 'light'}
     >
-      <SignInForm />
+      <SignInForm setIsModalVisible={setIsModalVisible} />
     </Modal>
   );
 };

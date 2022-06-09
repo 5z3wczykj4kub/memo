@@ -5,6 +5,7 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import App from '../../App';
+import authSlice from '../../rtk/authSlice';
 import memoSlice from '../../rtk/memoSlice';
 import Main from '../Main/Main';
 
@@ -81,6 +82,7 @@ const customRender = () => {
       store={configureStore({
         reducer: {
           memo: memoSlice,
+          auth: authSlice,
         },
       })}
     >

@@ -1,27 +1,48 @@
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Form, Formik } from 'formik';
+import { Dispatch, SetStateAction } from 'react';
+import { toast } from 'react-toastify';
+import useAppDispatch from '../../../hooks/useAppDispatch';
 import useTheme from '../../../hooks/useTheme';
+import { useSignInMutation } from '../../../rtk/authApi';
+import { setCurrentUser } from '../../../rtk/authSlice';
+import {
+  IAuthenticateFormValues,
+  IResponseCatchError,
+} from '../../../rtk/types';
 import Button from '../../General/Button/Button';
 import TextField from '../../General/TextField/TextField';
 import initialValues from './initialValues';
 import styles from './SignInForm.module.scss';
-import validationSchema from './validationSchema';
+import validationSchema, { SIGN_IN_TOAST_MESSAGE } from './validationSchema';
 
-interface ISignInFormValues {
-  username: string;
-  password: string;
+interface ISignInForm {
+  setIsModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const SignInForm = () => {
+const SignInForm = ({ setIsModalVisible }: ISignInForm) => {
   const { isDarkThemeUsed } = useTheme();
 
-  const onSubmitHandler = (
-    values: ISignInFormValues,
-    { setSubmitting }: FormikHelpers<ISignInFormValues>
-  ) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+  const [signIn, { isLoading }] = useSignInMutation();
+
+  const dispatch = useAppDispatch();
+
+  const onSubmitHandler = async (values: IAuthenticateFormValues) => {
+    try {
+      const currentUserData = await toast.promise(signIn(values).unwrap(), {
+        pending: SIGN_IN_TOAST_MESSAGE.PENDING,
+        success: {
+          render: ({ data }) => SIGN_IN_TOAST_MESSAGE.SUCCESS(data!.username!),
+        },
+        error: SIGN_IN_TOAST_MESSAGE.ERROR,
+      });
+      localStorage.setItem('token', currentUserData.token!);
+      dispatch(setCurrentUser(currentUserData));
+      setIsModalVisible(false);
+    } catch (error) {
+      (error as IResponseCatchError).data.errors.forEach(({ message }) =>
+        toast.error(message, { toastId: message })
+      );
+    }
   };
 
   return (
@@ -30,7 +51,7 @@ const SignInForm = () => {
       validationSchema={validationSchema}
       onSubmit={onSubmitHandler}
     >
-      {({ isSubmitting }) => (
+      {({ isValid }) => (
         <Form className={styles.form}>
           <TextField
             id='username'
@@ -41,7 +62,8 @@ const SignInForm = () => {
           <Button
             className={styles['form__submit-button']}
             type='submit'
-            disabled={isSubmitting}
+            isLoading={isLoading}
+            disabled={!isValid || isLoading}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
           >
             Submit

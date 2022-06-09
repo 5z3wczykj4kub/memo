@@ -5,7 +5,10 @@ import useAppDispatch from '../../../hooks/useAppDispatch';
 import useTheme from '../../../hooks/useTheme';
 import { useSignUpMutation } from '../../../rtk/authApi';
 import { setCurrentUser } from '../../../rtk/authSlice';
-import { IResponseCatchError, ISignUpFormValues } from '../../../rtk/types';
+import {
+  IResponseCatchError,
+  IAuthenticateFormValues,
+} from '../../../rtk/types';
 import Button from '../../General/Button/Button';
 import TextField from '../../General/TextField/TextField';
 import initialValues from './initialValues';
@@ -23,7 +26,7 @@ const SignUpForm = ({ setIsModalVisible }: ISignUpForm) => {
 
   const dispatch = useAppDispatch();
 
-  const onSubmitHandler = async (values: ISignUpFormValues) => {
+  const onSubmitHandler = async (values: IAuthenticateFormValues) => {
     try {
       const currentUserData = await toast.promise(signUp(values).unwrap(), {
         pending: SIGN_UP_TOAST_MESSAGE.PENDING,

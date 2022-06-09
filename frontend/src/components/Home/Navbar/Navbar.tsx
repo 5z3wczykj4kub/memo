@@ -3,9 +3,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as SignInIcon } from '../../../assets/icons/login.svg';
 import { ReactComponent as SignUpIcon } from '../../../assets/icons/person.svg';
+import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
-import { selectCurrentUser } from '../../../rtk/authSlice';
+import { selectCurrentUser, unsetCurrentUser } from '../../../rtk/authSlice';
 import styles from './Navbar.module.scss';
 
 interface INavbar {
@@ -20,6 +21,8 @@ const Navbar = ({
   const { isDarkThemeUsed } = useTheme();
 
   const currentUser = useAppSelector(selectCurrentUser);
+
+  const dispatch = useAppDispatch();
 
   return (
     <nav className={styles.navbar}>
@@ -51,9 +54,15 @@ const Navbar = ({
         onClick={() => {
           /**
            * TODO:
-           * Handle sign out.
+           * 1. Display sign out message.
+           * 2. Hide "Sign up" and "Sign in" links
+           * when the verifying token request is pending.
            */
-          if (currentUser.username) return;
+          if (currentUser.username) {
+            localStorage.removeItem('token');
+            dispatch(unsetCurrentUser());
+            return;
+          }
           setIsSignInModalVisible(true);
         }}
       >

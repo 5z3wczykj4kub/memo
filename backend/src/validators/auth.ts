@@ -7,20 +7,18 @@ const USERNAME_LENGTH_VALIDATION_MESSAGE =
 
 const USERNAME_UNIQUENESS_VALIDATION_MESSAGE = 'Username already used';
 
-const USERNAME_NOT_FOUND_MESSAGE = "Username doesn't exist";
-
 const PASSWORD_VALIDATION_MESSAGE =
   'Password must be between 12 and 72 characters long and not contain any whitespaces';
 
 const PASSWORDS_DON_NOT_MATCH_MESSAGE = "Passwords don't match";
-
-const CONFIRMED_PASSWORD_VALIDATION_MESSAGE = "Passwords don't match";
 
 const MISSING_TOKEN_MESSAGE = 'Missing authorization token';
 
 const INVALID_TOKEN_MESSAGE = 'Invalid token';
 
 const USER_NOT_FOUND_MESSAGE = "User doesn't exist";
+
+const INVALID_USERNAME_OR_PASSWORD_MESSAGE = 'Invalid username or password';
 
 const PASSWORD_VALIDATION_REG_EXP =
   /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'|\\<,>.?/\d]){12,72}$/;
@@ -41,7 +39,7 @@ const signUpValidator = [
   body('password', PASSWORD_VALIDATION_MESSAGE)
     .trim()
     .matches(PASSWORD_VALIDATION_REG_EXP),
-  body('confirmedPassword', CONFIRMED_PASSWORD_VALIDATION_MESSAGE)
+  body('confirmedPassword', PASSWORDS_DON_NOT_MATCH_MESSAGE)
     .trim()
     .custom((confirmedPassword, { req }) => {
       if (confirmedPassword !== req.body.password) throw new Error();
@@ -64,9 +62,9 @@ export {
   signUpValidator,
   signInValidator,
   PASSWORD_VALIDATION_REG_EXP,
-  USERNAME_NOT_FOUND_MESSAGE,
   PASSWORDS_DON_NOT_MATCH_MESSAGE,
   MISSING_TOKEN_MESSAGE,
   INVALID_TOKEN_MESSAGE,
   USER_NOT_FOUND_MESSAGE,
+  INVALID_USERNAME_OR_PASSWORD_MESSAGE,
 };

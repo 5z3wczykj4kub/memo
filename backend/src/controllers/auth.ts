@@ -2,10 +2,7 @@ import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User, { IUser } from '../models/User';
-import {
-  PASSWORDS_DON_NOT_MATCH_MESSAGE,
-  USERNAME_NOT_FOUND_MESSAGE,
-} from '../validators/auth';
+import { INVALID_USERNAME_OR_PASSWORD_MESSAGE } from '../validators/auth';
 
 const signUpController = async (
   req: Request<{}, IUser, IUser>,
@@ -38,14 +35,18 @@ const signInController = async (
 
   if (!user)
     return res.status(404).json({
-      errors: [{ message: USERNAME_NOT_FOUND_MESSAGE, param: 'username' }],
+      errors: [
+        { message: INVALID_USERNAME_OR_PASSWORD_MESSAGE, param: 'username' },
+      ],
     });
 
   const arePasswordsMatching = await bcrypt.compare(password, user.password);
 
   if (!arePasswordsMatching)
     return res.status(401).json({
-      errors: [{ message: PASSWORDS_DON_NOT_MATCH_MESSAGE, param: 'password' }],
+      errors: [
+        { message: INVALID_USERNAME_OR_PASSWORD_MESSAGE, param: 'password' },
+      ],
     });
 
   return res.json({

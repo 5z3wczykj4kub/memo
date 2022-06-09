@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import './App.module.scss';
 import ToastContainer from './components/General/ToastContainer/ToastContainer';
+import { SIGN_IN_TOAST_MESSAGE } from './components/Home/SignInForm/validationSchema';
 import useAppDispatch from './hooks/useAppDispatch';
 import useEffectOnce from './hooks/useEffectOnce';
 import { authApi } from './rtk/authApi';
@@ -19,11 +20,11 @@ const App = () => {
     if (!localStorage.getItem('token')) return;
     try {
       const currentUserData = await toast.promise(getCurrentUser().unwrap(), {
-        pending: 'Fetching user profile...',
+        pending: SIGN_IN_TOAST_MESSAGE.PENDING,
         success: {
-          render: ({ data }) => `Welcome ${data?.username}`,
+          render: ({ data }) => SIGN_IN_TOAST_MESSAGE.SUCCESS(data!.username!),
         },
-        error: 'Signing in failed',
+        error: SIGN_IN_TOAST_MESSAGE.ERROR,
       });
       dispatch(setCurrentUser(currentUserData));
     } catch (error) {

@@ -6,10 +6,10 @@ export interface ICurrentUser {
   token: string | null;
 }
 
-export interface ISignUpFormValues {
+export interface IAuthenticateFormValues {
   username: string;
   password: string;
-  confirmedPassword: string;
+  confirmedPassword?: string;
 }
 
 export interface IResponseCatchError {
