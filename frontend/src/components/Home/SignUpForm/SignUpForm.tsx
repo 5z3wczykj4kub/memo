@@ -64,6 +64,7 @@ const SignUpForm = () => {
           <Button
             className={styles['form__submit-button']}
             type='submit'
+            isLoading={isLoading}
             disabled={isSubmitting || isLoading}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
           >

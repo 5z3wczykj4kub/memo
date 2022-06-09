@@ -8,11 +8,12 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   tabIndex?: number;
   variant?: 'light' | 'dark';
+  isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Button = (props: IButton) => {
-  const { className, children, variant = 'light' } = props;
+  const { className, children, isLoading, variant = 'light' } = props;
 
   return (
     <button
@@ -20,6 +21,7 @@ const Button = (props: IButton) => {
       className={classNames({
         [styles.button]: true,
         [styles['button--dark']]: variant === 'dark',
+        [styles['button--loading']]: isLoading,
         [className!]: true,
       })}
     >
