@@ -30,6 +30,7 @@ const SignUpForm = ({ setIsModalVisible }: ISignUpForm) => {
         success: SIGN_UP_TOAST_MESSAGE.SUCCESS,
         error: SIGN_UP_TOAST_MESSAGE.ERROR,
       });
+      localStorage.setItem('token', currentUserData.token!);
       dispatch(setCurrentUser(currentUserData));
       setIsModalVisible(false);
     } catch (error) {

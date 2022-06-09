@@ -71,7 +71,6 @@ const Points = ({ setIsGameOver }: IPoints) => {
         <div className={styles['modal-footer']}>
           <Button
             className={styles['modal-footer__button']}
-            tabIndex={2}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
             onClick={() => setIsModalVisible(false)}
           >
@@ -79,7 +78,6 @@ const Points = ({ setIsGameOver }: IPoints) => {
           </Button>
           <Button
             className={styles['modal-footer__button']}
-            tabIndex={3}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
             onClick={() => {
               setIsModalVisible(false);

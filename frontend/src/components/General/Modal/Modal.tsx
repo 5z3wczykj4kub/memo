@@ -53,7 +53,6 @@ const getModalJSX = ({
               <h2 className={className[2]}>{heading}</h2>
               <button
                 className={className[3]}
-                tabIndex={1 /* TODO: Best use of tabindex. */}
                 onClick={() => setIsVisible(false)}
               >
                 <CloseIcon className={className[4]} />

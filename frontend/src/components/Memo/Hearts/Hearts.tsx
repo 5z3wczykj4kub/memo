@@ -74,7 +74,6 @@ const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
         <div className={styles['modal-footer']}>
           <Button
             className={styles['modal-footer__button']}
-            tabIndex={2}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
             onClick={() => setIsModalVisible(false)}
           >
@@ -82,7 +81,6 @@ const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
           </Button>
           <Button
             className={styles['modal-footer__button']}
-            tabIndex={3}
             variant={isDarkThemeUsed ? 'dark' : 'light'}
             onClick={() => {
               setIsModalVisible(false);

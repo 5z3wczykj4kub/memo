@@ -7,7 +7,6 @@ interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   style?: React.CSSProperties;
   className?: string;
   children?: ReactNode;
-  tabIndex?: number;
   variant?: 'light' | 'dark';
   isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;

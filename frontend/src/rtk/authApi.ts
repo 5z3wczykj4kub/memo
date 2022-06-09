@@ -6,7 +6,8 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_AUTH_API_ENDPOINT,
     prepareHeaders: (headers, { getState }) => {
-      const { token } = (getState() as RootState).auth;
+      const token =
+        (getState() as RootState).auth.token || localStorage.getItem('token');
       if (token) {
         headers.set('authorization', `Bearer ${token}`);
       }
@@ -19,6 +20,11 @@ export const authApi = createApi({
         url: '/signup',
         method: 'POST',
         body: credentials,
+      }),
+    }),
+    getCurrentUser: builder.query<ICurrentUser, void>({
+      query: () => ({
+        url: '/me',
       }),
     }),
   }),
