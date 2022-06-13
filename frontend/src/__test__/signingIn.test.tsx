@@ -20,29 +20,6 @@ document.body.appendChild(modalRoot);
 
 const server = setupServer(
   rest.post<IAuthenticateFormValues>(
-    `${process.env.REACT_APP_AUTH_API_ENDPOINT}/signup`,
-    (req, res, ctx) => {
-      const { username } = req.body;
-
-      if (username === 'old_username') {
-        return res(
-          ctx.status(400),
-          ctx.json({
-            errors: [
-              {
-                message: 'Username already used',
-                param: 'username',
-              },
-            ],
-          })
-        );
-      }
-
-      ctx.status(201);
-      return res(ctx.json({}));
-    }
-  ),
-  rest.post<IAuthenticateFormValues>(
     `${process.env.REACT_APP_AUTH_API_ENDPOINT}/signin`,
     (req, res, ctx) => {
       const { username } = req.body;

@@ -24,7 +24,7 @@ const server = setupServer(
     (req, res, ctx) => {
       const { username } = req.body;
 
-      if (username === 'old_username') {
+      if (username === 'existing_user') {
         return res(
           ctx.status(400),
           ctx.json({
@@ -40,36 +40,6 @@ const server = setupServer(
 
       ctx.status(201);
       return res(ctx.json({}));
-    }
-  ),
-  rest.post<IAuthenticateFormValues>(
-    `${process.env.REACT_APP_AUTH_API_ENDPOINT}/signin`,
-    (req, res, ctx) => {
-      const { username } = req.body;
-
-      if (username === 'incorrect_user') {
-        return res(
-          ctx.status(404),
-          ctx.json({
-            errors: [
-              {
-                message: 'Invalid username or password',
-                param: 'username',
-              },
-            ],
-          })
-        );
-      }
-
-      ctx.status(200);
-      return res(
-        ctx.json({
-          username: 'correct_user',
-          id: '62a1d6b62dbd0a71cd326b8e',
-          token:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5kb2UiLCJpZCI6IjYyYTFkNmI2MmRiZDBhNzFjZDMyNmI4ZSIsImlhdCI6MTY1NTE0NjE4NX0.NSab5Hv3-8GgmggjW9aSJsn7YogTh-Y9UjFT-oju0sQ',
-        })
-      );
     }
   )
 );
@@ -135,7 +105,7 @@ describe('<App />', () => {
       expect(querySignUpModalHeading()).toBeNull();
       await user.click(getSignUpLink());
       expect(querySignUpModalHeading()).toBeVisible();
-      await user.type(getUsernameTextfield(), 'old_username');
+      await user.type(getUsernameTextfield(), 'existing_user');
       await user.type(getPasswordTextfield(), 'superstrongpassword123');
       await user.type(getConfirmPasswordTextfield(), 'superstrongpassword123');
       await user.click(getSubmitButton());
@@ -150,7 +120,7 @@ describe('<App />', () => {
       expect(querySignUpModalHeading()).toBeNull();
       await user.click(getSignUpLink());
       expect(querySignUpModalHeading()).toBeVisible();
-      await user.type(getUsernameTextfield(), 'new_username');
+      await user.type(getUsernameTextfield(), 'new_user');
       await user.type(getPasswordTextfield(), 'superstrongpassword123');
       await user.type(getConfirmPasswordTextfield(), 'superstrongpassword123');
       await user.click(getSubmitButton());
