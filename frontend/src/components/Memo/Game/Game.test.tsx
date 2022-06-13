@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-import memoSlice from '../../../rtk/memoSlice';
+import memoReducer from '../../../rtk/memoSlice';
 import TechnologyName from '../../../utils/constants';
 import TestCard from '../../../utils/tests/TestCard.class';
 import Game from './Game';
@@ -61,7 +61,7 @@ beforeEach(() =>
     <Provider
       store={configureStore({
         reducer: {
-          memo: memoSlice,
+          memo: memoReducer,
         },
       })}
     >

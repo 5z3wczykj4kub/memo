@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-import memoSlice from '../../rtk/memoSlice';
+import memoReducer from '../../rtk/memoSlice';
 import Main from './Main';
 import { angularCard1, cards, reactCard1 } from './Main.test.utils';
 
@@ -87,7 +87,7 @@ beforeEach(() => {
     <Provider
       store={configureStore({
         reducer: {
-          memo: memoSlice,
+          memo: memoReducer,
         },
       })}
     >

@@ -5,8 +5,9 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import App from '../../App';
-import authSlice from '../../rtk/authSlice';
-import memoSlice from '../../rtk/memoSlice';
+import { authApi } from '../../rtk/authApi';
+import authReducer from '../../rtk/authSlice';
+import memoReducer from '../../rtk/memoSlice';
 import Main from '../Main/Main';
 
 const backdropRoot = document.createElement('div');
@@ -81,8 +82,9 @@ const customRender = () => {
     <Provider
       store={configureStore({
         reducer: {
-          memo: memoSlice,
-          auth: authSlice,
+          [authApi.reducerPath]: authApi.reducer,
+          auth: authReducer,
+          memo: memoReducer,
         },
       })}
     >
@@ -133,7 +135,7 @@ describe('<Home />', () => {
     test(`game starts on ${difficulty} mode`, async () => {
       const store = configureStore({
         reducer: {
-          memo: memoSlice,
+          memo: memoReducer,
         },
       });
       const history = createMemoryHistory();

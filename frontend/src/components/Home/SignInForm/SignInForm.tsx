@@ -22,7 +22,9 @@ interface ISignInForm {
 const SignInForm = ({ setIsModalVisible }: ISignInForm) => {
   const { isDarkThemeUsed } = useTheme();
 
-  const [signIn, { isLoading }] = useSignInMutation();
+  const [signIn, { isLoading }] = useSignInMutation({
+    fixedCacheKey: 'authentication',
+  });
 
   const dispatch = useAppDispatch();
 

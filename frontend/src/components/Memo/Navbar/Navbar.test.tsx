@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import memoSlice from '../../../rtk/memoSlice';
+import memoReducer from '../../../rtk/memoSlice';
 import Navbar from './Navbar';
 
 const backdropRoot = document.createElement('div');
@@ -19,7 +19,7 @@ describe('<Navbar />', () => {
       <Provider
         store={configureStore({
           reducer: {
-            memo: memoSlice,
+            memo: memoReducer,
           },
         })}
       >

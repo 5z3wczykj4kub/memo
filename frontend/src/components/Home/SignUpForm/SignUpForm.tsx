@@ -22,7 +22,9 @@ interface ISignUpForm {
 const SignUpForm = ({ setIsModalVisible }: ISignUpForm) => {
   const { isDarkThemeUsed } = useTheme();
 
-  const [signUp, { isLoading }] = useSignUpMutation();
+  const [signUp, { isLoading }] = useSignUpMutation({
+    fixedCacheKey: 'authentication',
+  });
 
   const dispatch = useAppDispatch();
 

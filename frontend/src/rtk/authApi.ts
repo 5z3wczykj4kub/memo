@@ -37,4 +37,14 @@ export const authApi = createApi({
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation } = authApi;
+export const selectSignUpAndSignInMutationStatus = (state: RootState) =>
+  state.api.mutations.authentication?.status;
+
+export const selectGetCurrentUserQueryStatus = (state: RootState) =>
+  state.api.queries['getCurrentUser(undefined)']?.status;
+
+export const {
+  useSignUpMutation,
+  useSignInMutation,
+  useLazyGetCurrentUserQuery,
+} = authApi;

@@ -1,11 +1,16 @@
 import classNames from 'classnames';
 import { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { ReactComponent as SignInIcon } from '../../../assets/icons/login.svg';
 import { ReactComponent as SignUpIcon } from '../../../assets/icons/person.svg';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
+import {
+  selectGetCurrentUserQueryStatus,
+  selectSignUpAndSignInMutationStatus,
+} from '../../../rtk/authApi';
 import { selectCurrentUser, unsetCurrentUser } from '../../../rtk/authSlice';
 import styles from './Navbar.module.scss';
 
@@ -22,7 +27,15 @@ const Navbar = ({
 
   const currentUser = useAppSelector(selectCurrentUser);
 
+  const isSigningUpOrSigningIn =
+    useAppSelector(selectSignUpAndSignInMutationStatus) === 'pending';
+  const isGettingCurrentUser =
+    useAppSelector(selectGetCurrentUserQueryStatus) === 'pending';
+  const isAuthenticating = isSigningUpOrSigningIn || isGettingCurrentUser;
+
   const dispatch = useAppDispatch();
+
+  if (isAuthenticating) return null;
 
   return (
     <nav className={styles.navbar}>
@@ -52,15 +65,10 @@ const Navbar = ({
         })}
         to='#'
         onClick={() => {
-          /**
-           * TODO:
-           * 1. Display sign out message.
-           * 2. Hide "Sign up" and "Sign in" links
-           * when the verifying token request is pending.
-           */
           if (currentUser.username) {
             localStorage.removeItem('token');
             dispatch(unsetCurrentUser());
+            toast.info('Signed out');
             return;
           }
           setIsSignInModalVisible(true);

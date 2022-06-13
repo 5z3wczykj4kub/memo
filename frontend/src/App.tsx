@@ -5,14 +5,14 @@ import ToastContainer from './components/General/ToastContainer/ToastContainer';
 import { SIGN_IN_TOAST_MESSAGE } from './components/Home/SignInForm/validationSchema';
 import useAppDispatch from './hooks/useAppDispatch';
 import useEffectOnce from './hooks/useEffectOnce';
-import { authApi } from './rtk/authApi';
+import { useLazyGetCurrentUserQuery } from './rtk/authApi';
 import { setCurrentUser } from './rtk/authSlice';
 import { IResponseCatchError } from './rtk/types';
 import Home from './views/Home/Home';
 import Main from './views/Main/Main';
 
 const App = () => {
-  const [getCurrentUser] = authApi.endpoints.getCurrentUser.useLazyQuery();
+  const [getCurrentUser] = useLazyGetCurrentUserQuery();
 
   const dispatch = useAppDispatch();
 

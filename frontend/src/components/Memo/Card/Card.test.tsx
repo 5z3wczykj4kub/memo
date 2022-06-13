@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import memoSlice from '../../../rtk/memoSlice';
+import memoReducer from '../../../rtk/memoSlice';
 import TechnologyName from '../../../utils/constants';
 import Card from './Card';
 import TestCard from '../../../utils/tests/TestCard.class';
@@ -22,7 +22,7 @@ beforeEach(() =>
     <Provider
       store={configureStore({
         reducer: {
-          memo: memoSlice,
+          memo: memoReducer,
         },
       })}
     >

@@ -2,13 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Provider } from 'react-redux';
 import '../../../index.css';
-import memoSlice from '../../../rtk/memoSlice';
+import memoReducer from '../../../rtk/memoSlice';
 import TechnologyName from '../../../utils/constants';
 import Memo from '../Memo';
 
 const store = configureStore({
   reducer: {
-    memo: memoSlice,
+    memo: memoReducer,
   },
 });
 
