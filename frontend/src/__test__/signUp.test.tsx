@@ -125,7 +125,7 @@ describe('<App />', () => {
       await user.type(getConfirmPasswordTextfield(), 'superstrongpassword123');
       await user.click(getSubmitButton());
       await waitFor(() => expect(getSignedUpSuccessfullyToast()).toBeVisible());
-      await waitFor(() => expect(querySignUpModalHeading()).not.toBeNull());
+      await waitFor(() => expect(querySignUpModalHeading()).toBeNull());
     });
   });
 });
