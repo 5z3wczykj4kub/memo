@@ -10,10 +10,6 @@ export interface IUser {
 
 const userSchema = new Schema<IUser>(
   {
-    /**
-     * TODO:
-     * Validate whitespaces.
-     */
     username: {
       type: String,
       required: true,

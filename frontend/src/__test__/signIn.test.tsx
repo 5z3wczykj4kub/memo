@@ -20,17 +20,17 @@ document.body.appendChild(modalRoot);
 
 const server = setupServer(
   rest.post<IAuthenticateFormValues>(
-    `${process.env.REACT_APP_AUTH_API_ENDPOINT}/signup`,
+    `${process.env.REACT_APP_AUTH_API_ENDPOINT}/signin`,
     (req, res, ctx) => {
       const { username } = req.body;
 
-      if (username === 'existing_user') {
+      if (username === 'incorrectuser') {
         return res(
-          ctx.status(400),
+          ctx.status(404),
           ctx.json({
             errors: [
               {
-                message: 'Username already used',
+                message: 'Invalid username or password',
                 param: 'username',
               },
             ],
@@ -38,20 +38,27 @@ const server = setupServer(
         );
       }
 
-      ctx.status(201);
-      return res(ctx.json({}));
+      ctx.status(200);
+      return res(
+        ctx.json({
+          username: 'correctuser',
+          id: '62a1d6b62dbd0a71cd326b8e',
+          token:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG5kb2UiLCJpZCI6IjYyYTFkNmI2MmRiZDBhNzFjZDMyNmI4ZSIsImlhdCI6MTY1NTE0NjE4NX0.NSab5Hv3-8GgmggjW9aSJsn7YogTh-Y9UjFT-oju0sQ',
+        })
+      );
     }
   )
 );
 
-const getSignUpLink = () =>
+const getSignInLink = () =>
   screen.getByRole('link', {
-    name: /sign up/i,
+    name: /sign in/i,
   });
 
-const querySignUpModalHeading = () =>
+const querySignInModalHeading = () =>
   screen.queryByRole('heading', {
-    name: /sign up/i,
+    name: /sign in/i,
   });
 
 const getUsernameTextfield = () =>
@@ -61,21 +68,18 @@ const getUsernameTextfield = () =>
 
 const getPasswordTextfield = () => screen.getByLabelText(/^password/i);
 
-const getConfirmPasswordTextfield = () =>
-  screen.getByLabelText(/confirm password/i);
-
 const getSubmitButton = () =>
   screen.getByRole('button', {
     name: /submit/i,
   });
 
-const getSignedUpSuccessfullyToast = () =>
-  screen.getByText(/signed up successfully/i);
+const getSignedInSuccessfullyToast = () =>
+  screen.getByText(/welcome correctuser!/i);
 
-const getSignedUpFailedToast = () => screen.getByText(/signing up failed/i);
+const getSignedInFailedToast = () => screen.getByText(/signing in failed/i);
 
-const getUsernameAlreadyUsedErrorToast = () =>
-  screen.getByText(/username already used/i);
+const getInvalidUsernameOrPasswordErrorToast = () =>
+  screen.getByText(/invalid username or password/i);
 
 beforeEach(() => {
   render(
@@ -99,33 +103,31 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('<App />', () => {
-  describe('signing up', () => {
+  describe('signing in', () => {
     test('fails', async () => {
       const user = userEvent.setup();
-      expect(querySignUpModalHeading()).toBeNull();
-      await user.click(getSignUpLink());
-      expect(querySignUpModalHeading()).toBeVisible();
-      await user.type(getUsernameTextfield(), 'existing_user');
+      expect(querySignInModalHeading()).toBeNull();
+      await user.click(getSignInLink());
+      expect(querySignInModalHeading()).toBeVisible();
+      await user.type(getUsernameTextfield(), 'incorrectuser');
       await user.type(getPasswordTextfield(), 'superstrongpassword123');
-      await user.type(getConfirmPasswordTextfield(), 'superstrongpassword123');
       await user.click(getSubmitButton());
-      await waitFor(() => expect(getSignedUpFailedToast()).toBeVisible());
+      await waitFor(() => expect(getSignedInFailedToast()).toBeVisible());
       await waitFor(() =>
-        expect(getUsernameAlreadyUsedErrorToast()).toBeVisible()
+        expect(getInvalidUsernameOrPasswordErrorToast()).toBeVisible()
       );
     });
 
     test('succeeds', async () => {
       const user = userEvent.setup();
-      expect(querySignUpModalHeading()).toBeNull();
-      await user.click(getSignUpLink());
-      expect(querySignUpModalHeading()).toBeVisible();
-      await user.type(getUsernameTextfield(), 'new_user');
+      expect(querySignInModalHeading()).toBeNull();
+      await user.click(getSignInLink());
+      expect(querySignInModalHeading()).toBeVisible();
+      await user.type(getUsernameTextfield(), 'correctuser');
       await user.type(getPasswordTextfield(), 'superstrongpassword123');
-      await user.type(getConfirmPasswordTextfield(), 'superstrongpassword123');
       await user.click(getSubmitButton());
-      await waitFor(() => expect(getSignedUpSuccessfullyToast()).toBeVisible());
-      await waitFor(() => expect(querySignUpModalHeading()).toBeNull());
+      await waitFor(() => expect(getSignedInSuccessfullyToast()).toBeVisible());
+      await waitFor(() => expect(querySignInModalHeading()).toBeNull());
     });
   });
 });

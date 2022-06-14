@@ -3,9 +3,9 @@ import validatorResponseMiddleware from '../middleware/validatorResponse';
 import User from '../models/User';
 
 const USERNAME_LENGTH_VALIDATION_MESSAGE =
-  'Username must be between 5 and 20 characters long';
+  'Username must be between 5 and 20 alphanumeric characters long';
 
-const USERNAME_UNIQUENESS_VALIDATION_MESSAGE = 'Username already used';
+const USERNAME_ALREADY_USED_MESSAGE = 'Username already used';
 
 const PASSWORD_VALIDATION_MESSAGE =
   'Password must be between 12 and 72 characters long and not contain any whitespaces';
@@ -24,16 +24,16 @@ const PASSWORD_VALIDATION_REG_EXP =
   /^([a-zA-Z~`!@#$%^&*()_\-+={[}\]:;"'|\\<,>.?/\d]){12,72}$/;
 
 const signUpValidator = [
-  body('username')
+  body('username', USERNAME_LENGTH_VALIDATION_MESSAGE)
     .trim()
+    .isAlphanumeric()
     .isLength({ min: 5, max: 20 })
-    .withMessage(USERNAME_LENGTH_VALIDATION_MESSAGE)
     .custom(async (username) => {
       const isUsernameAlreadyUsed = !!(await User.count({
         username,
       }));
       if (isUsernameAlreadyUsed)
-        return Promise.reject(USERNAME_UNIQUENESS_VALIDATION_MESSAGE);
+        return Promise.reject(USERNAME_ALREADY_USED_MESSAGE);
       return true;
     }),
   body('password', PASSWORD_VALIDATION_MESSAGE)
@@ -51,6 +51,7 @@ const signUpValidator = [
 const signInValidator = [
   body('username', USERNAME_LENGTH_VALIDATION_MESSAGE)
     .trim()
+    .isAlphanumeric()
     .isLength({ min: 5, max: 20 }),
   body('password', PASSWORD_VALIDATION_MESSAGE)
     .trim()
