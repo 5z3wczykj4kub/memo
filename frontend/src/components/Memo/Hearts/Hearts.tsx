@@ -36,17 +36,26 @@ const Hearts = ({
   return (
     <>
       {gameStatus ? (
-        <Button
-          className={styles['play-again-button']}
-          variant={isDarkThemeUsed ? 'dark' : 'light'}
-          onClick={() => {
-            setGameStatus(null);
-            dispatch(restart());
-            setTimeout(() => dispatch(shuffle()), 400);
-          }}
-        >
-          Play again
-        </Button>
+        <>
+          <Button
+            className={styles['navbar-button']}
+            variant={isDarkThemeUsed ? 'dark' : 'light'}
+            onClick={() => setIsGameOverModalVisible(true)}
+          >
+            Results
+          </Button>
+          <Button
+            className={styles['navbar-button']}
+            variant={isDarkThemeUsed ? 'dark' : 'light'}
+            onClick={() => {
+              setGameStatus(null);
+              dispatch(restart());
+              setTimeout(() => dispatch(shuffle()), 400);
+            }}
+          >
+            Play again
+          </Button>
+        </>
       ) : (
         <div className={styles.hearts}>
           <TransitionGroup component={null}>
