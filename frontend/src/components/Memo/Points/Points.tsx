@@ -10,10 +10,10 @@ import styles from './Points.module.scss';
 
 interface IPoints {
   setGameStatus: Dispatch<SetStateAction<TGameStatus>>;
-  setIsGameOverModalVisible: Dispatch<SetStateAction<boolean>>;
+  setIsEndgameModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const Points = ({ setGameStatus, setIsGameOverModalVisible }: IPoints) => {
+const Points = ({ setGameStatus, setIsEndgameModalVisible }: IPoints) => {
   const points = useAppSelector(selectPoints);
   const [transitionTrigger, setTransitionTrigger] = useState(false);
 
@@ -25,7 +25,7 @@ const Points = ({ setGameStatus, setIsGameOverModalVisible }: IPoints) => {
 
   const onPointsTransitionEndHandler = () => {
     if (points === totalCardPairs * 100) {
-      setIsGameOverModalVisible(true);
+      setIsEndgameModalVisible(true);
       setGameStatus('won');
     }
   };

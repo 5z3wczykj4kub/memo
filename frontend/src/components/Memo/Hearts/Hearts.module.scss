@@ -1,15 +1,4 @@
 @use '../../../utils/scss/animations';
-@use '../../../utils/scss/breakpoints';
-
-.navbar-button {
-  padding: 0.4rem;
-  font-size: 0.8rem;
-
-  @media (min-width: breakpoints.$sm) {
-    padding: 0.75rem;
-    font-size: 1rem;
-  }
-}
 
 .hearts {
   display: flex;

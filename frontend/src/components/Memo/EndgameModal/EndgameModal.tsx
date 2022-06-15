@@ -5,21 +5,21 @@ import { restart, shuffle } from '../../../rtk/memoSlice';
 import Button from '../../General/Button/Button';
 import Modal from '../../General/Modal/Modal';
 import { TGameStatus } from '../Navbar/Navbar';
-import styles from './GameOverModal.module.scss';
+import styles from './EndgameModal.module.scss';
 
-interface IGameOverModal {
+interface IEndgameModal {
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
   gameStatus: TGameStatus;
   setGameStatus: Dispatch<SetStateAction<TGameStatus>>;
 }
 
-const GameOverModal = ({
+const EndgameModal = ({
   isVisible,
   setIsVisible,
   gameStatus,
   setGameStatus,
-}: IGameOverModal) => {
+}: IEndgameModal) => {
   const dispatch = useAppDispatch();
 
   const { isDarkThemeUsed } = useTheme();
@@ -66,4 +66,4 @@ const GameOverModal = ({
   );
 };
 
-export default GameOverModal;
+export default EndgameModal;
