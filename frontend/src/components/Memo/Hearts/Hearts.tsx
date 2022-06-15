@@ -5,26 +5,29 @@ import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
 import { restart, selectHearts, shuffle } from '../../../rtk/memoSlice';
 import Button from '../../General/Button/Button';
-import Modal, { useModal } from '../../General/Modal/Modal';
+import { TGameStatus } from '../Navbar/Navbar';
 import Heart from './Heart/Heart';
 import styles from './Hearts.module.scss';
 
 interface IHearts {
-  isGameOver: boolean;
-  setIsGameOver: Dispatch<SetStateAction<boolean>>;
+  gameStatus: TGameStatus;
+  setGameStatus: Dispatch<SetStateAction<TGameStatus>>;
+  setIsGameOverModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
+const Hearts = ({
+  gameStatus,
+  setGameStatus,
+  setIsGameOverModalVisible,
+}: IHearts) => {
   const hearts = useAppSelector(selectHearts);
 
   const dispatch = useAppDispatch();
 
-  const [isModalVisible, setIsModalVisible] = useModal();
-
   const onHeartTransitionExitedHandler = () => {
     if (hearts === 1) {
-      setIsModalVisible(true);
-      setIsGameOver(true);
+      setIsGameOverModalVisible(true);
+      setGameStatus('lost');
     }
   };
 
@@ -32,12 +35,12 @@ const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
 
   return (
     <>
-      {isGameOver ? (
+      {gameStatus ? (
         <Button
           className={styles['play-again-button']}
           variant={isDarkThemeUsed ? 'dark' : 'light'}
           onClick={() => {
-            setIsGameOver(false);
+            setGameStatus(null);
             dispatch(restart());
             setTimeout(() => dispatch(shuffle()), 400);
           }}
@@ -60,39 +63,6 @@ const Hearts = ({ isGameOver, setIsGameOver }: IHearts) => {
           </TransitionGroup>
         </div>
       )}
-
-      <Modal
-        isVisible={isModalVisible}
-        setIsVisible={setIsModalVisible}
-        heading={<b>What a bummer 😥</b>}
-        variant={isDarkThemeUsed ? 'dark' : 'light'}
-      >
-        <p>
-          You've lost the game. Try again, maybe you'll have better luck next
-          time!
-        </p>
-        <div className={styles['modal-footer']}>
-          <Button
-            className={styles['modal-footer__button']}
-            variant={isDarkThemeUsed ? 'dark' : 'light'}
-            onClick={() => setIsModalVisible(false)}
-          >
-            Close
-          </Button>
-          <Button
-            className={styles['modal-footer__button']}
-            variant={isDarkThemeUsed ? 'dark' : 'light'}
-            onClick={() => {
-              setIsModalVisible(false);
-              setIsGameOver(false);
-              dispatch(restart());
-              setTimeout(() => dispatch(shuffle()), 400);
-            }}
-          >
-            Play again
-          </Button>
-        </div>
-      </Modal>
     </>
   );
 };

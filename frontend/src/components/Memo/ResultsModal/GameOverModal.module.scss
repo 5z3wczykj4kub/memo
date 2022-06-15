@@ -1,0 +1,16 @@
+@use '../../../utils/scss/breakpoints';
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  @media (min-width: breakpoints.$sm) {
+    gap: 1rem;
+  }
+
+  &__button {
+    padding: 0.75rem;
+  }
+}
