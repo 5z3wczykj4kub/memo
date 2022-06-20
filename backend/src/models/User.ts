@@ -31,7 +31,7 @@ userSchema.virtual('id').get(function () {
 });
 
 userSchema.method('format', function () {
-  const user = this.toObject();
+  const user: any = this.toObject();
   user.id = user._id;
   delete user._id;
   delete user.password;

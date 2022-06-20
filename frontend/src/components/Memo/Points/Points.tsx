@@ -1,19 +1,17 @@
 import classNames from 'classnames';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ReactComponent as StarIcon } from '../../../assets/icons/star.svg';
 import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
 import { selectCards, selectPoints } from '../../../rtk/memoSlice';
-import { TGameStatus } from '../Navbar/Navbar';
 import styles from './Points.module.scss';
 
 interface IPoints {
-  setGameStatus: Dispatch<SetStateAction<TGameStatus>>;
-  setIsEndgameModalVisible: Dispatch<SetStateAction<boolean>>;
+  onGameWin: () => void;
 }
 
-const Points = ({ setGameStatus, setIsEndgameModalVisible }: IPoints) => {
+const Points = ({ onGameWin }: IPoints) => {
   const points = useAppSelector(selectPoints);
   const [transitionTrigger, setTransitionTrigger] = useState(false);
 
@@ -24,10 +22,7 @@ const Points = ({ setGameStatus, setIsEndgameModalVisible }: IPoints) => {
   const totalCardPairs = useAppSelector(selectCards).length / 2;
 
   const onPointsTransitionEndHandler = () => {
-    if (points === totalCardPairs * 100) {
-      setIsEndgameModalVisible(true);
-      setGameStatus('won');
-    }
+    if (points === totalCardPairs * 100) onGameWin();
   };
 
   const { isDarkThemeUsed } = useTheme();

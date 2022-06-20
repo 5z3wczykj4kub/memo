@@ -5,12 +5,12 @@ import styles from './NavbarEndgameButtons.module.scss';
 
 interface INavbarEndgameButtons {
   setIsEndgameModalVisible: Dispatch<SetStateAction<boolean>>;
-  gameRestart: () => void;
+  onGameRestart: () => void;
 }
 
 const NavbarEndgameButtons = ({
   setIsEndgameModalVisible,
-  gameRestart,
+  onGameRestart,
 }: INavbarEndgameButtons) => {
   const { isDarkThemeUsed } = useTheme();
 
@@ -26,7 +26,7 @@ const NavbarEndgameButtons = ({
       <Button
         className={styles['navbar-button']}
         variant={isDarkThemeUsed ? 'dark' : 'light'}
-        onClick={() => gameRestart()}
+        onClick={() => onGameRestart()}
       >
         Play again
       </Button>

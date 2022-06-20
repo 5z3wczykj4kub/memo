@@ -55,7 +55,9 @@ const signInController = async (
   });
 };
 
-const getCurrentUserController = (req: Request, res: Response) =>
-  res.json(req.currentUser.format());
+const getCurrentUserController = (req: Request, res: Response) => {
+  const token = req.headers.authorization!.split(' ')[1];
+  return res.json({ ...req.currentUser.format(), token });
+};
 
 export { signUpController, signInController, getCurrentUserController };

@@ -16,7 +16,7 @@ interface IEndgameModal {
   setIsVisible: Dispatch<SetStateAction<boolean>>;
   gameStatus: TGameStatus;
   gameDurationTimestamp: number;
-  gameRestart: () => void;
+  onGameRestart: () => void;
 }
 
 const EndgameModal = ({
@@ -24,7 +24,7 @@ const EndgameModal = ({
   setIsVisible,
   gameStatus,
   gameDurationTimestamp,
-  gameRestart,
+  onGameRestart,
 }: IEndgameModal) => {
   const { isDarkThemeUsed } = useTheme();
 
@@ -50,7 +50,7 @@ const EndgameModal = ({
           variant={isDarkThemeUsed ? 'dark' : 'light'}
           onClick={() => {
             setIsVisible(false);
-            gameRestart();
+            onGameRestart();
           }}
         >
           Play again

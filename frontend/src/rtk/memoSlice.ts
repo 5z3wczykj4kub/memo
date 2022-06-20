@@ -92,6 +92,9 @@ export const selectHearts = (state: RootState) => state.memo.hearts;
 
 export const selectPoints = (state: RootState) => state.memo.points;
 
+export const selectDifficultyLevel = (state: RootState) =>
+  state.memo.difficultyLevel;
+
 export const { touch, flip, unflip, check, shuffle, start, restart } =
   memoSlice.actions;
 

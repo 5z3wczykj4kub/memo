@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import useAppDispatch from '../../../hooks/useAppDispatch';
-import { restart, shuffle } from '../../../rtk/memoSlice';
+import useAppSelector from '../../../hooks/useAppSelector';
+import { selectCurrentUser } from '../../../rtk/authSlice';
+import {
+  restart,
+  selectDifficultyLevel,
+  selectPoints,
+  shuffle,
+} from '../../../rtk/memoSlice';
 import { useModal } from '../../General/Modal/Modal';
 import EndgameModal from '../EndgameModal/EndgameModal';
 import Hearts from '../Hearts/Hearts';
@@ -11,6 +18,10 @@ import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
 export type TGameStatus = 'won' | 'lost' | null;
 
 const Navbar = () => {
+  const points = useAppSelector(selectPoints);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const difficultyLevel = useAppSelector(selectDifficultyLevel);
+
   const [gameStatus, setGameStatus] = useState<TGameStatus>(null);
   const [isEndgameModalVisible, setIsEndgameModalVisible] = useModal();
   const [gameDurationTimestamp, setGameDurationTimestamp] = useState(
@@ -19,13 +30,6 @@ const Navbar = () => {
 
   const dispatch = useAppDispatch();
 
-  const gameRestart = () => {
-    setGameStatus(null);
-    setGameDurationTimestamp(Date.now());
-    dispatch(restart());
-    setTimeout(() => dispatch(shuffle()), 400);
-  };
-
   useEffect(() => {
     if (!gameStatus) return;
     setGameDurationTimestamp(
@@ -33,16 +37,35 @@ const Navbar = () => {
     );
   }, [gameStatus]);
 
+  const gameRestartHandler = () => {
+    setGameStatus(null);
+    setGameDurationTimestamp(Date.now());
+    dispatch(restart());
+    setTimeout(() => dispatch(shuffle()), 400);
+  };
+
+  const gameWinHandler = () => {
+    setIsEndgameModalVisible(true);
+    setGameStatus('won');
+    if (!currentUser?.id) return;
+    /**
+     * TODO:
+     * Send data.
+     */
+    const payload = {
+      time: gameDurationTimestamp / 1000,
+      points,
+      difficultyLevel,
+    };
+  };
+
   return (
     <nav className={styles.navbar}>
-      <Points
-        setGameStatus={setGameStatus}
-        setIsEndgameModalVisible={setIsEndgameModalVisible}
-      />
+      <Points onGameWin={gameWinHandler} />
       {gameStatus ? (
         <NavbarEndgameButtons
           setIsEndgameModalVisible={setIsEndgameModalVisible}
-          gameRestart={gameRestart}
+          onGameRestart={gameRestartHandler}
         />
       ) : (
         <Hearts
@@ -56,7 +79,7 @@ const Navbar = () => {
         setIsVisible={setIsEndgameModalVisible}
         gameStatus={gameStatus}
         gameDurationTimestamp={gameDurationTimestamp}
-        gameRestart={gameRestart}
+        onGameRestart={gameRestartHandler}
       />
     </nav>
   );

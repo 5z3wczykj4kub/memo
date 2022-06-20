@@ -1,8 +1,8 @@
-import styles from './EndgameModalResults.module.scss';
-import useAppSelector from '../../../../hooks/useAppSelector';
-import { selectCards, selectPoints } from '../../../../rtk/memoSlice';
-import useTheme from '../../../../hooks/useTheme';
 import classNames from 'classnames';
+import useAppSelector from '../../../../hooks/useAppSelector';
+import useTheme from '../../../../hooks/useTheme';
+import { selectCards, selectPoints } from '../../../../rtk/memoSlice';
+import styles from './EndgameModalResults.module.scss';
 
 interface IEndgameModalResults {
   gameDurationTimestamp: number;
