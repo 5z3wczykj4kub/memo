@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { selectCurrentUser } from '../../../rtk/authSlice';
@@ -30,13 +30,6 @@ const Navbar = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!gameStatus) return;
-    setGameDurationTimestamp(
-      (prevGameDuration) => Date.now() - prevGameDuration
-    );
-  }, [gameStatus]);
-
   const gameRestartHandler = () => {
     setGameStatus(null);
     setGameDurationTimestamp(Date.now());
@@ -44,9 +37,20 @@ const Navbar = () => {
     setTimeout(() => dispatch(shuffle()), 400);
   };
 
+  const gameLoseHandler = () => {
+    setIsEndgameModalVisible(true);
+    setGameStatus('lost');
+    setGameDurationTimestamp(
+      (prevGameDuration) => Date.now() - prevGameDuration
+    );
+  };
+
   const gameWinHandler = () => {
     setIsEndgameModalVisible(true);
     setGameStatus('won');
+    setGameDurationTimestamp(
+      (prevGameDuration) => Date.now() - prevGameDuration
+    );
     if (!currentUser?.id) return;
     /**
      * TODO:
@@ -68,11 +72,7 @@ const Navbar = () => {
           onGameRestart={gameRestartHandler}
         />
       ) : (
-        <Hearts
-          gameStatus={gameStatus}
-          setGameStatus={setGameStatus}
-          setIsEndgameModalVisible={setIsEndgameModalVisible}
-        />
+        <Hearts onGameLose={gameLoseHandler} />
       )}
       <EndgameModal
         isVisible={isEndgameModalVisible}

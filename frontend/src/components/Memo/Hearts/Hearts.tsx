@@ -1,28 +1,19 @@
-import { Dispatch, SetStateAction } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { selectHearts } from '../../../rtk/memoSlice';
-import { TGameStatus } from '../Navbar/Navbar';
 import Heart from './Heart/Heart';
 import styles from './Hearts.module.scss';
 
 interface IHearts {
-  gameStatus: TGameStatus;
-  setGameStatus: Dispatch<SetStateAction<TGameStatus>>;
-  setIsEndgameModalVisible: Dispatch<SetStateAction<boolean>>;
+  onGameLose: () => void;
 }
 
-const Hearts = ({
-  gameStatus,
-  setGameStatus,
-  setIsEndgameModalVisible,
-}: IHearts) => {
+const Hearts = ({ onGameLose }: IHearts) => {
   const hearts = useAppSelector(selectHearts);
 
   const onHeartTransitionExitedHandler = () => {
     if (hearts === 1) {
-      setIsEndgameModalVisible(true);
-      setGameStatus('lost');
+      onGameLose();
     }
   };
 
