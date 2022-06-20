@@ -58,14 +58,3 @@
     padding: 1rem;
   }
 }
-
-.enterActive,
-.enterDone {
-  transform: translate(-50%, -50%);
-  opacity: 1;
-}
-
-.exitActive {
-  transform: translate(-50%, 0);
-  opacity: 0;
-}

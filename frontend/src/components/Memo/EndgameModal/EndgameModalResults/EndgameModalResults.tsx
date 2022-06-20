@@ -27,7 +27,7 @@ const EndgameModalResults = ({
         <b>Game summary</b>
       </p>
       <p className={styles['modal-results__result']}>
-        Time: {new Date(gameDurationTimestamp).getSeconds()}s
+        Time: {Math.floor(gameDurationTimestamp / 1000)}s
       </p>
       <p className={styles['modal-results__result']}>
         Score: {points} / {(cardsLength * 100) / 2}
