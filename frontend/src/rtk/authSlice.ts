@@ -4,8 +4,9 @@ import { ICurrentUser } from './types';
 
 const initialState: ICurrentUser = {
   id: null,
-  username: null,
   token: null,
+  username: null,
+  experience: null,
 };
 
 const authSlice = createSlice({
@@ -14,11 +15,14 @@ const authSlice = createSlice({
   reducers: {
     setCurrentUser: (
       state,
-      { payload: { id, username, token } }: PayloadAction<ICurrentUser>
+      {
+        payload: { id, token, username, experience },
+      }: PayloadAction<ICurrentUser>
     ) => {
       state.id = id;
-      state.username = username;
       state.token = token;
+      state.username = username;
+      state.experience = experience;
     },
     unsetCurrentUser: () => initialState,
   },

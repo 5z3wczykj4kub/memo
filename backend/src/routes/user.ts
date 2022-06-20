@@ -1,9 +1,20 @@
 import { Router } from 'express';
-import { getCurrentUserController } from '../controllers/user';
+import {
+  getCurrentUserController,
+  updateCurrentUserController,
+} from '../controllers/user';
 import authMiddleware from '../middleware/auth';
+import { updateCurrentUserValidator } from '../validators/user';
 
 const router = Router();
 
-router.get('/', authMiddleware, getCurrentUserController);
+router
+  .route('/')
+  .get(authMiddleware, getCurrentUserController)
+  .post(
+    authMiddleware,
+    updateCurrentUserValidator,
+    updateCurrentUserController
+  );
 
 export default router;

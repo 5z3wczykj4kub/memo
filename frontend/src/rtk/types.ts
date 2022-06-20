@@ -2,8 +2,9 @@ import TechnologyName from '../utils/constants/index';
 
 export interface ICurrentUser {
   id: string | null;
-  username: string | null;
   token: string | null;
+  username: string | null;
+  experience: number | null;
 }
 
 export interface IAuthenticateFormValues {
