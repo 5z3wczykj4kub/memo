@@ -1,11 +1,19 @@
 import classNames from 'classnames';
 import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CSSTransition } from 'react-transition-group';
+import { Transition } from 'react-transition-group';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/close.svg';
-import Divider from '../Divider/Divider';
 import BackdropWithPortal, { Backdrop } from '../Backdrop/Backdrop';
+import Divider from '../Divider/Divider';
 import styles from './Modal.module.scss';
+
+const transitionStyles = {
+  entered: { transform: 'translate(-50%, -50%)', opacity: 1 },
+  exited: {
+    transform: 'translate(-50%, 0)',
+    opacity: 0,
+  },
+};
 
 /**
  * Returns JSX needed to render the modal component.
@@ -39,16 +47,19 @@ const getModalJSX = ({
           onClick={() => setIsVisible(false)}
         />
       )}
-      <CSSTransition
+      <Transition
         in={isVisible}
         timeout={150}
-        classNames={{ ...styles }}
         appear
         mountOnEnter
         unmountOnExit
       >
-        <div className={styles.modal} style={style}>
-          <div className={className[0]}>
+        {(state) => (
+          <div
+            className={className[0]}
+            // @ts-ignore
+            style={{ ...transitionStyles[state], ...style }}
+          >
             <header className={className[1]}>
               <h2 className={className[2]}>{heading}</h2>
               <button
@@ -61,8 +72,8 @@ const getModalJSX = ({
             <Divider variant={variant} />
             <main className={className[5]}>{children}</main>
           </div>
-        </div>
-      </CSSTransition>
+        )}
+      </Transition>
     </>
   );
 
@@ -73,6 +84,7 @@ const getModalJSX = ({
 
 const getClassName = (variant: IModal['variant']) => [
   classNames({
+    [styles.modal]: true,
     [styles['modal--dark']]: variant === 'dark',
   }),
   classNames({

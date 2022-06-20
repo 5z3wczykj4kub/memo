@@ -18,12 +18,12 @@ const getAllHearts = () => screen.getAllByTestId('heart');
 
 const getGameLostModalHeading = () =>
   screen.getByRole('heading', {
-    name: /what a bummer 😥/i,
+    name: /game lost 😥/i,
   });
 
 const getGameWonModalHeading = () =>
   screen.getByRole('heading', {
-    name: /congratulations!/i,
+    name: /game won! 🎉/i,
   });
 
 const getCloseButtons = () =>

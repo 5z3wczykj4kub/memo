@@ -1,0 +1,25 @@
+@use '../../../../utils/scss/colors';
+
+.modal-results {
+  margin-top: 1rem;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 0.25rem;
+  background-color: colors.$gray-brightened;
+
+  &--dark {
+    background-color: colors.$background-dark-muted;
+  }
+
+  &__summary {
+    display: block;
+  }
+
+  &__result {
+    margin-block: 0.5rem;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
