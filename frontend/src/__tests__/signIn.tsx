@@ -20,7 +20,7 @@ document.body.appendChild(modalRoot);
 
 const server = setupServer(
   rest.post<IAuthenticateFormValues>(
-    `${process.env.REACT_APP_AUTH_API_ENDPOINT}/signin`,
+    `${process.env.REACT_APP_API_BASE_URL_ENDPOINT}/auth/sign-in`,
     (req, res, ctx) => {
       const { username } = req.body;
 

@@ -4,7 +4,7 @@ import { ICurrentUser, IAuthenticateFormValues } from './types';
 
 export const authApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_AUTH_API_ENDPOINT,
+    baseUrl: process.env.REACT_APP_API_BASE_URL_ENDPOINT,
     prepareHeaders: (headers, { getState }) => {
       const token =
         (getState() as RootState).auth.token || localStorage.getItem('token');
@@ -17,14 +17,14 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     signUp: builder.mutation<ICurrentUser, IAuthenticateFormValues>({
       query: (credentials) => ({
-        url: '/signup',
+        url: '/auth/sign-up',
         method: 'POST',
         body: credentials,
       }),
     }),
     signIn: builder.mutation<ICurrentUser, IAuthenticateFormValues>({
       query: (credentials) => ({
-        url: '/signin',
+        url: '/auth/sign-in',
         method: 'POST',
         body: credentials,
       }),

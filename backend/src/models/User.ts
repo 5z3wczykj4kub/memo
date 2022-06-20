@@ -5,6 +5,7 @@ export interface IUser {
   id: string;
   username: string;
   password: string;
+  experience: number;
   format: () => IUser;
 }
 
@@ -21,6 +22,13 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
       match: PASSWORD_VALIDATION_REG_EXP,
+    },
+    experience: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 6000000,
+      default: 0,
     },
   },
   { versionKey: false }
