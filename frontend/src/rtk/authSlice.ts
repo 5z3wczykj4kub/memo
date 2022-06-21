@@ -30,6 +30,9 @@ const authSlice = createSlice({
 
 export const selectCurrentUser = (state: RootState) => state.auth;
 
+export const selectCurrentUserExperience = (state: RootState) =>
+  state.auth.experience;
+
 export const { setCurrentUser, unsetCurrentUser } = authSlice.actions;
 
 export default authSlice.reducer;

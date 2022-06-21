@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import useTheme from '../../../hooks/useTheme';
+import { ICurrentUserGameResults } from '../../../rtk/types';
 import Button from '../../General/Button/Button';
 import Modal from '../../General/Modal/Modal';
 import { TGameStatus } from '../Navbar/Navbar';
@@ -17,6 +18,10 @@ interface IEndgameModal {
   gameStatus: TGameStatus;
   gameDurationTimestamp: number;
   onGameRestart: () => void;
+  gameResultsData?: ICurrentUserGameResults;
+  isSendingGameResults?: boolean;
+  hasSendingGameResultsSucceeded?: boolean;
+  hasSendingGameResultsFailed?: boolean;
 }
 
 const EndgameModal = ({
@@ -25,6 +30,10 @@ const EndgameModal = ({
   gameStatus,
   gameDurationTimestamp,
   onGameRestart,
+  gameResultsData,
+  isSendingGameResults,
+  hasSendingGameResultsSucceeded,
+  hasSendingGameResultsFailed,
 }: IEndgameModal) => {
   const { isDarkThemeUsed } = useTheme();
 
@@ -36,7 +45,13 @@ const EndgameModal = ({
       variant={isDarkThemeUsed ? 'dark' : 'light'}
     >
       <p>{gameStatus === 'won' ? GAME_WON_MESSAGE : GAME_LOST_MESSAGE}</p>
-      <EndgameModalResults gameDurationTimestamp={gameDurationTimestamp} />
+      <EndgameModalResults
+        gameDurationTimestamp={gameDurationTimestamp}
+        gameResultsData={gameResultsData}
+        isSendingGameResults={isSendingGameResults}
+        hasSendingGameResultsSucceeded={hasSendingGameResultsSucceeded}
+        hasSendingGameResultsFailed={hasSendingGameResultsFailed}
+      />
       <div className={styles['modal-footer']}>
         <Button
           className={styles['modal-footer__button']}

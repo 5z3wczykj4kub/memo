@@ -7,10 +7,20 @@ export interface ICurrentUser {
   experience: number | null;
 }
 
+export interface ICurrentUserGameResults extends ICurrentUser {
+  earnedExperience: number;
+}
+
 export interface IAuthenticateFormValues {
   username: string;
   password: string;
   confirmedPassword?: string;
+}
+
+export interface IGameResults {
+  time: number;
+  points: number;
+  difficultyLevel: TDifficultyLevel;
 }
 
 export interface IResponseCatchError {

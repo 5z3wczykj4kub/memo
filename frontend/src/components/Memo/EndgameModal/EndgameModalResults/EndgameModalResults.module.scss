@@ -3,7 +3,6 @@
 .modal-results {
   margin-top: 1rem;
   padding: 1rem;
-  text-align: center;
   border-radius: 0.25rem;
   background-color: colors.$gray-brightened;
 
@@ -13,13 +12,34 @@
 
   &__summary {
     display: block;
+    text-align: center;
   }
 
   &__result {
     margin-block: 0.5rem;
 
+    &--loading {
+      display: flex;
+      align-items: center;
+      column-gap: 0.5rem;
+
+      div {
+        width: 0.85rem;
+        height: 0.85rem;
+      }
+    }
+
+    &--error {
+      font-size: 0.85rem;
+      color: colors.$error;
+    }
+
     &:last-of-type {
       margin-bottom: 0;
+    }
+
+    &__earned-experience {
+      color: colors.$success;
     }
   }
 }

@@ -21,24 +21,32 @@ const updateCurrentUserController = async (
 
   const { time, points, difficultyLevel } = req.body;
 
+  let earnedExperience: number;
+
   switch (difficultyLevel) {
     case 'easy':
-      currentUser.experience += points;
+      earnedExperience = points;
+      currentUser.experience += earnedExperience;
       break;
     case 'medium':
-      currentUser.experience += points * 2;
+      earnedExperience = points * 2;
+      currentUser.experience += earnedExperience;
       break;
     case 'hard':
-      currentUser.experience += points * 3;
+      earnedExperience = points * 3;
+      currentUser.experience += earnedExperience;
       break;
     case 'extreme':
-      currentUser.experience += points * 4;
+      earnedExperience = points * 4;
+      currentUser.experience += earnedExperience;
       break;
   }
 
   await currentUser.save();
 
-  return res.json(currentUser.format());
+  const token = req.headers.authorization!.split(' ')[1];
+
+  return res.json({ ...currentUser.format(), token, earnedExperience });
 };
 
 export { getCurrentUserController, updateCurrentUserController };
