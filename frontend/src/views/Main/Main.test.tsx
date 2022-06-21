@@ -1,9 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
+import { rest } from 'msw';
+import { setupServer } from 'msw/lib/node';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
+import { Route, Router, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { api } from '../../rtk/api';
+import authReducer from '../../rtk/authSlice';
 import memoReducer from '../../rtk/memoSlice';
+import { IAuthenticateFormValues } from '../../rtk/types';
+import Home from '../Home/Home';
 import Main from './Main';
 import { angularCard1, cards, reactCard1 } from './Main.test.utils';
 
@@ -13,6 +22,39 @@ document.body.appendChild(backdropRoot);
 const modalRoot = document.createElement('div');
 modalRoot.setAttribute('id', 'modal');
 document.body.appendChild(modalRoot);
+
+const server = setupServer(
+  rest.post<IAuthenticateFormValues>(
+    `${process.env.REACT_APP_API_BASE_URL_ENDPOINT}/auth/sign-in`,
+    (req, res, ctx) => {
+      const { username } = req.body;
+
+      return res(
+        ctx.status(200),
+        ctx.json({
+          username: 'correctUser',
+          id: '62a1d6b62dbd0a71cd326b8e',
+          token: 'validToken',
+        })
+      );
+    }
+  ),
+  rest.post(
+    `${process.env.REACT_APP_API_BASE_URL_ENDPOINT}/me`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json({
+          username: 'correctUser',
+          id: '62a1d6b62dbd0a71cd326b8e',
+          token: 'validToken',
+          experience: 1200,
+          earnedExperience: 600,
+        })
+      );
+    }
+  )
+);
 
 const getAllHearts = () => screen.getAllByTestId('heart');
 
@@ -26,6 +68,8 @@ const getGameWonModalHeading = () =>
     name: /game won! 🎉/i,
   });
 
+const getPlayAgainModalButton = () => getCloseButtons()[1].nextSibling;
+
 const getCloseButtons = () =>
   screen.getAllByRole('button', {
     name: /close/i,
@@ -36,7 +80,37 @@ const getPlayAgainNavbarButton = () =>
     name: /play again/i,
   })[1];
 
-const getPlayAgainModalButton = () => getCloseButtons()[1].nextSibling;
+const getGameResultsButton = () =>
+  screen.getByRole('button', {
+    name: /results/i,
+  });
+
+const getSignInLink = () =>
+  screen.getByRole('link', {
+    name: /sign in/i,
+  });
+
+const getUsernameTextfield = () =>
+  screen.getByRole('textbox', {
+    name: /username/i,
+  });
+
+const getPasswordTextfield = () => screen.getByLabelText(/^password/i);
+
+const getSubmitButton = () =>
+  screen.getByRole('button', {
+    name: /submit/i,
+  });
+
+const getPlayGameButton = () =>
+  screen.getByRole('button', {
+    name: /play game/i,
+  });
+
+const getFetchingUserDataMessage = () =>
+  screen.getByText(/fetching user data.../i);
+
+const getExperience = () => screen.getByText(/experience: 1200/i);
 
 const expectAllCardsToBeUnflipped = () =>
   cards.forEach((card) => card.expectToBeUnflipped());
@@ -82,28 +156,43 @@ const expectGameIsWon = async () => {
   await waitFor(() => expect(getPlayAgainModalButton()).toBeInTheDocument());
 };
 
-beforeEach(() => {
+const customRender = () =>
   render(
     <Provider
       store={configureStore({
         reducer: {
+          [api.reducerPath]: api.reducer,
           memo: memoReducer,
+          auth: authReducer,
         },
       })}
     >
       <Main />
     </Provider>
   );
-});
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 describe('<Main />', () => {
-  test('game is started', () => expectGameIsStarted());
+  test('game is started', () => {
+    customRender();
+    expectGameIsStarted();
+  });
 
-  test('game is lost', async () => await expectGameIsLost());
+  test('game is lost', async () => {
+    customRender();
+    await expectGameIsLost();
+  });
 
-  test('game is won', async () => await expectGameIsWon());
+  test('game is won', async () => {
+    customRender();
+    await expectGameIsWon();
+  });
 
   test("game restarts after loss on modal's play again button click", async () => {
+    customRender();
     const user = userEvent.setup();
     await expectGameIsLost();
     await waitFor(() => user.click(getPlayAgainModalButton() as Element));
@@ -111,6 +200,7 @@ describe('<Main />', () => {
   });
 
   test("game restarts after loss on navbar's play again button click", async () => {
+    customRender();
     const user = userEvent.setup();
     await expectGameIsLost();
     await waitFor(() => user.click(getCloseButtons()[1] as Element));
@@ -119,6 +209,7 @@ describe('<Main />', () => {
   });
 
   test("game restarts after win on modal's play again button click", async () => {
+    customRender();
     const user = userEvent.setup();
     await expectGameIsWon();
     await waitFor(() => user.click(getPlayAgainModalButton() as Element));
@@ -126,10 +217,75 @@ describe('<Main />', () => {
   });
 
   test("game restarts after win on navbar's play again button click", async () => {
+    customRender();
     const user = userEvent.setup();
     await expectGameIsWon();
     await waitFor(() => user.click(getCloseButtons()[1] as Element));
     await waitFor(() => user.click(getPlayAgainNavbarButton() as Element));
     expectGameIsStarted();
   });
+
+  test('game results modal reopens', async () => {
+    customRender();
+    const user = userEvent.setup();
+    await expectGameIsWon();
+    await waitFor(() => user.click(getCloseButtons()[1] as Element));
+    await waitFor(() => user.click(getGameResultsButton() as Element));
+    await waitFor(() => expect(getGameWonModalHeading()).toBeVisible());
+    await waitFor(() => expect(getGameWonModalHeading()).toBeInTheDocument());
+  });
+
+  test('use experience gets updated after winning the game', async () => {
+    const store = configureStore({
+      reducer: {
+        [api.reducerPath]: api.reducer,
+        memo: memoReducer,
+        auth: authReducer,
+      },
+    });
+    const history = createMemoryHistory();
+    const user = userEvent.setup();
+
+    const { rerender } = render(
+      <Provider store={store}>
+        <Router location={history.location} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+      </Provider>
+    );
+
+    await user.click(getSignInLink());
+    await user.type(getUsernameTextfield(), 'correctUser');
+    await user.type(getPasswordTextfield(), 'superStrongPassword123');
+    await user.click(getSubmitButton());
+    await user.click(getPlayGameButton());
+    const main = screen.getAllByRole('main')[1];
+    const playGameButton = within(main).getByRole('button', {
+      name: /play game/i,
+    });
+    await user.click(playGameButton);
+
+    rerender(
+      <Provider store={store}>
+        <Router location={history.location.pathname} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+        <ToastContainer />
+      </Provider>
+    );
+
+    await waitFor(() => expectGameIsWon(), { timeout: 10000 });
+    expect(getFetchingUserDataMessage()).toBeVisible();
+    await waitFor(() => {
+      expect(getExperience()).toBeVisible();
+      expect(within(getExperience()).getByText(/\+600/i)).toBeVisible();
+      expect(screen.getByText(/earned 600 exp/i)).toBeVisible();
+    });
+  }, 10000);
 });

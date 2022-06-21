@@ -1,9 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import ModalWithPortal, { Modal } from './Modal';
 import userEvent from '@testing-library/user-event';
+import ModalWithPortal, { Modal } from './Modal';
 
 const getBackdrop = () => screen.getByTestId('backdrop');
+
 const getModal = () => screen.getByText(/content/i);
+
+const getCloseModalButton = (container: Element) =>
+  container.querySelector('#modal > div > header > button')!;
 
 const backdropRoot = document.createElement('div');
 backdropRoot.setAttribute('id', 'backdrop');
@@ -43,7 +47,7 @@ describe('<Modal />', () => {
 
   test('invokes backdrop onclick handler', async () => {
     const onClickHandler = jest.fn();
-    render(
+    const { container } = render(
       <Modal isVisible={true} setIsVisible={onClickHandler}>
         content
       </Modal>
@@ -51,6 +55,9 @@ describe('<Modal />', () => {
     const user = userEvent.setup();
     await user.click(getBackdrop());
     expect(onClickHandler).toBeCalledTimes(1);
+    await user.click(getCloseModalButton(container));
+    expect(onClickHandler).toBeCalledTimes(2);
+    expect(onClickHandler).toHaveBeenCalledWith(false);
   });
 });
 
@@ -85,7 +92,7 @@ describe('<ModalWithPortal />', () => {
 
   test('invokes backdrop onclick handler', async () => {
     const onClickHandler = jest.fn();
-    render(
+    const { container } = render(
       <ModalWithPortal isVisible={true} setIsVisible={onClickHandler}>
         content
       </ModalWithPortal>
@@ -93,5 +100,8 @@ describe('<ModalWithPortal />', () => {
     const user = userEvent.setup();
     await user.click(getBackdrop());
     expect(onClickHandler).toBeCalledTimes(1);
+    await user.click(getCloseModalButton(container));
+    expect(onClickHandler).toBeCalledTimes(2);
+    expect(onClickHandler).toHaveBeenCalledWith(false);
   });
 });

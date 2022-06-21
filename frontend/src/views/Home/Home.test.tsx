@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
+import { Route, Router, Routes } from 'react-router-dom';
 import App from '../../App';
 import { api } from '../../rtk/api';
 import authReducer from '../../rtk/authSlice';
 import memoReducer from '../../rtk/memoSlice';
 import Main from '../Main/Main';
+import Home from './Home';
 
 const backdropRoot = document.createElement('div');
 backdropRoot.setAttribute('id', 'backdrop');
@@ -55,6 +56,11 @@ const getMultiModeButton = () =>
 const getGameDifficultySelect = () =>
   screen.getByRole('button', {
     name: /2. select game difficulty/i,
+  });
+
+const getSettingsModalHeading = () =>
+  screen.getByRole('heading', {
+    name: /settings/i,
   });
 
 const getAllCardCodeImages = () => screen.getAllByAltText('code');
@@ -116,6 +122,14 @@ describe('<Home />', () => {
     });
   });
 
+  test('settings modal opens', async () => {
+    customRender();
+    const user = userEvent.setup();
+    await user.click(getSettingsButton());
+    expect(getSettingsModalHeading()).toBeVisible();
+    expect(getSettingsModalHeading()).toBeInTheDocument();
+  });
+
   test('game modal opens', async () => {
     customRender();
     expectGameModalToOpen();
@@ -167,5 +181,37 @@ describe('<Home />', () => {
       expect(history.location.pathname).toBe('/game');
       expect(getAllCardCodeImages()).toHaveLength(cardsCount);
     });
+  });
+
+  test('navigates from "/" to "/game"', async () => {
+    const history = createMemoryHistory();
+
+    render(
+      <Provider
+        store={configureStore({
+          reducer: {
+            [api.reducerPath]: api.reducer,
+            auth: authReducer,
+            memo: memoReducer,
+          },
+        })}
+      >
+        <Router location={history.location} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+      </Provider>
+    );
+
+    await expectGameModalToOpen();
+    const main = screen.getByRole('main');
+    const playGameButton = within(main).getByRole('button', {
+      name: /play game/i,
+    });
+    const user = userEvent.setup();
+    await user.click(playGameButton);
+    expect(history.location.pathname).toBe('/game');
   });
 });

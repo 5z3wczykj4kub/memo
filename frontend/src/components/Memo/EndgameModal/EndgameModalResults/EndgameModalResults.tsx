@@ -37,45 +37,45 @@ const EndgameModalResults = ({
         [styles['modal-results--dark']]: isDarkThemeUsed,
       })}
     >
-      <p className={styles['modal-results__summary']}>
+      <div className={styles['modal-results__summary']}>
         <b>Game summary</b>
-      </p>
-      <p className={styles['modal-results__result']}>
+      </div>
+      <div className={styles['modal-results__result']}>
         Time: {Math.floor(gameDurationTimestamp / 1000)}s
-      </p>
-      <p className={styles['modal-results__result']}>
+      </div>
+      <div className={styles['modal-results__result']}>
         Score: {points}/{(cardsLength * 100) / 2}
-      </p>
+      </div>
       {isSendingGameResults ? (
-        <p
+        <div
           className={classNames({
             [styles['modal-results__result']]: true,
             [styles['modal-results__result--loading']]: true,
           })}
         >
           <Spinner /> Fetching user data...
-        </p>
+        </div>
       ) : hasSendingGameResultsSucceeded ? (
-        <p className={styles['modal-results__result']}>
+        <div className={styles['modal-results__result']}>
           Experience: {gameResultsData?.experience}{' '}
           <span className={styles['modal-results__result__earned-experience']}>
             +{gameResultsData?.earnedExperience}
           </span>
-        </p>
+        </div>
       ) : hasSendingGameResultsFailed ? (
-        <p className={styles['modal-results__result']}>
+        <div className={styles['modal-results__result']}>
           Experience:{' '}
           <span className={styles['modal-results__result--error']}>
             Something went wrong. Fetching user data failed.
           </span>
-        </p>
+        </div>
       ) : currentUserExperience ? (
-        <p className={styles['modal-results__result']}>
+        <div className={styles['modal-results__result']}>
           Experience: {currentUserExperience}{' '}
           <span className={styles['modal-results__result__earned-experience']}>
             +0
           </span>
-        </p>
+        </div>
       ) : null}
     </div>
   );
