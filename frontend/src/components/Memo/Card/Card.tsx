@@ -39,12 +39,12 @@ const Card = ({ id: cardId, src, name }: ICard) => {
     dispatch(touch(cardId));
   };
 
-  const onCardTransitionEnterHanlder = () => dispatch(flip(cardId));
+  const onCardTransitionEnterHandler = () => dispatch(flip(cardId));
 
   const onCardTransitionEnteringHandler = () =>
     areTwoCardsFlipped ? setCanCompare(true) : setCanCompare(false);
 
-  const onCardTransitionEnteredHanlder = () => {
+  const onCardTransitionEnteredHandler = () => {
     if (!canCompare) return;
     const [firstCard, secondCard] = currentlyComparedFlippedCards;
     if (firstCard.name === secondCard.name) return dispatch(check());
@@ -69,9 +69,9 @@ const Card = ({ id: cardId, src, name }: ICard) => {
       in={isTouched}
       timeout={400}
       classNames={{ ...styles }}
-      onEnter={onCardTransitionEnterHanlder}
+      onEnter={onCardTransitionEnterHandler}
       onEntering={onCardTransitionEnteringHandler}
-      onEntered={onCardTransitionEnteredHanlder}
+      onEntered={onCardTransitionEnteredHandler}
     >
       <button
         className={className[0]}
