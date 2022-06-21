@@ -6,7 +6,7 @@ import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
 import { MemoryRouter as Router } from 'react-router-dom';
 import App from '../App';
-import { authApi } from '../rtk/authApi';
+import { api } from '../rtk/api';
 import authReducer from '../rtk/authSlice';
 import memoReducer from '../rtk/memoSlice';
 import { IAuthenticateFormValues } from '../rtk/types';
@@ -82,7 +82,7 @@ beforeEach(() => {
     <Provider
       store={configureStore({
         reducer: {
-          [authApi.reducerPath]: authApi.reducer,
+          [api.reducerPath]: api.reducer,
           auth: authReducer,
           memo: memoReducer,
         },

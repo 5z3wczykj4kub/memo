@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import App from '../../App';
-import { authApi } from '../../rtk/authApi';
+import { api } from '../../rtk/api';
 import authReducer from '../../rtk/authSlice';
 import memoReducer from '../../rtk/memoSlice';
 import Main from '../Main/Main';
@@ -82,7 +82,7 @@ const customRender = () => {
     <Provider
       store={configureStore({
         reducer: {
-          [authApi.reducerPath]: authApi.reducer,
+          [api.reducerPath]: api.reducer,
           auth: authReducer,
           memo: memoReducer,
         },

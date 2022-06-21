@@ -10,7 +10,7 @@ import useTheme from '../../../hooks/useTheme';
 import {
   selectGetCurrentUserQueryStatus,
   selectSignUpAndSignInMutationStatus,
-} from '../../../rtk/authApi';
+} from '../../../rtk/api';
 import { selectCurrentUser, unsetCurrentUser } from '../../../rtk/authSlice';
 import styles from './Navbar.module.scss';
 

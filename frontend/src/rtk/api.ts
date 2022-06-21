@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
 import { ICurrentUser, IAuthenticateFormValues } from './types';
 
-export const authApi = createApi({
+export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_BASE_URL_ENDPOINT,
     prepareHeaders: (headers, { getState }) => {
@@ -47,4 +47,4 @@ export const {
   useSignUpMutation,
   useSignInMutation,
   useLazyGetCurrentUserQuery,
-} = authApi;
+} = api;

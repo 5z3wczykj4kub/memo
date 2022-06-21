@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useTheme from '../../../hooks/useTheme';
-import { useSignUpMutation } from '../../../rtk/authApi';
+import { useSignUpMutation } from '../../../rtk/api';
 import { setCurrentUser } from '../../../rtk/authSlice';
 import {
   IResponseCatchError,

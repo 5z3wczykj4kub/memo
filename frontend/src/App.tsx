@@ -5,7 +5,7 @@ import ToastContainer from './components/General/ToastContainer/ToastContainer';
 import { SIGN_IN_TOAST_MESSAGE } from './components/Home/SignInForm/validationSchema';
 import useAppDispatch from './hooks/useAppDispatch';
 import useEffectOnce from './hooks/useEffectOnce';
-import { useLazyGetCurrentUserQuery } from './rtk/authApi';
+import { useLazyGetCurrentUserQuery } from './rtk/api';
 import { setCurrentUser } from './rtk/authSlice';
 import { IResponseCatchError } from './rtk/types';
 import Home from './views/Home/Home';
