@@ -63,11 +63,8 @@ const EndgameModalResults = ({
           </span>
         </div>
       ) : hasSendingGameResultsFailed ? (
-        <div className={styles['modal-results__result']}>
-          Experience:{' '}
-          <span className={styles['modal-results__result--error']}>
-            Something went wrong. Fetching user data failed.
-          </span>
+        <div className={styles['modal-results__result--error']}>
+          Something went wrong. Fetching user data failed.
         </div>
       ) : currentUserExperience ? (
         <div className={styles['modal-results__result']}>
