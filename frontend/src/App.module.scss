@@ -4,7 +4,6 @@
 :global {
   body {
     background-color: colors.$background-light;
-    transition: background-color timings.$dark-theme-toggle;
     color: colors.$background-dark;
   }
 

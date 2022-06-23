@@ -31,7 +31,7 @@
       font-size: inherit;
       color: inherit;
       background-color: colors.$gray-brightened;
-      transition: timings.$select linear;
+      transition: background-color timings.$select linear;
       cursor: pointer;
 
       // TODO: Temp info.

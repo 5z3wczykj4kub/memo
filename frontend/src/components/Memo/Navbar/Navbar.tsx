@@ -20,9 +20,19 @@ import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
 
 export type TGameStatus = 'won' | 'lost' | null;
 
+/**
+ * TODO:
+ * 1. Show message on level up.
+ * 2. Send results data even on game loss.
+ * 3. Send more results data i.e. games lost, games won etc.
+ * 4. Make profile page a private route.
+ * 5. Refactor endpoint to use PUT instead of POST.
+ * 6. Add 404 page.
+ * 7. Tests.
+ */
 const GAME_RESULTS_TOAST_MESSAGE = {
   PENDING: 'Sending game results...',
-  SUCCESS: (earnedExperience: number) => `Earned ${earnedExperience} exp`,
+  SUCCESS: (earnedExperience: number) => `${earnedExperience} EXP`,
   ERROR: 'Unable to send game results',
 };
 

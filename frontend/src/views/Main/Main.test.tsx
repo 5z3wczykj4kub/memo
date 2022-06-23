@@ -302,7 +302,7 @@ describe('<Main />', () => {
     await waitFor(() => {
       expect(getExperience()).toBeVisible();
       expect(within(getExperience()).getByText(/\+600/i)).toBeVisible();
-      expect(screen.getByText(/earned 600 exp/i)).toBeVisible();
+      expect(screen.getByText(/600 exp/i)).toBeVisible();
     });
 
     hasGameModeErrorResponse = true;

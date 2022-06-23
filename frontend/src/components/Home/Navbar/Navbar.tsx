@@ -44,11 +44,8 @@ const Navbar = ({
           [styles['navbar__link']]: true,
           [styles['navbar__link--dark']]: isDarkThemeUsed,
         })}
-        to='#'
-        onClick={() => {
-          if (currentUser.username) return;
-          setIsSignUpModalVisible(true);
-        }}
+        to={currentUser.username ? '/profile' : '#'}
+        onClick={() => setIsSignUpModalVisible(true)}
       >
         <SignUpIcon
           className={classNames({

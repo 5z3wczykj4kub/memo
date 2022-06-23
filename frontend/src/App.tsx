@@ -10,6 +10,7 @@ import { setCurrentUser } from './rtk/authSlice';
 import { IResponseCatchError } from './rtk/types';
 import Home from './views/Home/Home';
 import Main from './views/Main/Main';
+import Profile from './views/Profile/Profile';
 
 const App = () => {
   const [getCurrentUser] = useLazyGetCurrentUserQuery();
@@ -41,6 +42,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/game' element={<Main />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </>
   );
