@@ -10,16 +10,16 @@ interface IGameResults {
 }
 
 const EXPERIENCE_VALIDATION_MESSAGE =
-  'Must be an integer in the range of [0, 6000000]';
+  '`Experience` must be an integer in the range of [0, 6000000]';
 
-const INTEGER_VALIDATION_MESSAGE = 'Must be a positive integer';
+const INTEGER_VALIDATION_MESSAGE = 'must be a positive integer';
 
 const DIFFICULTY_LEVEL_VALIDATION_MESSAGE =
   'Must be either easy, medium, hard or extreme';
 
 const updateCurrentUserValidator = [
-  body('time', INTEGER_VALIDATION_MESSAGE).isInt({ min: 0 }),
-  body('points', INTEGER_VALIDATION_MESSAGE).isInt({ min: 0 }),
+  body('time', `\`Time\` ${INTEGER_VALIDATION_MESSAGE}`).isInt({ min: 0 }),
+  body('points', `\`Points\` ${INTEGER_VALIDATION_MESSAGE}`).isInt({ min: 0 }),
   body('difficultyLevel', DIFFICULTY_LEVEL_VALIDATION_MESSAGE).isIn([
     'easy',
     'medium',

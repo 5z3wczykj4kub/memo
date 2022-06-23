@@ -51,6 +51,7 @@ const updateCurrentUserController = async (
       .splice(1)
       .map((message: string) => message.trim());
     const errors = { errors: [{ message, param }] };
+    res.status(400);
     return next(errors);
   }
 
