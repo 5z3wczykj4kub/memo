@@ -28,7 +28,7 @@ const userSchema = new Schema<IUser>(
       type: Number,
       required: true,
       min: [0, EXPERIENCE_VALIDATION_MESSAGE],
-      max: [6000000, EXPERIENCE_VALIDATION_MESSAGE],
+      max: [60000, EXPERIENCE_VALIDATION_MESSAGE],
       default: 0,
     },
   },

@@ -10,7 +10,7 @@ interface IGameResults {
 }
 
 const EXPERIENCE_VALIDATION_MESSAGE =
-  '`Experience` must be an integer in the range of [0, 6000000]';
+  '`Experience` must be an integer in the range of [0, 60000]';
 
 const INTEGER_VALIDATION_MESSAGE = 'must be a positive integer';
 

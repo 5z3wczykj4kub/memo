@@ -43,12 +43,9 @@ const updateCurrentUserController = async (
       break;
   }
 
+  if (currentUser.experience >= 60000) currentUser.experience = 60000;
+
   try {
-    /**
-     * TODO:
-     * Handle points limit case.
-     * `if (currentUser.experience >= 6000000) ...`
-     */
     await currentUser.save();
   } catch (error: any) {
     const [param, message] = error.message
