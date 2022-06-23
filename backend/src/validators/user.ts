@@ -9,10 +9,6 @@ interface IGameResults {
   difficultyLevel: TDifficultyLevel;
 }
 
-/**
- * TODO:
- * Validate for max experience.
- */
 const EXPERIENCE_VALIDATION_MESSAGE =
   'Must be an integer in the range of [0, 6000000]';
 

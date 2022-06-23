@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { PASSWORD_VALIDATION_REG_EXP } from '../validators/auth';
+import { EXPERIENCE_VALIDATION_MESSAGE } from '../validators/user';
 
 export interface IUser {
   id: string;
@@ -26,8 +27,8 @@ const userSchema = new Schema<IUser>(
     experience: {
       type: Number,
       required: true,
-      min: 0,
-      max: 6000000,
+      min: [0, EXPERIENCE_VALIDATION_MESSAGE],
+      max: [6000000, EXPERIENCE_VALIDATION_MESSAGE],
       default: 0,
     },
   },

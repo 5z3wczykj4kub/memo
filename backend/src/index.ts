@@ -4,6 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import routes from './routes/routes';
 import cors from 'cors';
+import errorMiddleware from './middleware/error';
 
 dotenv.config();
 
@@ -14,6 +15,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/api', routes);
+
+app.use(errorMiddleware);
 
 try {
   (async () => {

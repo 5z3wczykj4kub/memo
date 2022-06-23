@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import User, { IUser } from '../models/User';
 import { USER_NOT_FOUND_MESSAGE } from '../validators/auth';
 import { IGameResults } from '../validators/user';
@@ -10,7 +10,8 @@ const getCurrentUserController = (req: Request, res: Response) => {
 
 const updateCurrentUserController = async (
   req: Request<{}, IUser, IGameResults>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   const currentUser = await User.findById(req.currentUser.id);
 
@@ -42,7 +43,16 @@ const updateCurrentUserController = async (
       break;
   }
 
-  await currentUser.save();
+  try {
+    await currentUser.save();
+  } catch (error: any) {
+    const [param, message] = error.message
+      .split(':')
+      .splice(1)
+      .map((message: string) => message.trim());
+    const errors = { errors: [{ message, param }] };
+    return next(errors);
+  }
 
   const token = req.headers.authorization!.split(' ')[1];
 
