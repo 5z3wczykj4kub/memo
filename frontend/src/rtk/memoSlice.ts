@@ -48,7 +48,7 @@ export const memoSlice = createSlice({
         card.isFlipped = false;
       });
 
-      if (state.hearts !== 0) state.hearts--;
+      state.hearts--;
     },
     check: (state) => {
       const currentlyComparedFlippedCards =

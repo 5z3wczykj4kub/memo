@@ -41,5 +41,8 @@ describe('<ThemeToggler />', () => {
     await user.click(getThemeToggler());
     expect(document.body).toHaveClass('dark-theme');
     expect(document.body).toHaveStyle('background-color: "#333"');
+    await user.click(getThemeToggler());
+    expect(document.body).not.toHaveClass('dark-theme');
+    expect(document.body).toHaveStyle('background-color: "#fff"');
   });
 });

@@ -1,7 +1,7 @@
 import { TDifficultyLevel } from '../../rtk/types';
 import TechnologyName from '../constants';
 
-const getInitialCardsState = (difficultyLevel: TDifficultyLevel = 'medium') => {
+const getInitialCardsState = (difficultyLevel: TDifficultyLevel) => {
   const [keys, values] = [
     Object.keys(TechnologyName),
     Object.values(TechnologyName),
