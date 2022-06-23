@@ -1,5 +1,11 @@
 import classNames from 'classnames';
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { Transition } from 'react-transition-group';
 import { ReactComponent as CloseIcon } from '../../../assets/icons/close.svg';
@@ -141,8 +147,14 @@ const ModalWithPortal = ({
   setIsVisible,
   heading,
   variant = 'light',
-}: IModal) =>
-  getModalJSX({
+}: IModal) => {
+  useEffect(() => {
+    isVisible
+      ? (document.body.style.overflowY = 'hidden')
+      : (document.body.style.overflowY = 'visible');
+  }, [isVisible]);
+
+  return getModalJSX({
     style,
     className: getClassName(variant),
     children,
@@ -152,6 +164,7 @@ const ModalWithPortal = ({
     variant,
     isWithPortal: true,
   });
+};
 
 export { Modal, useModal };
 

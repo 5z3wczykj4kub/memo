@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
@@ -65,6 +65,9 @@ const getSettingsModalHeading = () =>
 
 const getAllCardCodeImages = () => screen.getAllByAltText('code');
 
+const getModalCloseButton = () =>
+  document.querySelector('#modal > div > header > button')!;
+
 const difficultyToCardsCountMap = [
   { difficulty: 'easy', cardsCount: 12 },
   { difficulty: 'medium', cardsCount: 18 },
@@ -126,8 +129,11 @@ describe('<Home />', () => {
     customRender();
     const user = userEvent.setup();
     await user.click(getSettingsButton());
-    expect(getSettingsModalHeading()).toBeVisible();
-    expect(getSettingsModalHeading()).toBeInTheDocument();
+    const settingsModalHeading = getSettingsModalHeading();
+    expect(settingsModalHeading).toBeVisible();
+    expect(settingsModalHeading).toBeInTheDocument();
+    await user.click(getModalCloseButton());
+    await waitFor(() => expect(settingsModalHeading).not.toBeVisible());
   });
 
   test('game modal opens', async () => {

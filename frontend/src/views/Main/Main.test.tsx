@@ -23,6 +23,8 @@ const modalRoot = document.createElement('div');
 modalRoot.setAttribute('id', 'modal');
 document.body.appendChild(modalRoot);
 
+let hasGameModeErrorResponse = false;
+
 const server = setupServer(
   rest.post<IAuthenticateFormValues>(
     `${process.env.REACT_APP_API_BASE_URL_ENDPOINT}/auth/sign-in`,
@@ -42,16 +44,28 @@ const server = setupServer(
   rest.post(
     `${process.env.REACT_APP_API_BASE_URL_ENDPOINT}/me`,
     (req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json({
-          username: 'correctUser',
-          id: '62a1d6b62dbd0a71cd326b8e',
-          token: 'validToken',
-          experience: 1200,
-          earnedExperience: 600,
-        })
-      );
+      return !hasGameModeErrorResponse
+        ? res(
+            ctx.status(200),
+            ctx.json({
+              username: 'correctUser',
+              id: '62a1d6b62dbd0a71cd326b8e',
+              token: 'validToken',
+              experience: 1200,
+              earnedExperience: 600,
+            })
+          )
+        : res(
+            ctx.status(400),
+            ctx.json({
+              errors: [
+                {
+                  message: 'Must be either easy, medium, hard or extreme',
+                  param: 'difficultyLevel',
+                },
+              ],
+            })
+          );
     }
   )
 );
@@ -171,7 +185,10 @@ const customRender = () =>
     </Provider>
   );
 
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+  hasGameModeErrorResponse = false;
+});
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
@@ -235,7 +252,7 @@ describe('<Main />', () => {
     await waitFor(() => expect(getGameWonModalHeading()).toBeInTheDocument());
   });
 
-  test('use experience gets updated after winning the game', async () => {
+  test("updates user's experience after game is won", async () => {
     const store = configureStore({
       reducer: {
         [api.reducerPath]: api.reducer,
@@ -287,5 +304,14 @@ describe('<Main />', () => {
       expect(within(getExperience()).getByText(/\+600/i)).toBeVisible();
       expect(screen.getByText(/earned 600 exp/i)).toBeVisible();
     });
-  }, 10000);
+
+    hasGameModeErrorResponse = true;
+    await user.click(getPlayAgainModalButton() as Element);
+    await waitFor(() => expectGameIsWon(), { timeout: 10000 });
+    await waitFor(() =>
+      expect(
+        screen.getByText(/something went wrong\. fetching user data failed\./i)
+      ).toBeVisible()
+    );
+  }, 20000);
 });
