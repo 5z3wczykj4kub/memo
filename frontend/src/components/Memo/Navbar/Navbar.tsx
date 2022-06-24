@@ -11,6 +11,7 @@ import {
   shuffle,
 } from '../../../rtk/memoSlice';
 import { IResponseCatchError } from '../../../rtk/types';
+import calculateLevel from '../../../utils/functions/calculateLevel';
 import { useModal } from '../../General/Modal/Modal';
 import EndgameModal from '../EndgameModal/EndgameModal';
 import Hearts from '../Hearts/Hearts';
@@ -22,13 +23,14 @@ export type TGameStatus = 'won' | 'lost' | null;
 
 /**
  * TODO:
- * 1. Show message on level up.
+ * 1. Style level up toast.
  * 2. Send results data even on game loss.
  * 3. Send more results data i.e. games lost, games won etc.
  * 4. Make profile page a private route.
  * 5. Refactor endpoint to use PUT instead of POST.
  * 6. Add 404 page.
- * 7. Tests.
+ * 7. Underline back to home link on hover.
+ * 8. Test.
  */
 const GAME_RESULTS_TOAST_MESSAGE = {
   PENDING: 'Sending game results...',
@@ -60,7 +62,7 @@ const Navbar = () => {
     },
   ] = useUpdateUserExperienceMutation();
 
-  const gameRestartHandler = () => {
+  const onGameRestartHandler = () => {
     setGameStatus(null);
     setGameDurationTimestamp(Date.now());
     dispatch(restart());
@@ -68,7 +70,7 @@ const Navbar = () => {
     resetGameResultsData();
   };
 
-  const gameLoseHandler = () => {
+  const onGameLoseHandler = () => {
     setIsEndgameModalVisible(true);
     setGameStatus('lost');
     setGameDurationTimestamp(
@@ -76,7 +78,7 @@ const Navbar = () => {
     );
   };
 
-  const gameWinHandler = async () => {
+  const onGameWinHandler = async () => {
     setIsEndgameModalVisible(true);
     setGameStatus('won');
     setGameDurationTimestamp(
@@ -102,6 +104,14 @@ const Navbar = () => {
           error: GAME_RESULTS_TOAST_MESSAGE.ERROR,
         }
       );
+
+      const { currentLevel, hasLeveledUp } = calculateLevel(
+        currentUserData.experience!,
+        currentUserData.earnedExperience
+      );
+
+      if (hasLeveledUp) toast(`Level ${currentLevel}`);
+
       dispatch(setCurrentUser(currentUserData));
     } catch (error) {
       (error as IResponseCatchError).data.errors.forEach(({ message }) =>
@@ -112,21 +122,21 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <Points onGameWin={gameWinHandler} />
+      <Points onGameWin={onGameWinHandler} />
       {gameStatus ? (
         <NavbarEndgameButtons
           setIsEndgameModalVisible={setIsEndgameModalVisible}
-          onGameRestart={gameRestartHandler}
+          onGameRestart={onGameRestartHandler}
         />
       ) : (
-        <Hearts onGameLose={gameLoseHandler} />
+        <Hearts onGameLose={onGameLoseHandler} />
       )}
       <EndgameModal
         isVisible={isEndgameModalVisible}
         setIsVisible={setIsEndgameModalVisible}
         gameStatus={gameStatus}
         gameDurationTimestamp={gameDurationTimestamp}
-        onGameRestart={gameRestartHandler}
+        onGameRestart={onGameRestartHandler}
         gameResultsData={gameResultsData}
         isSendingGameResults={isSendingGameResults}
         hasSendingGameResultsSucceeded={hasSendingGameResultsSucceeded}
