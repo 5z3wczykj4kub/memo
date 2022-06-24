@@ -1,0 +1,14 @@
+.level-up-toast {
+  display: flex;
+  column-gap: 0.635rem;
+  align-items: center;
+
+  &__trophy-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  &__level-message {
+    font-weight: bold;
+  }
+}

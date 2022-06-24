@@ -15,6 +15,7 @@ import calculateLevel from '../../../utils/functions/calculateLevel';
 import { useModal } from '../../General/Modal/Modal';
 import EndgameModal from '../EndgameModal/EndgameModal';
 import Hearts from '../Hearts/Hearts';
+import LevelUpToast from '../LevelUpToast/LevelUpToast';
 import Points from '../Points/Points';
 import styles from './Navbar.module.scss';
 import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
@@ -23,14 +24,13 @@ export type TGameStatus = 'won' | 'lost' | null;
 
 /**
  * TODO:
- * 1. Style level up toast.
- * 2. Send results data even on game loss.
- * 3. Send more results data i.e. games lost, games won etc.
- * 4. Make profile page a private route.
- * 5. Refactor endpoint to use PUT instead of POST.
- * 6. Add 404 page.
- * 7. Underline back to home link on hover.
- * 8. Test.
+ * - Send results data even on game loss.
+ * - Send more results data i.e. games lost, games won etc.
+ * - Make profile page a private route.
+ * - Refactor endpoint to use PUT instead of POST.
+ * - Add 404 page.
+ * - Underline back to home link on hover.
+ * - Test.
  */
 const GAME_RESULTS_TOAST_MESSAGE = {
   PENDING: 'Sending game results...',
@@ -110,7 +110,7 @@ const Navbar = () => {
         currentUserData.earnedExperience
       );
 
-      if (hasLeveledUp) toast(`Level ${currentLevel}`);
+      if (hasLeveledUp) toast(<LevelUpToast level={currentLevel} />);
 
       dispatch(setCurrentUser(currentUserData));
     } catch (error) {
