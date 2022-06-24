@@ -29,7 +29,6 @@ export type TGameStatus = 'won' | 'lost' | null;
  * - Make profile page a private route.
  * - Refactor endpoint to use PUT instead of POST.
  * - Add 404 page.
- * - Underline back to home link on hover.
  * - Test.
  */
 const GAME_RESULTS_TOAST_MESSAGE = {
