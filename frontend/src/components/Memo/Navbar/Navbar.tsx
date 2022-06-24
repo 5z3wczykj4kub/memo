@@ -28,6 +28,7 @@ export type TGameStatus = 'won' | 'lost' | null;
  * - Send more results data i.e. games lost, games won etc.
  * - Make profile page a private route.
  * - Refactor endpoint to use PUT instead of POST.
+ * - Rename `authSlice` to `currentUserSlice` or something similar.
  * - Add 404 page.
  * - Test.
  */
@@ -86,7 +87,7 @@ const Navbar = () => {
     if (!currentUser?.id) return;
 
     const gameResultsPayload = {
-      time: Math.floor(gameDurationTimestamp / 1000),
+      time: Math.floor((Date.now() - gameDurationTimestamp) / 1000),
       points,
       difficultyLevel,
     };

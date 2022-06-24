@@ -22,6 +22,8 @@ const updateCurrentUserController = async (
 
   const { time, points, difficultyLevel } = req.body;
 
+  currentUser.timePlayed += time;
+
   let earnedExperience: number;
 
   switch (difficultyLevel) {
@@ -59,7 +61,11 @@ const updateCurrentUserController = async (
 
   const token = req.headers.authorization!.split(' ')[1];
 
-  return res.json({ ...currentUser.format(), token, earnedExperience });
+  return res.json({
+    ...currentUser.format(),
+    token,
+    earnedExperience,
+  });
 };
 
 export { getCurrentUserController, updateCurrentUserController };

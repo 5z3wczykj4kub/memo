@@ -10,7 +10,8 @@ import styles from '../../../views/Profile/Profile.module.scss';
 const ProfileTabPanel = () => {
   const { isDarkThemeUsed } = useTheme();
 
-  const { username, experience } = useAppSelector(selectCurrentUser);
+  const { username, experience, timePlayed } =
+    useAppSelector(selectCurrentUser);
 
   const { currentLevel, currentLevelExperience, currentLevelProgress } =
     calculateLevel(experience!);
@@ -59,7 +60,7 @@ const ProfileTabPanel = () => {
       </div>
       <div>Username: {username}</div>
       <div>Experience: {experience}</div>
-      <div>Time played: 0s</div>
+      <div>Time played: {timePlayed}s</div>
     </Tab.Panel>
   );
 };

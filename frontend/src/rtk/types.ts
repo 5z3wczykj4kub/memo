@@ -5,6 +5,7 @@ export interface ICurrentUser {
   token: string | null;
   username: string | null;
   experience: number | null;
+  timePlayed: number | null;
 }
 
 export interface ICurrentUserGameResults extends ICurrentUser {

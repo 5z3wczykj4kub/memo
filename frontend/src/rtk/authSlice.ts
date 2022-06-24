@@ -7,6 +7,7 @@ const initialState: ICurrentUser = {
   token: null,
   username: null,
   experience: null,
+  timePlayed: null,
 };
 
 const authSlice = createSlice({
@@ -16,13 +17,14 @@ const authSlice = createSlice({
     setCurrentUser: (
       state,
       {
-        payload: { id, token, username, experience },
+        payload: { id, token, username, experience, timePlayed },
       }: PayloadAction<ICurrentUser>
     ) => {
       state.id = id;
       state.token = token;
       state.username = username;
       state.experience = experience;
+      state.timePlayed = timePlayed;
     },
     unsetCurrentUser: () => initialState,
   },

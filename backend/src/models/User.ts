@@ -7,6 +7,7 @@ export interface IUser {
   username: string;
   password: string;
   experience: number;
+  timePlayed: number;
   format: () => IUser;
 }
 
@@ -29,6 +30,11 @@ const userSchema = new Schema<IUser>(
       required: true,
       min: [0, EXPERIENCE_VALIDATION_MESSAGE],
       max: [60000, EXPERIENCE_VALIDATION_MESSAGE],
+      default: 0,
+    },
+    timePlayed: {
+      type: Number,
+      required: true,
       default: 0,
     },
   },
