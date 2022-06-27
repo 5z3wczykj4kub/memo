@@ -35,6 +35,10 @@
 
     &__username {
       font-size: 1.6rem;
+
+      &--error {
+        color: colors.$error;
+      }
     }
   }
 
