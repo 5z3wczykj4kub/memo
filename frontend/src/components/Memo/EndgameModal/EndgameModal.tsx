@@ -1,9 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import useTheme from '../../../hooks/useTheme';
-import { ICurrentUserGameResults } from '../../../rtk/types';
+import { IGameResults, TGameStatus } from '../../../rtk/types';
 import Button from '../../General/Button/Button';
 import Modal from '../../General/Modal/Modal';
-import { TGameStatus } from '../Navbar/Navbar';
 import styles from './EndgameModal.module.scss';
 import EndgameModalResults from './EndgameModalResults/EndgameModalResults';
 
@@ -18,7 +17,7 @@ interface IEndgameModal {
   gameStatus: TGameStatus;
   gameDurationTimestamp: number;
   onGameRestart: () => void;
-  gameResultsData?: ICurrentUserGameResults;
+  gameResultsData?: IGameResults;
   isSendingGameResults?: boolean;
   hasSendingGameResultsSucceeded?: boolean;
   hasSendingGameResultsFailed?: boolean;

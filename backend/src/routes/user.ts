@@ -11,10 +11,6 @@ const router = Router();
 router
   .route('/')
   .get(authMiddleware, getCurrentUserController)
-  .post(
-    authMiddleware,
-    updateCurrentUserValidator,
-    updateCurrentUserController
-  );
+  .put(authMiddleware, updateCurrentUserValidator, updateCurrentUserController);
 
 export default router;

@@ -1,15 +1,11 @@
 import TechnologyName from '../utils/constants/index';
 
+export type TGameStatus = 'won' | 'lost' | null;
+
 export interface ICurrentUser {
   id: string | null;
   token: string | null;
   username: string | null;
-  experience: number | null;
-  timePlayed: number | null;
-}
-
-export interface ICurrentUserGameResults extends ICurrentUser {
-  earnedExperience: number;
 }
 
 export interface IAuthenticateFormValues {
@@ -18,10 +14,24 @@ export interface IAuthenticateFormValues {
   confirmedPassword?: string;
 }
 
-export interface IGameResults {
+export interface IGameResultsPayload {
   time: number;
   points: number;
+  gameStatus: TGameStatus;
   difficultyLevel: TDifficultyLevel;
+}
+
+export interface IGameResults {
+  experience: number;
+  earnedExperience: number;
+  timePlayed: number;
+}
+
+export interface IUserProfile {
+  id: string | null;
+  username: string | null;
+  experience: number | null;
+  timePlayed: number | null;
 }
 
 export interface IResponseCatchError {

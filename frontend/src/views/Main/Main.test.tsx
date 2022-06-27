@@ -41,7 +41,7 @@ const server = setupServer(
       );
     }
   ),
-  rest.post(
+  rest.put(
     `${process.env.REACT_APP_API_BASE_URL_ENDPOINT}/me`,
     (req, res, ctx) => {
       return !hasGameModeErrorResponse

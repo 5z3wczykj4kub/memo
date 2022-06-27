@@ -44,7 +44,7 @@ const Navbar = ({
           [styles['navbar__link']]: true,
           [styles['navbar__link--dark']]: isDarkThemeUsed,
         })}
-        to={currentUser.username ? '/profile' : '#'}
+        to={currentUser.username ? `/profile/${currentUser.id}` : '#'}
         onClick={() => setIsSignUpModalVisible(true)}
       >
         <SignUpIcon

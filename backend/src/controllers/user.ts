@@ -20,29 +20,31 @@ const updateCurrentUserController = async (
       errors: [{ message: USER_NOT_FOUND_MESSAGE }],
     });
 
-  const { time, points, difficultyLevel } = req.body;
+  const { time, points, gameStatus, difficultyLevel } = req.body;
 
   currentUser.timePlayed += time;
 
-  let earnedExperience: number;
+  let earnedExperience = 0;
 
-  switch (difficultyLevel) {
-    case 'easy':
-      earnedExperience = points;
-      currentUser.experience += earnedExperience;
-      break;
-    case 'medium':
-      earnedExperience = points * 2;
-      currentUser.experience += earnedExperience;
-      break;
-    case 'hard':
-      earnedExperience = points * 3;
-      currentUser.experience += earnedExperience;
-      break;
-    case 'extreme':
-      earnedExperience = points * 4;
-      currentUser.experience += earnedExperience;
-      break;
+  if (gameStatus === 'won') {
+    switch (difficultyLevel) {
+      case 'easy':
+        earnedExperience = points;
+        currentUser.experience += earnedExperience;
+        break;
+      case 'medium':
+        earnedExperience = points * 2;
+        currentUser.experience += earnedExperience;
+        break;
+      case 'hard':
+        earnedExperience = points * 3;
+        currentUser.experience += earnedExperience;
+        break;
+      case 'extreme':
+        earnedExperience = points * 4;
+        currentUser.experience += earnedExperience;
+        break;
+    }
   }
 
   if (currentUser.experience >= 60000) currentUser.experience = 60000;
@@ -59,13 +61,33 @@ const updateCurrentUserController = async (
     return next(errors);
   }
 
-  const token = req.headers.authorization!.split(' ')[1];
+  const { experience, timePlayed } = currentUser;
 
   return res.json({
-    ...currentUser.format(),
-    token,
+    experience,
     earnedExperience,
+    timePlayed,
   });
 };
 
-export { getCurrentUserController, updateCurrentUserController };
+const getUserProfileController = async (
+  req: Request<{ userId: 'string' }, IUser>,
+  res: Response
+) => {
+  const { userId } = req.params;
+
+  const user = await User.findById(userId);
+
+  if (!user)
+    return res.status(404).json({
+      errors: [{ message: USER_NOT_FOUND_MESSAGE }],
+    });
+
+  return res.json(user.format());
+};
+
+export {
+  getCurrentUserController,
+  updateCurrentUserController,
+  getUserProfileController,
+};

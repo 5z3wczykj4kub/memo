@@ -1,17 +1,17 @@
 import { Tab } from '@headlessui/react';
 import classNames from 'classnames';
 import { ReactComponent as TrophyIcon } from '../../../assets/icons/trophy.svg';
-import useAppSelector from '../../../hooks/useAppSelector';
 import useTheme from '../../../hooks/useTheme';
-import { selectCurrentUser } from '../../../rtk/authSlice';
+import { IUserProfile } from '../../../rtk/types';
 import calculateLevel from '../../../utils/functions/calculateLevel';
 import styles from '../../../views/Profile/Profile.module.scss';
 
-const ProfileTabPanel = () => {
+const ProfileTabPanel = ({
+  username,
+  experience,
+  timePlayed,
+}: IUserProfile) => {
   const { isDarkThemeUsed } = useTheme();
-
-  const { username, experience, timePlayed } =
-    useAppSelector(selectCurrentUser);
 
   const { currentLevel, currentLevelExperience, currentLevelProgress } =
     calculateLevel(experience!);

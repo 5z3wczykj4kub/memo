@@ -3,14 +3,14 @@ import { toast } from 'react-toastify';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { useUpdateUserExperienceMutation } from '../../../rtk/api';
-import { selectCurrentUser, setCurrentUser } from '../../../rtk/authSlice';
+import { selectCurrentUser } from '../../../rtk/authSlice';
 import {
   restart,
   selectDifficultyLevel,
   selectPoints,
   shuffle,
 } from '../../../rtk/memoSlice';
-import { IResponseCatchError } from '../../../rtk/types';
+import { IResponseCatchError, TGameStatus } from '../../../rtk/types';
 import calculateLevel from '../../../utils/functions/calculateLevel';
 import { useModal } from '../../General/Modal/Modal';
 import EndgameModal from '../EndgameModal/EndgameModal';
@@ -20,15 +20,10 @@ import Points from '../Points/Points';
 import styles from './Navbar.module.scss';
 import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
 
-export type TGameStatus = 'won' | 'lost' | null;
-
 /**
  * TODO:
- * - Send results data even on game loss.
  * - Send more results data i.e. games lost, games won etc.
  * - Make profile page a private route.
- * - Refactor endpoint to use PUT instead of POST.
- * - Rename `authSlice` to `currentUserSlice` or something similar.
  * - Add 404 page.
  * - Test.
  */
@@ -70,12 +65,30 @@ const Navbar = () => {
     resetGameResultsData();
   };
 
-  const onGameLoseHandler = () => {
+  const onGameLoseHandler = async () => {
     setIsEndgameModalVisible(true);
     setGameStatus('lost');
     setGameDurationTimestamp(
       (prevGameDuration) => Date.now() - prevGameDuration
     );
+    if (!currentUser?.id) return;
+
+    const gameResultsPayload = {
+      time: Math.floor((Date.now() - gameDurationTimestamp) / 1000),
+      points,
+      gameStatus: 'lost' as TGameStatus,
+      difficultyLevel,
+    };
+
+    try {
+      await toast.promise(updateUserExperience(gameResultsPayload).unwrap(), {
+        error: GAME_RESULTS_TOAST_MESSAGE.ERROR,
+      });
+    } catch (error) {
+      (error as IResponseCatchError).data.errors.forEach(({ message }) =>
+        toast.error(message, { toastId: message })
+      );
+    }
   };
 
   const onGameWinHandler = async () => {
@@ -89,6 +102,7 @@ const Navbar = () => {
     const gameResultsPayload = {
       time: Math.floor((Date.now() - gameDurationTimestamp) / 1000),
       points,
+      gameStatus: 'won' as TGameStatus,
       difficultyLevel,
     };
 
@@ -111,8 +125,6 @@ const Navbar = () => {
       );
 
       if (hasLeveledUp) toast(<LevelUpToast level={currentLevel} />);
-
-      dispatch(setCurrentUser(currentUserData));
     } catch (error) {
       (error as IResponseCatchError).data.errors.forEach(({ message }) =>
         toast.error(message, { toastId: message })

@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
 import {
-  ICurrentUser,
   IAuthenticateFormValues,
+  ICurrentUser,
   IGameResults,
-  ICurrentUserGameResults,
+  IGameResultsPayload,
+  IUserProfile,
 } from './types';
 
 export const api = createApi({
@@ -39,14 +40,16 @@ export const api = createApi({
         url: '/me',
       }),
     }),
-    updateUserExperience: builder.mutation<
-      ICurrentUserGameResults,
-      IGameResults
-    >({
+    updateUserExperience: builder.mutation<IGameResults, IGameResultsPayload>({
       query: (gameResults) => ({
         url: '/me',
-        method: 'POST',
+        method: 'PUT',
         body: gameResults,
+      }),
+    }),
+    getUserById: builder.query<IUserProfile, string>({
+      query: (userId) => ({
+        url: `/users/${userId}`,
       }),
     }),
   }),
@@ -63,4 +66,5 @@ export const {
   useSignInMutation,
   useLazyGetCurrentUserQuery,
   useUpdateUserExperienceMutation,
+  useGetUserByIdQuery,
 } = api;

@@ -42,7 +42,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/game' element={<Main />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/:userId' element={<Profile />} />
       </Routes>
     </>
   );
