@@ -2,10 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 import { ICurrentUser } from './types';
 
-const initialState: ICurrentUser = {
+interface IInitialState extends ICurrentUser {
+  shouldUpdate: boolean;
+}
+
+const initialState: IInitialState = {
   id: null,
   token: null,
   username: null,
+  shouldUpdate: false,
 };
 
 const authSlice = createSlice({
@@ -20,12 +25,16 @@ const authSlice = createSlice({
       state.token = token;
       state.username = username;
     },
+    setShouldUpdate: (state, { payload }: PayloadAction<boolean>) => {
+      state.shouldUpdate = payload;
+    },
     unsetCurrentUser: () => initialState,
   },
 });
 
 export const selectCurrentUser = (state: RootState) => state.auth;
 
-export const { setCurrentUser, unsetCurrentUser } = authSlice.actions;
+export const { setCurrentUser, setShouldUpdate, unsetCurrentUser } =
+  authSlice.actions;
 
 export default authSlice.reducer;

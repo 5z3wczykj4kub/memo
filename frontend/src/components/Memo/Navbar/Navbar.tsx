@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import useAppDispatch from '../../../hooks/useAppDispatch';
 import useAppSelector from '../../../hooks/useAppSelector';
 import { useUpdateUserExperienceMutation } from '../../../rtk/api';
-import { selectCurrentUser } from '../../../rtk/authSlice';
+import { selectCurrentUser, setShouldUpdate } from '../../../rtk/authSlice';
 import {
   restart,
   selectDifficultyLevel,
@@ -84,6 +84,8 @@ const Navbar = () => {
       await toast.promise(updateUserExperience(gameResultsPayload).unwrap(), {
         error: GAME_RESULTS_TOAST_MESSAGE.ERROR,
       });
+
+      dispatch(setShouldUpdate(true));
     } catch (error) {
       (error as IResponseCatchError).data.errors.forEach(({ message }) =>
         toast.error(message, { toastId: message })
@@ -125,6 +127,8 @@ const Navbar = () => {
       );
 
       if (hasLeveledUp) toast(<LevelUpToast level={currentLevel} />);
+
+      dispatch(setShouldUpdate(true));
     } catch (error) {
       (error as IResponseCatchError).data.errors.forEach(({ message }) =>
         toast.error(message, { toastId: message })

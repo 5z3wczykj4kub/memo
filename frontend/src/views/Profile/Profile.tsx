@@ -1,48 +1,68 @@
 import { Tab } from '@headlessui/react';
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BackToHomeLink from '../../components/Profile/BackToHomeLink/BackToHomeLink';
 import ProfileTabPanel from '../../components/Profile/ProfileTabPanel/ProfileTabPanel';
 import TabList from '../../components/Profile/TabList/TabList';
 import UsernameHeader from '../../components/Profile/UsernameHeader/UsernameHeader';
+import useAppDispatch from '../../hooks/useAppDispatch';
 import useAppSelector from '../../hooks/useAppSelector';
 import useEffectOnce from '../../hooks/useEffectOnce';
-import { useGetUserByIdQuery } from '../../rtk/api';
-import { selectCurrentUser } from '../../rtk/authSlice';
-import { IResponseCatchError } from '../../rtk/types';
+import { api, useGetUserByIdQuery } from '../../rtk/api';
+import { selectCurrentUser, setShouldUpdate } from '../../rtk/authSlice';
+import { IResponseCatchError, IUserProfile } from '../../rtk/types';
 import styles from './Profile.module.scss';
+
+const PROFILE_UPDATE_TOAST_MESSAGE = {
+  PENDING: 'Updating profile data...',
+  SUCCESS: 'Profile updated',
+  ERROR: 'Failed to update profile data',
+};
 
 const Profile = () => {
   const currentUser = useAppSelector(selectCurrentUser);
 
+  const dispatch = useAppDispatch();
+
   const { userId } = useParams();
+
+  const shouldRefetchUserProfile =
+    userId === currentUser.id && currentUser.shouldUpdate;
 
   const {
     data: userProfileData,
     isLoading: isUserProfileLoading,
     isSuccess: isUserProfileFetchedWithSuccess,
     isError: isUserProfileFetchedWithError,
-    error: userProfileError,
-    refetch,
-  } = useGetUserByIdQuery(userId!);
-
-  /**
-   * TODO:
-   * - Add transitions.
-   * - Display `isFetching` toast.
-   */
-  useEffectOnce(() => {
-    if (userId === currentUser.id) refetch();
+  } = useGetUserByIdQuery(userId!, {
+    refetchOnMountOrArgChange: shouldRefetchUserProfile,
   });
 
-  useEffect(() => {
-    if (!userProfileError) return;
-    toast.error('Failed to fetch user profile page');
-    (userProfileError as IResponseCatchError).data.errors.forEach(
-      ({ message }) => toast.error(message, { toastId: message })
+  useEffectOnce(async () => {
+    if (!userProfileData || !shouldRefetchUserProfile) return;
+
+    const getUserByIdPromise = api.util.getRunningOperationPromise(
+      'getUserById',
+      userId!
     );
-  }, [userProfileError]);
+
+    try {
+      await toast.promise(
+        getUserByIdPromise?.unwrap() as Promise<IUserProfile>,
+        {
+          pending: PROFILE_UPDATE_TOAST_MESSAGE.PENDING,
+          success: PROFILE_UPDATE_TOAST_MESSAGE.SUCCESS,
+          error: PROFILE_UPDATE_TOAST_MESSAGE.ERROR,
+        }
+      );
+    } catch (error) {
+      (error as IResponseCatchError).data.errors.forEach(({ message }) =>
+        toast.error(message, { toastId: message })
+      );
+    } finally {
+      dispatch(setShouldUpdate(false));
+    }
+  });
 
   return (
     <main className={styles.profile}>
