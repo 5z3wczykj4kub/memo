@@ -20,6 +20,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     signUp: builder.mutation<ICurrentUser, IAuthenticateFormValues>({
       query: (credentials) => ({
@@ -46,11 +47,13 @@ export const api = createApi({
         method: 'PUT',
         body: gameResults,
       }),
+      invalidatesTags: (result) => [{ type: 'User', id: result?.userId }],
     }),
     getUserById: builder.query<IUserProfile, string>({
       query: (userId) => ({
         url: `/users/${userId}`,
       }),
+      providesTags: (result, error, userId) => [{ type: 'User', id: userId }],
     }),
   }),
 });

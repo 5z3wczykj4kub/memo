@@ -64,6 +64,7 @@ const updateCurrentUserController = async (
   const { experience, timePlayed } = currentUser;
 
   return res.json({
+    userId: currentUser.id,
     experience,
     earnedExperience,
     timePlayed,

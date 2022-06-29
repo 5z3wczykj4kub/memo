@@ -22,6 +22,7 @@ export interface IGameResultsPayload {
 }
 
 export interface IGameResults {
+  userId: string;
   experience: number;
   earnedExperience: number;
   timePlayed: number;
