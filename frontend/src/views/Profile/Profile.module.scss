@@ -124,17 +124,64 @@
       }
 
       &__heading {
+        margin-block: 0.5rem;
         text-align: center;
         font-weight: bold;
       }
 
-      &__indented {
+      &__game-statistics-table {
         display: flex;
-        column-gap: 0.25rem;
-        margin-left: 0.5rem;
+        justify-content: center;
 
-        &::before {
-          content: '•';
+        &__part {
+          display: flex;
+          flex-direction: column;
+          flex-basis: 50%;
+          row-gap: 0.5rem;
+          padding-block: 0.5rem;
+          border: 1px solid colors.$background-dark;
+
+          &:first-of-type {
+            border-right: 0;
+            border-radius: 0.25rem 0 0 0.25rem;
+          }
+
+          &:last-of-type {
+            border-radius: 0 0.25rem 0.25rem 0;
+          }
+
+          &--dark {
+            border-color: colors.$gray;
+          }
+
+          &__column {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid colors.$background-dark;
+
+            &--dark {
+              border-color: colors.$gray;
+            }
+          }
+
+          &__row {
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.5rem;
+
+            &--indented {
+              display: flex;
+              column-gap: 0.25rem;
+              margin-left: 0.5rem;
+
+              &::before {
+                content: '•';
+              }
+            }
+          }
         }
       }
     }
