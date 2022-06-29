@@ -22,8 +22,6 @@ import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
 
 /**
  * TODO:
- * - Send more results data i.e. games lost, games won etc.
- * - Make profile page a private route.
  * - Add 404 page.
  * - Test.
  */

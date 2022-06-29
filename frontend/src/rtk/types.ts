@@ -28,11 +28,20 @@ export interface IGameResults {
   timePlayed: number;
 }
 
+export interface IGamesPlayedPerDifficultyLevel {
+  easy: number;
+  medium: number;
+  hard: number;
+  extreme: number;
+}
+
 export interface IUserProfile {
   id: string | null;
   username: string | null;
   experience: number | null;
   timePlayed: number | null;
+  gamesLost: IGamesPlayedPerDifficultyLevel;
+  gamesWon: IGamesPlayedPerDifficultyLevel;
 }
 
 export interface IResponseCatchError {

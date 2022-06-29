@@ -31,18 +31,37 @@ const updateCurrentUserController = async (
       case 'easy':
         earnedExperience = points;
         currentUser.experience += earnedExperience;
+        currentUser.gamesWon.easy++;
         break;
       case 'medium':
         earnedExperience = points * 2;
         currentUser.experience += earnedExperience;
+        currentUser.gamesWon.medium++;
         break;
       case 'hard':
         earnedExperience = points * 3;
         currentUser.experience += earnedExperience;
+        currentUser.gamesWon.hard++;
         break;
       case 'extreme':
         earnedExperience = points * 4;
         currentUser.experience += earnedExperience;
+        currentUser.gamesWon.extreme++;
+        break;
+    }
+  } else {
+    switch (difficultyLevel) {
+      case 'easy':
+        currentUser.gamesLost.easy++;
+        break;
+      case 'medium':
+        currentUser.gamesLost.medium++;
+        break;
+      case 'hard':
+        currentUser.gamesLost.hard++;
+        break;
+      case 'extreme':
+        currentUser.gamesLost.extreme++;
         break;
     }
   }

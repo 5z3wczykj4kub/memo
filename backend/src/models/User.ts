@@ -2,12 +2,21 @@ import { Schema, model } from 'mongoose';
 import { PASSWORD_VALIDATION_REG_EXP } from '../validators/auth';
 import { EXPERIENCE_VALIDATION_MESSAGE } from '../validators/user';
 
+interface IGamesPlayedPerDifficultyLevel {
+  easy: number;
+  medium: number;
+  hard: number;
+  extreme: number;
+}
+
 export interface IUser {
   id: string;
   username: string;
   password: string;
   experience: number;
   timePlayed: number;
+  gamesLost: IGamesPlayedPerDifficultyLevel;
+  gamesWon: IGamesPlayedPerDifficultyLevel;
   format: () => IUser;
 }
 
@@ -36,6 +45,50 @@ const userSchema = new Schema<IUser>(
       type: Number,
       required: true,
       default: 0,
+    },
+    gamesLost: {
+      easy: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      medium: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      hard: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      extreme: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+    },
+    gamesWon: {
+      easy: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      medium: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      hard: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      extreme: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
     },
   },
   { versionKey: false }
