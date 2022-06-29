@@ -10,6 +10,7 @@ import { setCurrentUser } from './rtk/authSlice';
 import { IResponseCatchError } from './rtk/types';
 import Home from './views/Home/Home';
 import Main from './views/Main/Main';
+import NotFound from './views/NotFound/NotFound';
 import Profile from './views/Profile/Profile';
 
 const App = () => {
@@ -43,6 +44,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/game' element={<Main />} />
         <Route path='/profile/:userId' element={<Profile />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   );

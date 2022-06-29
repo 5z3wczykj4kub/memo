@@ -22,7 +22,6 @@ import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
 
 /**
  * TODO:
- * - Add 404 page.
  * - Test.
  */
 const GAME_RESULTS_TOAST_MESSAGE = {
