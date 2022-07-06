@@ -18,15 +18,15 @@ const UserStatistics = ({
     <div>Experience: {experience}</div>
     <div>
       Time played:{' '}
-      {timePlayed === 0
-        ? '0s'
-        : moment
-            .duration(timePlayed, 'seconds')
-            .toISOString()
-            .replace('PT', '')
-            .replace('H', 'h ')
-            .replace('M', 'min ')
-            .replace('S', 's ')}
+      {moment
+        .duration(timePlayed, 'seconds')
+        .toISOString()
+        .replace('P', '')
+        .replace('T', '')
+        .replace('H', 'h ')
+        .replace('M', 'min ')
+        .replace('S', 's')
+        .replace('D', 's')}
     </div>
   </>
 );

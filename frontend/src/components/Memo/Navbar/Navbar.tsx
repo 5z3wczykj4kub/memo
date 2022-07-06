@@ -22,7 +22,10 @@ import NavbarEndgameButtons from './NavbarEndgameButtons/NavbarEndgameButtons';
 
 /**
  * TODO:
- * - Test.
+ * Test:
+ * - Game lost.
+ * - Level up.
+ * - Profile invalidation.
  */
 const GAME_RESULTS_TOAST_MESSAGE = {
   PENDING: 'Sending game results...',

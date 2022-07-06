@@ -24,6 +24,7 @@ modalRoot.setAttribute('id', 'modal');
 document.body.appendChild(modalRoot);
 
 let hasGameModeErrorResponse = false;
+let hasLeveledUp = false;
 
 const server = setupServer(
   rest.post<IAuthenticateFormValues>(
@@ -51,7 +52,7 @@ const server = setupServer(
               username: 'correctUser',
               id: '62a1d6b62dbd0a71cd326b8e',
               token: 'validToken',
-              experience: 1200,
+              experience: hasLeveledUp ? 6000 : 1200,
               earnedExperience: 600,
             })
           )
@@ -185,6 +186,9 @@ const customRender = () =>
     </Provider>
   );
 
+beforeEach(() => {
+  hasLeveledUp = false;
+});
 beforeAll(() => {
   server.listen();
   hasGameModeErrorResponse = false;
@@ -252,7 +256,60 @@ describe('<Main />', () => {
     await waitFor(() => expect(getGameWonModalHeading()).toBeInTheDocument());
   });
 
-  test("updates user's experience after game is won", async () => {
+  test('user levels up after the game is won', async () => {
+    const store = configureStore({
+      reducer: {
+        [api.reducerPath]: api.reducer,
+        memo: memoReducer,
+        auth: authReducer,
+      },
+    });
+    const history = createMemoryHistory();
+    const user = userEvent.setup();
+
+    const { rerender } = render(
+      <Provider store={store}>
+        <Router location={history.location} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+      </Provider>
+    );
+
+    await user.click(getSignInLink());
+    await user.type(getUsernameTextfield(), 'correctUser');
+    await user.type(getPasswordTextfield(), 'superStrongPassword123');
+    await user.click(getSubmitButton());
+    await user.click(getPlayGameButton());
+    const main = screen.getAllByRole('main')[1];
+    const playGameButton = within(main).getByRole('button', {
+      name: /play game/i,
+    });
+    await user.click(playGameButton);
+
+    rerender(
+      <Provider store={store}>
+        <Router location={history.location.pathname} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+        <ToastContainer />
+      </Provider>
+    );
+
+    hasLeveledUp = true;
+    await waitFor(() => expectGameIsWon(), { timeout: 10000 });
+    expect(getFetchingUserDataMessage()).toBeVisible();
+    await waitFor(() => {
+      expect(screen.getByText(/level 1/i));
+    });
+  }, 10000);
+
+  test("updates user's experience after the game is won", async () => {
     const store = configureStore({
       reducer: {
         [api.reducerPath]: api.reducer,
@@ -308,6 +365,65 @@ describe('<Main />', () => {
     hasGameModeErrorResponse = true;
     await user.click(getPlayAgainModalButton() as Element);
     await waitFor(() => expectGameIsWon(), { timeout: 10000 });
+    await waitFor(() =>
+      expect(
+        screen.getByText(/something went wrong\. fetching user data failed\./i)
+      ).toBeVisible()
+    );
+  }, 20000);
+
+  test("updates user's experience after the game is lost", async () => {
+    localStorage.removeItem('token');
+    const store = configureStore({
+      reducer: {
+        [api.reducerPath]: api.reducer,
+        memo: memoReducer,
+        auth: authReducer,
+      },
+    });
+    const history = createMemoryHistory();
+    const user = userEvent.setup();
+
+    const { rerender } = render(
+      <Provider store={store}>
+        <Router location={history.location} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+      </Provider>
+    );
+
+    await user.click(getSignInLink());
+    await user.type(getUsernameTextfield(), 'correctUser');
+    await user.type(getPasswordTextfield(), 'superStrongPassword123');
+    await user.click(getSubmitButton());
+    await user.click(getPlayGameButton());
+    const main = screen.getAllByRole('main')[1];
+    const playGameButton = within(main).getByRole('button', {
+      name: /play game/i,
+    });
+    await user.click(playGameButton);
+
+    rerender(
+      <Provider store={store}>
+        <Router location={history.location.pathname} navigator={history}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Main />} />
+          </Routes>
+        </Router>
+        <ToastContainer />
+      </Provider>
+    );
+
+    await waitFor(() => expectGameIsLost(), { timeout: 10000 });
+    expect(getFetchingUserDataMessage()).toBeVisible();
+    expect(screen.getByText(/score: 0\/900/i)).toBeVisible();
+    hasGameModeErrorResponse = true;
+    await user.click(getPlayAgainModalButton() as Element);
+    await waitFor(() => expectGameIsLost(), { timeout: 10000 });
     await waitFor(() =>
       expect(
         screen.getByText(/something went wrong\. fetching user data failed\./i)
